@@ -1,31 +1,17 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import { Typography } from "@mui/material";
+import { Homepage } from "./pages/Homepage";
+import AppBar from "./components/CustomAppBar"
+import MealBar from "./components/MealBar";
+import Basket from "./components/Basket";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <p>pewpew</p>
-        <p>pewpew</p>
-        <Typography variant="h1" component="h2">
-          uwu qwq uwu
-        </Typography>
+      <AppBar/>
 
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Homepage/>
     </div>
   );
 }
