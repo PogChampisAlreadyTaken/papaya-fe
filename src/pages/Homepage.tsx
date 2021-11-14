@@ -2,14 +2,14 @@
 import { Typography } from "@mui/material";
 import * as React from "react";
 import MealBar from "../components/MealBar";
+import Signup from "../components/Signup";
 import logo from "../logo.svg";
 
 type Props = {};
 export function Homepage(props: Props) {
   return (
     <div>
-
-      <MealBar/>
+      <MealBar />
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
