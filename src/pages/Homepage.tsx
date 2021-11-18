@@ -9,7 +9,6 @@ type Props = {};
 export function Homepage(props: Props) {
   return (
     <div>
-      <MealBar />
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>

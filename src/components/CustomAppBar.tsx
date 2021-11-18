@@ -9,12 +9,19 @@ import Basket from "./Basket";
 import { Modal } from "@mui/material";
 import Login from "./Login";
 import Signup from "./Signup";
+import MealBar from "./MealBar";
 
 export default function CustomAppBar() {
   const [show, setShow] = React.useState(false);
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" color="secondary">
+      <AppBar
+        position="relative"
+        sx={{
+          zIndex: 1400,
+        }}
+        color="secondary"
+      >
         {show && <Basket />}
 
         <Toolbar>
