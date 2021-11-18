@@ -1,10 +1,10 @@
 // @flow
 import { Typography } from "@mui/material";
 import * as React from "react";
-import { mealMangerUrl } from "../endpoints";
-import logo from "../logo.svg";
-import { getHello } from "../request/mealManger";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { getHelloMeal } from "../request/mealManger";
+import { getHelloOrder } from "../request/orderingSystem";
+import { getHelloPayment } from "../request/paymentManger";
+import { getHelloUser } from "../request/userManagement";
 
 type Props = {};
 export function MealOverview(props: Props) {
@@ -14,15 +14,33 @@ export function MealOverview(props: Props) {
   const [payment, setPayment] = React.useState("");
 
   React.useEffect(() => {
-    const hello = getHello();
+    const hello = getHelloMeal();
     hello.then((response) => {
       setMeal(response);
+    });
+
+    const helloOrderingSystem = getHelloOrder();
+    helloOrderingSystem.then((response) => {
+      setOrder(response);
+    });
+
+    const helloUser = getHelloUser();
+    helloUser.then((response) => {
+      setUser(response);
+    });
+
+    const helloPayment = getHelloPayment();
+    helloPayment.then((response) => {
+      setPayment(response);
     });
   }, []);
 
   return (
     <div>
       <Typography>{meal}</Typography>
+      <Typography>{order}</Typography>
+      <Typography>{user}</Typography>
+      <Typography>{payment}</Typography>
     </div>
   );
 }

@@ -3,7 +3,7 @@ import { Typography } from "@mui/material";
 import * as React from "react";
 import { mealMangerUrl } from "../endpoints";
 import logo from "../logo.svg";
-import { getHello } from "../request/mealManger";
+import { getHelloMeal } from "../request/mealManger";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 type Props = {};
@@ -14,7 +14,7 @@ export function Homepage(props: Props) {
   const [payment, setPayment] = React.useState("");
 
   React.useEffect(() => {
-    const hello = getHello();
+    const hello = getHelloMeal();
     hello.then((response) => {
       setMeal(response);
     });
