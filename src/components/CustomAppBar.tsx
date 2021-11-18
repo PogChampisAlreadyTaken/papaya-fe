@@ -8,6 +8,7 @@ import IconButton from "@mui/material/IconButton";
 import Basket from "./Basket";
 import { Modal } from "@mui/material";
 import Login from "./Login";
+import Signup from "./Signup";
 
 export default function CustomAppBar() {
   const [show, setShow] = React.useState(false);
@@ -26,8 +27,8 @@ export default function CustomAppBar() {
           >
             Warenkorb
           </Button>
-          <Button color="inherit">Login</Button>
-          <Login/>
+          <Login />
+          <Signup />
         </Toolbar>
       </AppBar>
     </Box>

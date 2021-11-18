@@ -1,20 +1,12 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
-
-const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
+import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import Divider from "@mui/material/Divider";
 
 export default function Login() {
   const [open, setOpen] = React.useState(false);
@@ -24,30 +16,48 @@ export default function Login() {
   return (
     <div>
       <Button onClick={handleOpen} color="inherit">
-        Einloggen
+        Login
       </Button>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Einloggen
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Email
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Password
-          </Typography>
-          <Button>Einloggen</Button>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Noch kein Account? Hier ein Account erstellen
-          </Typography>
-        </Box>
-      </Modal>
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Anmelden</DialogTitle>
+
+        <DialogContent>
+          <IconButton
+            onClick={handleClose}
+            style={{ right: 10, top: 10, position: "absolute" }}
+          >
+            <CloseIcon />
+          </IconButton>
+          <Button onClick={handleClose}>Mit Google anmelden</Button>
+          <div>
+            <Button onClick={handleClose}>Mit Facebook anmelden</Button>
+          </div>
+          <Divider>oder</Divider>
+          <div style={{ height: 30 }} />
+          <TextField
+            id="outlined-basic"
+            label="E-Mail-Adresse"
+            variant="outlined"
+            margin="normal"
+            fullWidth
+          />
+          <TextField
+            id="outlined-basic"
+            label="Passwort"
+            variant="outlined"
+            margin="normal"
+            fullWidth
+          />
+          <div style={{ height: 20 }} />
+          <Button variant="contained" onClick={handleClose} fullWidth>
+            Anmelden
+          </Button>
+          <div style={{ height: 20 }} />
+          <Button variant="outlined" onClick={handleClose} fullWidth>
+            Account erstellen?
+          </Button>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
