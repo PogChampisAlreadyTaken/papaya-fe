@@ -7,7 +7,7 @@ import { getHello } from "../request/mealManger";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 type Props = {};
-export function Homepage(props: Props) {
+export function MealOverview(props: Props) {
   const [meal, setMeal] = React.useState("");
   const [order, setOrder] = React.useState("");
   const [user, setUser] = React.useState("");
@@ -22,18 +22,7 @@ export function Homepage(props: Props) {
 
   return (
     <div>
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Typography>{meal}</Typography>
     </div>
   );
 }
