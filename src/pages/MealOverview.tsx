@@ -19,18 +19,15 @@ export function MealOverview(props: Props) {
       setMeal(response);
     });
 
-    const helloOrderingSystem = getHelloOrder();
-    helloOrderingSystem.then((response) => {
+    getHelloOrder().then((response) => {
       setOrder(response);
     });
 
-    const helloUser = getHelloUser();
-    helloUser.then((response) => {
+    getHelloUser().then((response) => {
       setUser(response);
     });
 
-    const helloPayment = getHelloPayment();
-    helloPayment.then((response) => {
+    getHelloPayment().then((response) => {
       setPayment(response);
     });
   }, []);

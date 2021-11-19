@@ -1,7 +1,7 @@
-import { mealMangerUrl, orderingSystemUrl } from "../endpoints";
+import { userManagementUrl } from "../endpoints";
 
 export async function getHelloUser(): Promise<string> {
-  const response = await fetch(orderingSystemUrl + "/hello", {
+  const response = await fetch(userManagementUrl + "/hello", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
