@@ -45,7 +45,7 @@ export default function MealBar() {
   };
 
   return (
-    <div>
+    <div style={{ height: "100%" }}>
       <Drawer
         style={{ height: "100%" }}
         sx={{
