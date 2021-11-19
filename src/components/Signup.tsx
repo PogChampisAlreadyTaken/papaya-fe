@@ -10,7 +10,6 @@ import Divider from "@mui/material/Divider";
 import Checkbox from "@mui/material/Checkbox";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import { DialogContentText } from "@material-ui/core";
 import { Typography } from "@mui/material";
 
 export default function Signup() {
