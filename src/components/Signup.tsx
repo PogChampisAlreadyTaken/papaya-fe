@@ -11,6 +11,7 @@ import Checkbox from "@mui/material/Checkbox";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { DialogContentText } from "@material-ui/core";
+import { Typography } from "@mui/material";
 
 export default function Signup() {
   const [open, setOpen] = React.useState(false);
@@ -78,12 +79,12 @@ export default function Signup() {
           </Button>
 
           <div style={{ height: 20 }} />
-          <DialogContentText>
+          <Typography style={{ color: "grey" }}>
             Beim Klicken auf "Absenden" erklärst Du Dich mit unseren{" "}
             <a href="#">AGB</a>,{" "}
             <a href="#">Geschäftsbedingungen zur Sammlung von Punkten</a>
             und <a href="#">Datenschutzerklärung</a> einverstanden.
-          </DialogContentText>
+          </Typography>
 
           <div style={{ height: 20 }} />
           <Button variant="outlined" onClick={handleClose} fullWidth>
