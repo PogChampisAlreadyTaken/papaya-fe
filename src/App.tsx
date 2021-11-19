@@ -3,12 +3,13 @@ import { Homepage } from "./pages/Homepage";
 import AppBar from "./components/CustomAppBar";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { MealOverview } from "./pages/MealOverview";
-import ResponsiveDrawer from "./components/ResponsiveDrawer";
+import MealBar from "./components/MealBar";
 
 function App() {
   return (
     <div className="App">
-      <ResponsiveDrawer />
+      <AppBar />
+      <MealBar />
       <BrowserRouter>
         <Routes>
           <Route path="hello" element={<Homepage />} />

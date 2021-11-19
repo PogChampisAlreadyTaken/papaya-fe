@@ -61,7 +61,9 @@ export default function MealBar() {
       >
         <Toolbar />
         <Divider />
-        <List>{initMeals()}</List>
+        <div style={{ overflow: "auto" }}>
+          <List>{initMeals()}</List>
+        </div>
       </Drawer>
     </div>
   );
