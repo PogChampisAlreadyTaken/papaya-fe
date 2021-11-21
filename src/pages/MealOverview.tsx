@@ -33,7 +33,7 @@ export function MealOverview(props: Props) {
   }, []);
 
   return (
-    <div>
+    <div style={{ height: "100%" }}>
       <Typography>{meal}</Typography>
       <Typography>{order}</Typography>
       <Typography>{user}</Typography>

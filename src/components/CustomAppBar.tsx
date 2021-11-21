@@ -14,7 +14,7 @@ export default function CustomAppBar() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
-        position="relative"
+        position="absolute"
         sx={{
           zIndex: 1400,
         }}
