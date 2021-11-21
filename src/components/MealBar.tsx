@@ -8,7 +8,7 @@ import ListItemText from "@mui/material/ListItemText";
 
 const meals = [
   "Mittagsmenüs",
-  "Supen",
+  "Suppen",
   "Vorspeisen",
   "Salate",
   "Spezialitäten",
@@ -45,7 +45,7 @@ export default function MealBar() {
   };
 
   return (
-    <div>
+    <div style={{ height: "100%" }}>
       <Drawer
         style={{ height: "100%" }}
         sx={{
@@ -61,7 +61,9 @@ export default function MealBar() {
       >
         <Toolbar />
         <Divider />
-        <List>{initMeals()}</List>
+        <div style={{ overflow: "auto" }}>
+          <List>{initMeals()}</List>
+        </div>
       </Drawer>
     </div>
   );
