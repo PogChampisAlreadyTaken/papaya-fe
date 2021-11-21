@@ -1,4 +1,10 @@
 import * as React from "react";
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  User,
+} from "firebase/auth";
+import { auth } from "../config/Firebase-config";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Button from "@mui/material/Button";
@@ -16,6 +22,27 @@ export default function Signup() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  //handling input values
+  const [registerEmail, setRegisterEmail] = React.useState("");
+  const [registerPassword, setRegisterPassword] = React.useState("");
+  //handle user
+  const [user, setUser] = React.useState<User | undefined>(undefined);
+
+  onAuthStateChanged(auth, (currentUser) => {
+    if (currentUser) {
+      setUser(currentUser);
+    }
+  });
+
+  const register = async () => {
+    const user = await createUserWithEmailAndPassword(
+      auth,
+      registerEmail,
+      registerPassword
+    );
+    console.log(user);
+  };
 
   return (
     <div>
@@ -46,6 +73,9 @@ export default function Signup() {
             fullWidth
           />
           <TextField
+            onChange={(event) => {
+              setRegisterEmail(event.target.value);
+            }}
             id="outlined-basic"
             label="E-Mail-Adresse"
             variant="outlined"
@@ -53,6 +83,9 @@ export default function Signup() {
             fullWidth
           />
           <TextField
+            onChange={(event) => {
+              setRegisterPassword(event.target.value);
+            }}
             id="outlined-basic"
             label="Passwort"
             variant="outlined"
@@ -73,7 +106,7 @@ export default function Signup() {
             />
           </FormGroup>
           <div style={{ height: 20 }} />
-          <Button variant="contained" onClick={handleClose} fullWidth>
+          <Button variant="contained" onClick={register} fullWidth>
             Registrieren
           </Button>
 
@@ -88,6 +121,7 @@ export default function Signup() {
           <div style={{ height: 20 }} />
           <Button variant="outlined" onClick={handleClose} fullWidth>
             Bereits ein Account?
+            {user ? user.email : null}
           </Button>
         </DialogContent>
       </Dialog>
