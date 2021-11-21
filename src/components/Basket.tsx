@@ -2,7 +2,7 @@ import React from "react";
 import Drawer from "@mui/material/Drawer";
 import { Button } from "@mui/material";
 
-const meals = ["Mittagsmenüspew", "Supen", "Vorspeisen", "Salate"];
+const meals = ["Warenkorb"];
 
 export default function Basket() {
   const initMeals = () => {

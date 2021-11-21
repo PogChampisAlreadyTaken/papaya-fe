@@ -8,7 +8,7 @@ import ListItemText from "@mui/material/ListItemText";
 
 const meals = [
   "Mittagsmenüs",
-  "Supen",
+  "Suppen",
   "Vorspeisen",
   "Salate",
   "Spezialitäten",

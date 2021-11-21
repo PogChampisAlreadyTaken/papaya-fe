@@ -3,6 +3,7 @@ import { Typography } from "@mui/material";
 import * as React from "react";
 import { mealMangerUrl } from "../endpoints";
 import logo from "../logo.svg";
+import long from "../so_good.png";
 import { getHelloMeal } from "../request/mealManger";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
@@ -23,8 +24,8 @@ export function Homepage(props: Props) {
   return (
     <div>
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-
+        <img src={long} className="App-logo" alt="logo" />
+        <div style={{ height: 100 }} />
         <a
           className="App-link"
           href="https://reactjs.org"
