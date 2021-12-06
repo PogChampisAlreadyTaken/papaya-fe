@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { auth } from "../config/Firebase-config";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import logging from "../config/Logging";
 
-export default function RegisterUser(
+export function RegisterUser(
   email: string,
   password: string,
   confirmPassword: string
@@ -31,4 +34,23 @@ export default function RegisterUser(
       });
   }
   return "";
+}
+
+export function LoginUser(email: string, password: string): string {
+  signInWithEmailAndPassword(auth, email, password)
+    .then((result) => {
+      logging.info(result);
+    })
+    .catch((error) => {
+      logging.error(error);
+
+      if (error.code.includes("auth/unverified-email")) {
+        return "Die E-Mail ist nicht verifiziert";
+      } else if (error.code.includes("auth/user-not-found")) {
+        return "Der Benutzter ist nicht bekannt";
+      } else {
+        return "Da ist etwas schiefgegangen. Probiere es später noch einmal";
+      }
+    });
+  return "Ein unbekannter Fehler ist aufgetreten";
 }

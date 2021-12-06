@@ -16,7 +16,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import { Typography } from "@mui/material";
 import logging from "../config/Logging";
 import ErrorText from "./ErrorText/Error";
-import RegisterUser from "../config/Firebase-auth";
+import {RegisterUser} from "../config/Firebase-auth";
 
 export default function Signup() {
   const [open, setOpen] = useState<boolean>(false);
