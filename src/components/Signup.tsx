@@ -1,4 +1,7 @@
 import * as React from "react";
+import { useState } from "react";
+import { onAuthStateChanged, User } from "firebase/auth";
+import { auth } from "../config/Firebase-config";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Button from "@mui/material/Button";
@@ -11,11 +14,36 @@ import Checkbox from "@mui/material/Checkbox";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { Typography } from "@mui/material";
+import logging from "../config/Logging";
+import ErrorText from "./ErrorText/Error";
+import {RegisterUser} from "../config/Firebase-auth";
 
 export default function Signup() {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState<boolean>(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  //handling input values
+  const [registering, setRegistering] = useState<boolean>(false);
+  const [registerEmail, setRegisterEmail] = useState<string>("");
+  const [registerPassword, setRegisterPassword] = useState<string>("");
+  const [registerConfirm, setRegisterConfirm] = useState<string>("");
+  const [error, setError] = useState<string>("");
+  //handle user
+  const [user, setUser] = useState<User | undefined>(undefined);
+
+  onAuthStateChanged(auth, (currentUser) => {
+    if (currentUser) {
+      setUser(currentUser);
+    }
+  });
+
+  React.useEffect(() => {
+    console.log(error);
+    if (error == "") {
+      setOpen(false);
+    }
+  }, [error]);
 
   return (
     <div>
@@ -39,13 +67,9 @@ export default function Signup() {
           <Divider>oder</Divider>
           <div style={{ height: 30 }} />
           <TextField
-            id="outlined-basic"
-            label="Name"
-            variant="outlined"
-            margin="normal"
-            fullWidth
-          />
-          <TextField
+            onChange={(event) => {
+              setRegisterEmail(event.target.value);
+            }}
             id="outlined-basic"
             label="E-Mail-Adresse"
             variant="outlined"
@@ -53,6 +77,9 @@ export default function Signup() {
             fullWidth
           />
           <TextField
+            onChange={(event) => {
+              setRegisterPassword(event.target.value);
+            }}
             id="outlined-basic"
             label="Passwort"
             variant="outlined"
@@ -60,6 +87,9 @@ export default function Signup() {
             fullWidth
           />
           <TextField
+            onChange={(event) => {
+              setRegisterConfirm(event.target.value);
+            }}
             id="outlined-basic"
             label="Passwort wiederholen"
             variant="outlined"
@@ -73,7 +103,20 @@ export default function Signup() {
             />
           </FormGroup>
           <div style={{ height: 20 }} />
-          <Button variant="contained" onClick={handleClose} fullWidth>
+          <Button
+            variant="contained"
+            onClick={() => {
+              var errorMessage = RegisterUser(
+                registerEmail,
+                registerPassword,
+                registerConfirm
+              );
+
+              setError(errorMessage);
+              console.log(error);
+            }}
+            fullWidth
+          >
             Registrieren
           </Button>
 
@@ -88,7 +131,9 @@ export default function Signup() {
           <div style={{ height: 20 }} />
           <Button variant="outlined" onClick={handleClose} fullWidth>
             Bereits ein Account?
+            {user ? user.email : null}
           </Button>
+          <ErrorText error={error} />
         </DialogContent>
       </Dialog>
     </div>
