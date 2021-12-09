@@ -1,4 +1,5 @@
 import React from "react";
+import MealBar from "./MealBar";
 
 interface props {}
 
@@ -14,6 +15,7 @@ export default function PageWrapper(props: React.PropsWithChildren<props>) {
       }}
     >
       {props.children}
+      <MealBar />
     </div>
   );
 }
