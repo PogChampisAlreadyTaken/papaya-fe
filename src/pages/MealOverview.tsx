@@ -35,7 +35,6 @@ export function MealOverview(props: Props) {
 
   return (
     <div>
-      <MealBar />
       <Typography>{meal}</Typography>
       <Typography>{order}</Typography>
       <Typography>{user}</Typography>

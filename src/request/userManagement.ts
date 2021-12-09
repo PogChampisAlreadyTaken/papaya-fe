@@ -8,6 +8,16 @@ export async function getHelloUser(): Promise<string> {
       "Access-Control-Allow-Origin": "*",
     },
   });
-  const body = await response.json();
-  return body;
+  return response.json();
+}
+
+export async function getUser(userId: number) {
+  const response = await fetch(userManagementUrl + "/user/" + userId, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+    },
+  });
+  return response.json();
 }

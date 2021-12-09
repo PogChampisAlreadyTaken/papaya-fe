@@ -25,7 +25,6 @@ export function Homepage(props: Props) {
 
   return (
     <div>
-      <MealBar />
       <header className="App-header">
         <img src={long} className="App-logo" alt="logo" />
         <div style={{ height: 100 }} />
