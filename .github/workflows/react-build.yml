@@ -4,8 +4,8 @@
 name: build
 on:
   push:
-    branches:
-      - "!main"
+    branches-ignore:
+      - main
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
