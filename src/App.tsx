@@ -5,12 +5,12 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { MealOverview } from "./pages/MealOverview";
 import MealBar from "./components/MealBar";
 import PageWrapper from "./components/PageWrapper";
+import AdminPanel from "./pages/AdminPanel";
 
 function App() {
   return (
     <div className="App">
       <AppBar />
-      <MealBar />
       <BrowserRouter>
         <Routes>
           <Route
@@ -26,6 +26,14 @@ function App() {
             element={
               <PageWrapper>
                 <MealOverview />
+              </PageWrapper>
+            }
+          />
+          <Route
+            path="admin"
+            element={
+              <PageWrapper>
+                <AdminPanel />
               </PageWrapper>
             }
           />

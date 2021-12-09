@@ -1,6 +1,7 @@
 // @flow
 import { Typography } from "@mui/material";
 import * as React from "react";
+import MealBar from "../components/MealBar";
 import { getHelloMeal } from "../request/mealManger";
 import { getHelloOrder } from "../request/orderingSystem";
 import { getHelloPayment } from "../request/paymentManger";
@@ -33,7 +34,8 @@ export function MealOverview(props: Props) {
   }, []);
 
   return (
-    <div style={{ height: "100%" }}>
+    <div>
+      <MealBar />
       <Typography>{meal}</Typography>
       <Typography>{order}</Typography>
       <Typography>{user}</Typography>
