@@ -3,14 +3,15 @@ import { Homepage } from "./pages/Homepage";
 import AppBar from "./components/CustomAppBar";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { MealOverview } from "./pages/MealOverview";
-import MealBar from "./components/MealBar";
 import PageWrapper from "./components/PageWrapper";
+import AdminPanel from "./pages/AdminPanel";
+import Dashboard from "./pages/Dashboard";
+import MealBar from "./components/MealBar";
 
 function App() {
   return (
     <div className="App">
       <AppBar />
-      <MealBar />
       <BrowserRouter>
         <Routes>
           <Route
@@ -22,10 +23,34 @@ function App() {
             }
           />
           <Route
+            path="dashboard"
+            element={
+              <PageWrapper>
+                <Dashboard />
+              </PageWrapper>
+            }
+          />
+          <Route
+            path="/"
+            element={
+              <PageWrapper>
+                <Dashboard />
+              </PageWrapper>
+            }
+          />
+          <Route
             path="meals"
             element={
               <PageWrapper>
                 <MealOverview />
+              </PageWrapper>
+            }
+          />
+          <Route
+            path="admin"
+            element={
+              <PageWrapper>
+                <AdminPanel />
               </PageWrapper>
             }
           />

@@ -6,6 +6,8 @@ import logo from "../logo.svg";
 import long from "../so_good.png";
 import { getHelloMeal } from "../request/mealManger";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { MealOverview } from "./MealOverview";
+import MealBar from "../components/MealBar";
 
 type Props = {};
 export function Homepage(props: Props) {
