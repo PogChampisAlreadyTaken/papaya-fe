@@ -16,6 +16,7 @@ export function MealOverview(props: Props) {
   const [user, setUser] = React.useState("");
   const [payment, setPayment] = React.useState("");
   const loc = useLocation();
+
   React.useEffect(() => {
     const hello = getHelloMeal();
     hello.then((response) => {
@@ -37,6 +38,7 @@ export function MealOverview(props: Props) {
 
   React.useEffect(() => {
     console.log(query.get("category"));
+    console.log(query.get("id"));
   }, [loc.search, query]);
 
   return (

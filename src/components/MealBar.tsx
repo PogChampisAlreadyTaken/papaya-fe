@@ -45,8 +45,6 @@ export default function MealBar() {
             key={text}
             onClick={() => {
               navigate("?category=" + text + "&id=" + index);
-              document.title = text;
-              setContextCategory(text, query.get("category") ?? "");
             }}
           >
             <ListItemText primary={text} />
@@ -81,5 +79,3 @@ export default function MealBar() {
     </div>
   );
 }
-
-function setContextCategory(text: string, query: string) {}
