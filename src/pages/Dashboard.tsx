@@ -1,8 +1,8 @@
 import { Typography } from "@material-ui/core";
 import React from "react";
 import { Payment, Customer, Meal } from "../model";
-import { getMeal } from "../request/mealManger";
-import { getPayment } from "../request/paymentManger";
+import { getMeal } from "../request/mealManager";
+import { getPayment } from "../request/paymentManager";
 import { getUser } from "../request/userManagement";
 
 export default function Dashboard() {

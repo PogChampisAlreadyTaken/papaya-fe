@@ -1,7 +1,7 @@
-import { mealMangerUrl } from "../endpoints";
+import { mealManagerUrl } from "../endpoints";
 
 export async function getHelloMeal(): Promise<string> {
-  const response = await fetch(mealMangerUrl + "/hello", {
+  const response = await fetch(mealManagerUrl + "/hello", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -12,7 +12,7 @@ export async function getHelloMeal(): Promise<string> {
 }
 
 export async function getMeal() {
-  const response = await fetch(mealMangerUrl + "/meals", {
+  const response = await fetch(mealManagerUrl + "/meals", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

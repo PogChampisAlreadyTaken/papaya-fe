@@ -1,4 +1,4 @@
-export const mealMangerUrl =
+export const mealManagerUrl =
   "https://papaya-mealmanager-be-liimootbm.cloud.okteto.net";
 export const paymentServiceUrl =
   "https://papaya-paymentservice-be-liimootbm.cloud.okteto.net";

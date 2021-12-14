@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { auth } from "../config/Firebase-config";
 import {
   createUserWithEmailAndPassword,
@@ -11,7 +10,7 @@ export function RegisterUser(
   password: string,
   confirmPassword: string
 ): string {
-  if (password != confirmPassword) {
+  if (password !== confirmPassword) {
     return "Passwörter stimmen nicht überein.";
   } else {
     //todo: validate email:  setError("Die angegebeneE-Mail ist nicht gültig");

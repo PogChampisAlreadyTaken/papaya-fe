@@ -6,7 +6,6 @@ import { MealOverview } from "./pages/MealOverview";
 import PageWrapper from "./components/PageWrapper";
 import AdminPanel from "./pages/AdminPanel";
 import Dashboard from "./pages/Dashboard";
-import MealBar from "./components/MealBar";
 
 function App() {
   return (

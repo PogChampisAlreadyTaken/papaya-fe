@@ -5,6 +5,8 @@ import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
 
 import ListItemText from "@mui/material/ListItemText";
+import { useNavigate } from "react-router";
+import useQuery from "../config/queryParams";
 
 const meals = [
   "Mittagsmenüs",
@@ -32,11 +34,21 @@ const meals = [
 const drawerWidth = 240;
 
 export default function MealBar() {
+  const navigate = useNavigate();
+  const query = useQuery();
   const initMeals = () => {
     return (
       <>
         {meals.map((text, index) => (
-          <ListItem button key={text}>
+          <ListItem
+            button
+            key={text}
+            onClick={() => {
+              navigate("?category=" + text + "&id=" + index);
+              document.title = text;
+              setContextCategory(text, query.get("category") ?? "");
+            }}
+          >
             <ListItemText primary={text} />
           </ListItem>
         ))}
@@ -61,6 +73,7 @@ export default function MealBar() {
       >
         <Toolbar />
         <Divider />
+
         <div style={{ overflow: "auto" }}>
           <List>{initMeals()}</List>
         </div>
@@ -68,3 +81,5 @@ export default function MealBar() {
     </div>
   );
 }
+
+function setContextCategory(text: string, query: string) {}

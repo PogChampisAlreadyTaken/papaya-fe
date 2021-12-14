@@ -1,19 +1,21 @@
 // @flow
 import { Typography } from "@mui/material";
 import * as React from "react";
-import MealBar from "../components/MealBar";
-import { getHelloMeal } from "../request/mealManger";
+import { useLocation } from "react-router";
+import useQuery from "../config/queryParams";
+import { getHelloMeal } from "../request/mealManager";
 import { getHelloOrder } from "../request/orderingSystem";
-import { getHelloPayment } from "../request/paymentManger";
+import { getHelloPayment } from "../request/paymentManager";
 import { getHelloUser } from "../request/userManagement";
 
 type Props = {};
 export function MealOverview(props: Props) {
+  const query = useQuery();
   const [meal, setMeal] = React.useState("");
   const [order, setOrder] = React.useState("");
   const [user, setUser] = React.useState("");
   const [payment, setPayment] = React.useState("");
-
+  const loc = useLocation();
   React.useEffect(() => {
     const hello = getHelloMeal();
     hello.then((response) => {
@@ -32,6 +34,10 @@ export function MealOverview(props: Props) {
       setPayment(response);
     });
   }, []);
+
+  React.useEffect(() => {
+    console.log(query.get("category"));
+  }, [loc.search, query]);
 
   return (
     <div>
