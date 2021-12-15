@@ -2,8 +2,10 @@
 import { Typography } from "@mui/material";
 import * as React from "react";
 import { useLocation } from "react-router";
+import { Link } from "react-router-dom";
+import { MealContext } from "../components/context/mealContext";
 import useQuery from "../config/queryParams";
-import { getHelloMeal } from "../request/mealManager";
+import { getCategoryMeals, getHelloMeal } from "../request/mealManager";
 import { getHelloOrder } from "../request/orderingSystem";
 import { getHelloPayment } from "../request/paymentManager";
 import { getHelloUser } from "../request/userManagement";
@@ -16,24 +18,12 @@ export function MealOverview(props: Props) {
   const [user, setUser] = React.useState("");
   const [payment, setPayment] = React.useState("");
   const loc = useLocation();
+  const [meals, setMeals] = React.useContext(MealContext);
 
   React.useEffect(() => {
-    const hello = getHelloMeal();
-    hello.then((response) => {
-      setMeal(response);
-    });
-
-    getHelloOrder().then((response) => {
-      setOrder(response);
-    });
-
-    getHelloUser().then((response) => {
-      setUser(response);
-    });
-
-    getHelloPayment().then((response) => {
-      setPayment(response);
-    });
+    if (meals.length === 0) {
+      getCategoryMeals().then(setMeals);
+    }
   }, []);
 
   React.useEffect(() => {
@@ -41,12 +31,17 @@ export function MealOverview(props: Props) {
     console.log(query.get("id"));
   }, [loc.search, query]);
 
+  if (meals === undefined || meals === null) {
+    setMeals([]);
+  }
+
   return (
     <div>
-      <Typography>{meal}</Typography>
-      <Typography>{order}</Typography>
-      <Typography>{user}</Typography>
-      <Typography>{payment}</Typography>
+      {console.log(meals)}{" "}
+      {meals.map((meal) => (
+        <Typography key={meal.id}>{meal.mealName}</Typography>
+      ))}
+      <Link to="/">About</Link>
     </div>
   );
 }

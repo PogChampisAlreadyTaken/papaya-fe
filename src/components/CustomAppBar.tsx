@@ -16,6 +16,8 @@ export default function CustomAppBar() {
         position="absolute"
         sx={{
           zIndex: 1400,
+          top: 0,
+          left: 0,
         }}
         color="secondary"
       >
