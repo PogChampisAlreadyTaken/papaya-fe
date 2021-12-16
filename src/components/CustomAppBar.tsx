@@ -7,7 +7,6 @@ import Basket from "./Basket";
 import Login from "./Login";
 import Signup from "./Signup";
 import Logout from "./Logout";
-import { auth } from "../config/Firebase-config";
 
 export default function CustomAppBar() {
   const [show, setShow] = React.useState(false);
@@ -17,8 +16,10 @@ export default function CustomAppBar() {
         position="absolute"
         sx={{
           zIndex: 1400,
+          top: 0,
+          left: 0,
         }}
-        color="secondary"
+        color="primary"
       >
         {show && <Basket />}
 

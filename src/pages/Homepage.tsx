@@ -1,20 +1,11 @@
 // @flow
-import { Typography } from "@mui/material";
 import * as React from "react";
-import { mealMangerUrl } from "../endpoints";
-import logo from "../logo.svg";
 import long from "../so_good.png";
-import { getHelloMeal } from "../request/mealManger";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { MealOverview } from "./MealOverview";
-import MealBar from "../components/MealBar";
+import { getHelloMeal } from "../request/mealManager";
 
 type Props = {};
 export function Homepage(props: Props) {
   const [meal, setMeal] = React.useState("");
-  const [order, setOrder] = React.useState("");
-  const [user, setUser] = React.useState("");
-  const [payment, setPayment] = React.useState("");
 
   React.useEffect(() => {
     const hello = getHelloMeal();

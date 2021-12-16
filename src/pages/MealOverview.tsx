@@ -1,44 +1,65 @@
 // @flow
-import { Typography } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Button, ListItem, ListItemText, Typography } from "@mui/material";
 import * as React from "react";
-import MealBar from "../components/MealBar";
-import { getHelloMeal } from "../request/mealManger";
-import { getHelloOrder } from "../request/orderingSystem";
-import { getHelloPayment } from "../request/paymentManger";
-import { getHelloUser } from "../request/userManagement";
+import { useLocation } from "react-router";
+import { Link } from "react-router-dom";
+import { MealContext } from "../components/context/mealContext";
+import useQuery from "../config/queryParams";
+import { Meal } from "../model";
+import { getAllMeals} from "../request/mealManager";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 type Props = {};
 export function MealOverview(props: Props) {
-  const [meal, setMeal] = React.useState("");
-  const [order, setOrder] = React.useState("");
-  const [user, setUser] = React.useState("");
-  const [payment, setPayment] = React.useState("");
+  const query = useQuery();
+  const [meals, setMeals] = React.useContext(MealContext);
+  const [updatedMeals, setupdatedMeals] = React.useState<Meal[]>([]);
+  const loc = useLocation();
+  
 
   React.useEffect(() => {
-    const hello = getHelloMeal();
-    hello.then((response) => {
-      setMeal(response);
-    });
-
-    getHelloOrder().then((response) => {
-      setOrder(response);
-    });
-
-    getHelloUser().then((response) => {
-      setUser(response);
-    });
-
-    getHelloPayment().then((response) => {
-      setPayment(response);
-    });
+    if (meals.length === 0) {
+      getAllMeals().then(setMeals);
+    }
   }, []);
+
+  React.useEffect(() => {
+    let id = Number(query.get("id"));
+    let updatedMeals = meals.filter((meal) => meal.categoryid === id);
+    setupdatedMeals(updatedMeals);
+  }, [loc.search, meals]);
+
+  if (meals === undefined || meals === null) {
+    setMeals([]);
+  }
 
   return (
     <div>
-      <Typography>{meal}</Typography>
-      <Typography>{order}</Typography>
-      <Typography>{user}</Typography>
-      <Typography>{payment}</Typography>
+      {updatedMeals.map((meal) => {
+        return (
+          <Accordion>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              id={meal.menuid}
+            >
+              <Typography>{meal.menuid + " " + meal.mealName + " " + meal.price.toFixed(2) + "€"}</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <div style={{justifyContent:"space-between", display:"flex", width:"100%", margin:"auto"}}>
+              <Typography>
+                {meal.ingredients}
+              </Typography>
+              <Button>Hinzufügen</Button>
+              </div>
+            </AccordionDetails>
+          </Accordion>
+        );
+      })}
+      <Link to="/">About</Link>
     </div>
   );
 }
+
+
+
+

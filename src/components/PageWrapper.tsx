@@ -1,7 +1,11 @@
 import React from "react";
+import { Meal } from "../model";
 import MealBar from "./MealBar";
+import AppBar from "../components/CustomAppBar";
 
 interface props {}
+
+const MealContext = React.createContext<Meal[]>([]);
 
 export default function PageWrapper(props: React.PropsWithChildren<props>) {
   return (
