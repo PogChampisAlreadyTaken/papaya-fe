@@ -1,8 +1,4 @@
-import {
-  mealMangerUrl,
-  orderingSystemUrl,
-  paymentServiceUrl,
-} from "../endpoints";
+import { paymentServiceUrl } from "../endpoints";
 
 export async function getHelloPayment(): Promise<string> {
   const response = await fetch(paymentServiceUrl + "/hello", {

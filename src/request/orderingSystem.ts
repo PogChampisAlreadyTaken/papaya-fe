@@ -1,4 +1,4 @@
-import { mealMangerUrl, orderingSystemUrl } from "../endpoints";
+import { orderingSystemUrl } from "../endpoints";
 
 export async function getHelloOrder(): Promise<string> {
   const response = await fetch(orderingSystemUrl + "/hello", {
