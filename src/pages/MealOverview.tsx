@@ -1,35 +1,33 @@
 // @flow
-import { Typography } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Button, ListItem, ListItemText, Typography } from "@mui/material";
 import * as React from "react";
 import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
 import { MealContext } from "../components/context/mealContext";
 import useQuery from "../config/queryParams";
-import { getCategoryMeals, getHelloMeal } from "../request/mealManager";
-import { getHelloOrder } from "../request/orderingSystem";
-import { getHelloPayment } from "../request/paymentManager";
-import { getHelloUser } from "../request/userManagement";
+import { Meal } from "../model";
+import { getAllMeals} from "../request/mealManager";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 type Props = {};
 export function MealOverview(props: Props) {
   const query = useQuery();
-  const [meal, setMeal] = React.useState("");
-  const [order, setOrder] = React.useState("");
-  const [user, setUser] = React.useState("");
-  const [payment, setPayment] = React.useState("");
-  const loc = useLocation();
   const [meals, setMeals] = React.useContext(MealContext);
+  const [updatedMeals, setupdatedMeals] = React.useState<Meal[]>([]);
+  const loc = useLocation();
+  
 
   React.useEffect(() => {
     if (meals.length === 0) {
-      getCategoryMeals().then(setMeals);
+      getAllMeals().then(setMeals);
     }
   }, []);
 
   React.useEffect(() => {
-    console.log(query.get("category"));
-    console.log(query.get("id"));
-  }, [loc.search, query]);
+    let id = Number(query.get("id"));
+    let updatedMeals = meals.filter((meal) => meal.categoryid === id);
+    setupdatedMeals(updatedMeals);
+  }, [loc.search, meals]);
 
   if (meals === undefined || meals === null) {
     setMeals([]);
@@ -37,11 +35,31 @@ export function MealOverview(props: Props) {
 
   return (
     <div>
-      {console.log(meals)}{" "}
-      {meals.map((meal) => (
-        <Typography key={meal.id}>{meal.mealName}</Typography>
-      ))}
+      {updatedMeals.map((meal) => {
+        return (
+          <Accordion>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              id={meal.menuid}
+            >
+              <Typography>{meal.menuid + " " + meal.mealName + " " + meal.price.toFixed(2) + "€"}</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <div style={{justifyContent:"space-between", display:"flex", width:"100%", margin:"auto"}}>
+              <Typography>
+                {meal.ingredients}
+              </Typography>
+              <Button>Hinzufügen</Button>
+              </div>
+            </AccordionDetails>
+          </Accordion>
+        );
+      })}
       <Link to="/">About</Link>
     </div>
   );
 }
+
+
+
+

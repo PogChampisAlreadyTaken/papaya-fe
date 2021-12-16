@@ -1,6 +1,10 @@
 export interface Meal {
-  categoryId: number;
+  categoryid: number;
   hotness: string;
   id: number;
   mealName: string;
+  menuid: string;
+  subcategory: string;
+  price: number;
+  ingredients: string;
 }

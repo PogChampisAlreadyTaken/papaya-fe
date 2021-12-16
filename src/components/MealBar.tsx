@@ -5,54 +5,42 @@ import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
 
 import ListItemText from "@mui/material/ListItemText";
-import { useNavigate } from "react-router";
+import { useHref, useNavigate } from "react-router";
 import useQuery from "../config/queryParams";
-
-const meals = [
-  "Mittagsmenüs",
-  "Suppen",
-  "Vorspeisen",
-  "Salate",
-  "Spezialitäten",
-  "Schweinefleisch",
-  "Hühnerfleisch",
-  "Rindfleisch",
-  "Ente",
-  "Fisch",
-  "Tintenfisch",
-  "Hummerkrabben",
-  "Gemüse",
-  "Reis",
-  "Nudeln",
-  "Menüs",
-  "Sushi",
-  "Extras",
-  "Nachspeisen",
-  "Getränke",
-];
+import { useState } from "react";
+import { getAllCategories } from "../request/mealManager";
+import * as React from "react";
+import { Category } from "../model/category";
 
 const drawerWidth = 240;
 
 export default function MealBar() {
   const navigate = useNavigate();
   const query = useQuery();
+  const [categories, setCategories] = useState<Category[]>([])
   const initMeals = () => {
     return (
       <>
-        {meals.map((text, index) => (
+        {categories.map((category) => (
           <ListItem
             button
-            key={text}
+            selected={Number(query.get("id")) === category.id}
+            divider
+            key={category.name}
             onClick={() => {
-              navigate("?category=" + text + "&id=" + index);
+              navigate("?category=" + category.name + "&id=" + category.id);
             }}
           >
-            <ListItemText primary={text} />
+            <ListItemText primary={category.name} />
           </ListItem>
         ))}
       </>
     );
   };
+
+  React.useEffect(() => {
+    getAllCategories().then(setCategories);
+  }, [])
 
   return (
     <div style={{ height: "100%" }}>

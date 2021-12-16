@@ -19,7 +19,7 @@ export default function CustomAppBar() {
           top: 0,
           left: 0,
         }}
-        color="secondary"
+        color="primary"
       >
         {show && <Basket />}
 
