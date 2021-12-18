@@ -9,6 +9,7 @@ import AdminPanel from "./pages/AdminPanel";
 import Dashboard from "./pages/Dashboard";
 import { Meal } from "./model";
 import { MealContext } from "./components/context/mealContext";
+import { MealmanagerComponent } from "./components/mealmanager/MealmanagerComponent";
 
 function App() {
   const [mealContext, setMealContext] = React.useState<Meal[]>([]);
@@ -55,6 +56,14 @@ function App() {
               element={
                 <PageWrapper>
                   <AdminPanel />
+                </PageWrapper>
+              }
+            />
+            <Route
+              path="mealmanager"
+              element={
+                <PageWrapper>
+                  <MealmanagerComponent />
                 </PageWrapper>
               }
             />
