@@ -240,7 +240,6 @@ export function MealmanagerComponent(props: Props) {
           Hinzufügen
         </Button>
       </div>
-      <ShowMealsComponent></ShowMealsComponent>
     </div>
   );
 }
