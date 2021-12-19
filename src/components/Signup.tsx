@@ -27,6 +27,10 @@ export default function Signup() {
   const [registerEmail, setRegisterEmail] = useState<string>("");
   const [registerPassword, setRegisterPassword] = useState<string>("");
   const [registerConfirm, setRegisterConfirm] = useState<string>("");
+  const [registerStreet, setRegisterStreet] = useState<string>("");
+  const [registerHousenumber, setRegisterHousenumber] = useState<string>("");
+  const [registerZip, setRegisterZip] = useState<string>("");
+  const [registerCity, setRegisterCity] = useState<string>("");
   const [error, setError] = useState<string>("");
   //handle user
   const [user, setUser] = useState<User | undefined>(undefined);
@@ -85,6 +89,7 @@ export default function Signup() {
             margin="normal"
             fullWidth
           />
+
           <TextField
             onChange={(event) => {
               setRegisterConfirm(event.target.value);
@@ -95,6 +100,49 @@ export default function Signup() {
             margin="normal"
             fullWidth
           />
+          <Divider>Lieferadresse</Divider>
+          <div>
+            <TextField
+              onChange={(event) => {
+                setRegisterStreet(event.target.value);
+              }}
+              id="outlined-basic"
+              label="Straße"
+              variant="outlined"
+              margin="normal"
+            />
+
+            <TextField
+              onChange={(event) => {
+                setRegisterHousenumber(event.target.value);
+              }}
+              id="outlined-basic"
+              label="Hausnummer"
+              variant="outlined"
+              margin="normal"
+            />
+          </div>
+          <div>
+            <TextField
+              onChange={(event) => {
+                setRegisterCity(event.target.value);
+              }}
+              id="outlined-basic"
+              label="Stadt"
+              variant="outlined"
+              margin="normal"
+            />
+            <TextField
+              onChange={(event) => {
+                setRegisterZip(event.target.value);
+              }}
+              id="outlined-basic"
+              label="Postleitzahl"
+              variant="outlined"
+              margin="normal"
+            />
+          </div>
+
           <FormGroup>
             <FormControlLabel
               control={<Checkbox />}
@@ -108,7 +156,11 @@ export default function Signup() {
               var errorMessage = RegisterUser(
                 registerEmail,
                 registerPassword,
-                registerConfirm
+                registerConfirm,
+                registerStreet,
+                registerHousenumber,
+                registerZip,
+                registerCity
               );
 
               setError(errorMessage);

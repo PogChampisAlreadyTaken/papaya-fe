@@ -4,21 +4,48 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import logging from "../config/Logging";
+import { postAddress, postUser } from "../request/userManagement";
 
 export function RegisterUser(
   email: string,
   password: string,
-  confirmPassword: string
+  confirmPassword: string,
+  street?: string,
+  housenumber?: string,
+  zip?: string,
+  city?: string
 ): string {
   if (password !== confirmPassword) {
     return "Passwörter stimmen nicht überein.";
   } else {
     //todo: validate email:  setError("Die angegebeneE-Mail ist nicht gültig");
+    //validate input!
+    //create user in firebase
     createUserWithEmailAndPassword(auth, email, password)
       .then((result) => {
-        logging.info(result);
         //to do:  --> already signed in --> so close tab for now
         //setOpen(false); redirect
+
+        console.log(result.user.uid);
+        //create new address or get id of address
+        if (
+          city != null &&
+          housenumber != null &&
+          street != null &&
+          zip != null
+        ) {
+          postAddress(city, housenumber, street, zip).then((resultId) => {
+            var response = postUser(
+              result.user.uid,
+              "Peter",
+              "Parker",
+              JSON.stringify(resultId)
+            );
+            console.log(response);
+          });
+
+          //ab hier wird nichts ausgeführt but why?
+        }
       })
       .catch((error) => {
         logging.error(error);
