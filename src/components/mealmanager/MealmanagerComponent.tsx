@@ -2,7 +2,6 @@
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 
 import {
-  List,
   Typography,
   ListItemButton,
   ListItemText,
@@ -13,6 +12,7 @@ import {
   MenuItem,
   FormControl,
   Button,
+  SelectChangeEvent,
 } from "@mui/material";
 
 import * as React from "react";
@@ -23,8 +23,9 @@ import {
   getAllMeals,
   postMeal,
 } from "../../request/mealManager";
-import { height } from "@mui/system";
+import { height, width } from "@mui/system";
 import { ShowMealsComponent } from "./ShowMealsComponent";
+import { MealContext } from "../context/mealContext";
 
 type Props = {};
 
@@ -32,7 +33,7 @@ export function MealmanagerComponent(props: Props) {
   //states for Addmeal-functionality
   const [categories, setCategories] = React.useState<Category[]>([]);
   const [selectedMenu, setselectedMenu] = React.useState<number>(0);
-  const [meals, setMeals] = React.useState<Meal[]>([]);
+  const [meals, setMeals] = React.useContext(MealContext);
   const [filteredMeals, setfilteredMeals] = React.useState<Meal[]>([]);
   const [open, setOpen] = React.useState(false);
   const [menuid, setMenuid] = React.useState("");
@@ -44,67 +45,49 @@ export function MealmanagerComponent(props: Props) {
   React.useEffect(() => {
     getAllCategories().then(setCategories);
     getAllMeals().then(setMeals);
-    console.log(meals);
   }, []);
 
   React.useEffect(() => {
+    getAllMeals().then(setMeals);
     setfilteredMeals(meals.filter((meal) => meal.categoryid == selectedMenu));
   }, [selectedMenu]);
 
-  React.useEffect(() => {}, [selectedMenu]);
-
-  function createListItemButton(category: Category) {
-    return (
-      <>
-        <ListItemButton
-          onClick={() => {
-            setselectedMenu(category.id);
-            setOpen(!open);
-          }}
-          sx={{ pl: 4 }}
-        >
-          <ListItemText primary={category.id + " " + category.name} />
-        </ListItemButton>
-      </>
-    );
-  }
+  const handleChange = (event: SelectChangeEvent) => {
+    setselectedMenu(Number(event.target.value));
+  };
 
   function dropdownMenu() {
     return (
       <>
-        <List
-          sx={{
-            width: "100%",
-            maxWidth: 250,
-            maxHeight: 300,
-            bgcolor: "background.paper",
-            overflow: "auto",
-          }}
-          component="nav"
-          aria-labelledby="nested-list-subheader"
-        >
-          <ListItemButton
-            onClick={() => {
-              setOpen(!open);
-            }}
+        <FormControl style={{ width: 200 }}>
+          <InputLabel id="selected-menu-label">Menü</InputLabel>
+          <Select
+            labelId="selected-menu-label"
+            id="selected-menu"
+            value={String(selectedMenu)}
+            label="Menü"
+            onChange={handleChange}
+            MenuProps={{ PaperProps: { sx: { maxHeight: 200 } } }} //important to overide the Parent values from paper
           >
-            <ListItemText
-              id="categorydropdown"
-              primary={
-                selectedMenu == 0
-                  ? "Bitte Menü auswählen"
-                  : categories.find((category) => category.id === selectedMenu)
-                      ?.name
-              }
-            />
-            {open ? <ExpandLess /> : <ExpandMore />}
-          </ListItemButton>
-          <Collapse in={open} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              {categories.map(createListItemButton)}
-            </List>
-          </Collapse>
-        </List>
+            {categories.map((category) => {
+              return (
+                <MenuItem key={category.id} value={category.id}>
+                  {category.name}
+                </MenuItem>
+              );
+            })}
+          </Select>
+        </FormControl>
+        <Button
+          variant="outlined"
+          style={{
+            height: document.getElementById("price")?.clientHeight,
+            width: "150px",
+          }}
+          onClick={() => createMeal()}
+        >
+          Hinzufügen
+        </Button>
       </>
     );
   }
@@ -120,11 +103,11 @@ export function MealmanagerComponent(props: Props) {
     };
 
     postMeal(meal)
-      .then(cleanAddFields)
+      .then((response) => cleanAddFields(response))
       .catch((error) => console.log(console.error(error)));
   }
 
-  function cleanAddFields() {
+  function cleanAddFields(respone: Response) {
     setMenuid("");
     setMealName("");
     setPrice("");
@@ -144,6 +127,12 @@ export function MealmanagerComponent(props: Props) {
     if (filteredMeals.filter((meal) => meal.menuid == menuid).length > 0) {
       helperText = "MenüID bereits vergeben";
     }
+
+    let valueMenuid = menuid.match(/\d+/g);
+    if (valueMenuid == null && menuid != "") {
+      helperText = "Buchstaben nicht erlaubt";
+    }
+
     return helperText;
   }
 
@@ -226,20 +215,11 @@ export function MealmanagerComponent(props: Props) {
   return (
     <div style={{ height: "200px" }}>
       <Typography style={{ margin: "10px" }}>Gericht hinzufügen</Typography>
-      <div style={{ display: "flex" }}>
+      <div style={{ display: "flex", justifyContent: "center" }}>
         {mealInputBoxes()}
         {dropdownMenu()}
-        <Button
-          variant="outlined"
-          style={{
-            height: document.getElementById("price")?.clientHeight,
-            width: "150px",
-          }}
-          onClick={() => createMeal()}
-        >
-          Hinzufügen
-        </Button>
       </div>
+      <ShowMealsComponent></ShowMealsComponent>
     </div>
   );
 }

@@ -60,3 +60,14 @@ export async function postMeal(meal: Meal) {
   });
   return response;
 }
+
+export async function deleteMeal(meal: Meal) {
+  const response = await fetch(mealManagerUrl + "/meals/" + meal.menuid, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+    },
+  });
+  return response;
+}
