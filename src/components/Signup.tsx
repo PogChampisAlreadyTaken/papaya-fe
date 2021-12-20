@@ -44,14 +44,14 @@ export default function Signup() {
 
   React.useEffect(() => {
     console.log(error);
-    if (error === "") {
+    if (error == "") {
       setOpen(false);
     }
   }, [error]);
 
   const handleLogin = () => {
     //open Login and handle close of
-    handleClose();
+    //handleClose();
   };
 
   return (
@@ -59,7 +59,11 @@ export default function Signup() {
       <Button onClick={handleOpen} color="inherit">
         Account erstellen
       </Button>
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        style={{ position: "absolute", top: 30 }}
+      >
         <DialogTitle>Registrieren</DialogTitle>
 
         <DialogContent>
@@ -79,6 +83,7 @@ export default function Signup() {
             onChange={(event) => {
               setRegisterEmail(event.target.value);
             }}
+            required
             id="outlined-basic"
             label="E-Mail-Adresse"
             variant="outlined"
@@ -89,6 +94,7 @@ export default function Signup() {
             onChange={(event) => {
               setRegisterFirstName(event.target.value);
             }}
+            required
             id="outlined-basic"
             label="Vorname"
             variant="outlined"
@@ -99,6 +105,7 @@ export default function Signup() {
             onChange={(event) => {
               setRegisterLastName(event.target.value);
             }}
+            required
             id="outlined-basic"
             label="Nachname"
             variant="outlined"
@@ -110,22 +117,26 @@ export default function Signup() {
             onChange={(event) => {
               setRegisterPassword(event.target.value);
             }}
+            required
             id="outlined-basic"
             label="Passwort"
             variant="outlined"
             margin="normal"
             fullWidth
+            type="password"
           />
 
           <TextField
             onChange={(event) => {
               setRegisterConfirm(event.target.value);
             }}
+            required
             id="outlined-basic"
             label="Passwort wiederholen"
             variant="outlined"
             margin="normal"
             fullWidth
+            type="password"
           />
           <Divider>Lieferadresse</Divider>
           <div>
@@ -133,6 +144,7 @@ export default function Signup() {
               onChange={(event) => {
                 setRegisterStreet(event.target.value);
               }}
+              required
               id="outlined-basic"
               label="Straße"
               variant="outlined"
@@ -143,10 +155,12 @@ export default function Signup() {
               onChange={(event) => {
                 setRegisterHousenumber(event.target.value);
               }}
+              required
               id="outlined-basic"
               label="Hausnummer"
               variant="outlined"
               margin="normal"
+              type="number"
             />
           </div>
           <div>
@@ -154,6 +168,7 @@ export default function Signup() {
               onChange={(event) => {
                 setRegisterCity(event.target.value);
               }}
+              required
               id="outlined-basic"
               label="Stadt"
               variant="outlined"
@@ -163,10 +178,12 @@ export default function Signup() {
               onChange={(event) => {
                 setRegisterZip(event.target.value);
               }}
+              required
               id="outlined-basic"
               label="Postleitzahl"
               variant="outlined"
               margin="normal"
+              type="number"
             />
           </div>
 
@@ -193,7 +210,6 @@ export default function Signup() {
               );
 
               setError(errorMessage);
-              console.log("Alles erledigt");
               console.log(error);
 
               handleLogin();

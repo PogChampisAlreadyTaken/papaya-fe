@@ -131,7 +131,9 @@ export default function Login() {
               var errorMessage = LoginUser(loginEmail, loginPassword);
 
               setError(errorMessage);
-              console.log(error);
+              if (error == "") {
+                handleClose();
+              }
             }}
             fullWidth
           >

@@ -65,20 +65,29 @@ export function RegisterUser(
 }
 
 export function LoginUser(email: string, password: string): string {
-  signInWithEmailAndPassword(auth, email, password)
-    .then((result) => {
-      logging.info(result);
-    })
-    .catch((error) => {
-      logging.error(error);
+  console.log(email);
+  console.log(password);
+  if (email != null && password != null) {
+    signInWithEmailAndPassword(auth, email, password)
+      .then((result) => {
+        logging.info(result);
+        logging.info(result.user.uid);
+      })
+      .catch((error) => {
+        logging.error(error);
 
-      if (error.code.includes("auth/unverified-email")) {
-        return "Die E-Mail ist nicht verifiziert";
-      } else if (error.code.includes("auth/user-not-found")) {
-        return "Der Benutzter ist nicht bekannt";
-      } else {
-        return "Da ist etwas schiefgegangen. Probiere es später noch einmal";
-      }
-    });
-  return "Ein unbekannter Fehler ist aufgetreten";
+        if (error.code.includes("auth/unverified-email")) {
+          return "Die E-Mail ist nicht verifiziert";
+        } else if (error.code.includes("auth/user-not-found")) {
+          return "Der Benutzter ist nicht bekannt";
+        } else if (error.code.include("auth/invalid-email")) {
+          return "Bitte gebe eine valide E-Mail ein";
+        } else {
+          return "Da ist etwas schiefgegangen. Probiere es später noch einmal";
+        }
+      });
+  } else {
+    return "Bitte Werte eingeben";
+  }
+  return "";
 }
