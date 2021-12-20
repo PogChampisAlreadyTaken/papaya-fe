@@ -23,10 +23,11 @@ export default function Signup() {
   const handleClose = () => setOpen(false);
 
   //handling input values
-  const [registering, setRegistering] = useState<boolean>(false);
   const [registerEmail, setRegisterEmail] = useState<string>("");
   const [registerPassword, setRegisterPassword] = useState<string>("");
   const [registerConfirm, setRegisterConfirm] = useState<string>("");
+  const [registerFirstName, setRegisterFirstName] = useState<string>("");
+  const [registerLastName, setRegisterLastName] = useState<string>("");
   const [registerStreet, setRegisterStreet] = useState<string>("");
   const [registerHousenumber, setRegisterHousenumber] = useState<string>("");
   const [registerZip, setRegisterZip] = useState<string>("");
@@ -43,10 +44,15 @@ export default function Signup() {
 
   React.useEffect(() => {
     console.log(error);
-    if (error == "") {
+    if (error === "") {
       setOpen(false);
     }
   }, [error]);
+
+  const handleLogin = () => {
+    //open Login and handle close of
+    handleClose();
+  };
 
   return (
     <div>
@@ -79,6 +85,27 @@ export default function Signup() {
             margin="normal"
             fullWidth
           />
+          <TextField
+            onChange={(event) => {
+              setRegisterFirstName(event.target.value);
+            }}
+            id="outlined-basic"
+            label="Vorname"
+            variant="outlined"
+            margin="normal"
+            fullWidth
+          />
+          <TextField
+            onChange={(event) => {
+              setRegisterLastName(event.target.value);
+            }}
+            id="outlined-basic"
+            label="Nachname"
+            variant="outlined"
+            margin="normal"
+            fullWidth
+          />
+
           <TextField
             onChange={(event) => {
               setRegisterPassword(event.target.value);
@@ -156,6 +183,8 @@ export default function Signup() {
               var errorMessage = RegisterUser(
                 registerEmail,
                 registerPassword,
+                registerFirstName,
+                registerLastName,
                 registerConfirm,
                 registerStreet,
                 registerHousenumber,
@@ -164,7 +193,10 @@ export default function Signup() {
               );
 
               setError(errorMessage);
+              console.log("Alles erledigt");
               console.log(error);
+
+              handleLogin();
             }}
             fullWidth
           >
@@ -174,13 +206,22 @@ export default function Signup() {
           <div style={{ height: 20 }} />
           <Typography style={{ color: "grey" }}>
             Beim Klicken auf "Absenden" erklärst Du Dich mit unseren{" "}
-            <a href="#">AGB</a>,{" "}
-            <a href="#">Geschäftsbedingungen zur Sammlung von Punkten</a>
-            und <a href="#">Datenschutzerklärung</a> einverstanden.
+            <a href="https://www.youtube.com/watch?v=GntuIA7H40c&ab_channel=sevDesk">
+              AGB
+            </a>
+            ,{" "}
+            <a href="https://www.youtube.com/watch?v=GntuIA7H40c&ab_channel=sevDesk">
+              Geschäftsbedingungen zur Sammlung von Punkten
+            </a>
+            und{" "}
+            <a href="https://www.youtube.com/watch?v=GntuIA7H40c&ab_channel=sevDesk">
+              Datenschutzerklärung
+            </a>{" "}
+            einverstanden.
           </Typography>
 
           <div style={{ height: 20 }} />
-          <Button variant="outlined" onClick={handleClose} fullWidth>
+          <Button variant="outlined" onClick={handleLogin} fullWidth>
             Bereits ein Account?
             {user ? user.email : null}
           </Button>

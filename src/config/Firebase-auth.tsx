@@ -9,6 +9,8 @@ import { postAddress, postUser } from "../request/userManagement";
 export function RegisterUser(
   email: string,
   password: string,
+  firstName: string,
+  lastName: string,
   confirmPassword: string,
   street?: string,
   housenumber?: string,
@@ -37,8 +39,8 @@ export function RegisterUser(
           postAddress(city, housenumber, street, zip).then((resultId) => {
             var response = postUser(
               result.user.uid,
-              "Peter",
-              "Parker",
+              firstName,
+              lastName,
               JSON.stringify(resultId)
             );
             console.log(response);
