@@ -11,10 +11,13 @@ import { LoginUser } from "../config/Firebase-auth";
 import { GoogleAuthProvider, signInWithPopup, getAuth } from "firebase/auth";
 import { FacebookAuthProvider } from "firebase/auth";
 
-export default function Login() {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+interface props {
+  handleLogin: () => void;
+  handleClose: () => void;
+}
+
+export default function Login(props: props) {
+  const { handleLogin, handleClose } = props;
 
   //handling userinput
   const [loginEmail, setLoginEmail] = React.useState("");
@@ -76,75 +79,59 @@ export default function Login() {
       });
   };
 
-  React.useEffect(() => {
-    console.log(error);
-    if (error == "") {
-      setOpen(false);
-    }
-  }, [error]);
-
   return (
-    <div>
-      <Button onClick={handleOpen} color="inherit">
-        Login
+    <DialogContent>
+      <IconButton
+        onClick={handleClose}
+        style={{ right: 10, top: 10, position: "absolute" }}
+      >
+        <CloseIcon />
+      </IconButton>
+      <Button onClick={login}>Mit Google anmelden</Button>
+      <div>
+        <Button onClick={loginWithFacebook}>Mit Facebook anmelden</Button>
+      </div>
+      <Divider>oder</Divider>
+      <div style={{ height: 30 }} />
+      <TextField
+        onChange={(event) => {
+          setLoginEmail(event.target.value);
+        }}
+        id="outlined-basic"
+        label="E-Mail-Adresse"
+        variant="outlined"
+        margin="normal"
+        fullWidth
+      />
+      <TextField
+        onChange={(event) => {
+          setLoginPassword(event.target.value);
+        }}
+        id="outlined-basic"
+        label="Passwort"
+        variant="outlined"
+        margin="normal"
+        fullWidth
+      />
+      <div style={{ height: 20 }} />
+      <Button
+        variant="contained"
+        onClick={() => {
+          var errorMessage = LoginUser(loginEmail, loginPassword);
+
+          setError(errorMessage);
+          if (error == "") {
+            handleClose();
+          }
+        }}
+        fullWidth
+      >
+        Anmelden
       </Button>
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Anmelden</DialogTitle>
-
-        <DialogContent>
-          <IconButton
-            onClick={handleClose}
-            style={{ right: 10, top: 10, position: "absolute" }}
-          >
-            <CloseIcon />
-          </IconButton>
-          <Button onClick={login}>Mit Google anmelden</Button>
-          <div>
-            <Button onClick={loginWithFacebook}>Mit Facebook anmelden</Button>
-          </div>
-          <Divider>oder</Divider>
-          <div style={{ height: 30 }} />
-          <TextField
-            onChange={(event) => {
-              setLoginEmail(event.target.value);
-            }}
-            id="outlined-basic"
-            label="E-Mail-Adresse"
-            variant="outlined"
-            margin="normal"
-            fullWidth
-          />
-          <TextField
-            onChange={(event) => {
-              setLoginPassword(event.target.value);
-            }}
-            id="outlined-basic"
-            label="Passwort"
-            variant="outlined"
-            margin="normal"
-            fullWidth
-          />
-          <div style={{ height: 20 }} />
-          <Button
-            variant="contained"
-            onClick={() => {
-              var errorMessage = LoginUser(loginEmail, loginPassword);
-
-              setError(errorMessage);
-              if (error == "") {
-                handleClose();
-              }
-            }}
-            fullWidth
-          >
-            Anmelden
-          </Button>
-          <div style={{ height: 20 }} />
-          <Button variant="outlined" onClick={handleClose} fullWidth>
-            Account erstellen?
-          </Button>
-        </DialogContent>
-      </Dialog>
-    </div>
+      <div style={{ height: 20 }} />
+      <Button variant="outlined" onClick={handleLogin} fullWidth>
+        Account erstellen?
+      </Button>
+    </DialogContent>
   );
 }

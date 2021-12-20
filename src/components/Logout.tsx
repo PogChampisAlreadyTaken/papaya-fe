@@ -5,6 +5,7 @@ import { auth } from "../config/Firebase-config";
 
 export default function Logout() {
   const logout = async () => {
+    console.log(auth.currentUser);
     await signOut(auth);
   };
 

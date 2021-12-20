@@ -7,15 +7,22 @@ import Basket from "./Basket";
 import Login from "./Login";
 import Signup from "./Signup";
 import Logout from "./Logout";
+import UserOverlay from "./UserOverlay";
+import { auth } from "../config/Firebase-config";
 
 export default function CustomAppBar() {
   const [show, setShow] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
+
+  React.useEffect(() => {
+    console.log(auth.currentUser);
+  }, [auth.currentUser]);
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
         position="absolute"
         sx={{
-          zIndex: 1400,
           top: 0,
           left: 0,
         }}
@@ -33,9 +40,14 @@ export default function CustomAppBar() {
           >
             Warenkorb
           </Button>
-          <Login />
-          <Signup />
-          <Logout />
+          {open ? <UserOverlay open={open} setOpen={setOpen} /> : <div />}
+          {!auth.currentUser ? (
+            <Button onClick={() => setOpen(true)} color="inherit">
+              Login
+            </Button>
+          ) : (
+            <Logout />
+          )}
         </Toolbar>
       </AppBar>
     </Box>

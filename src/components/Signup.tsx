@@ -16,11 +16,15 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import { Typography } from "@mui/material";
 import ErrorText from "./ErrorText/Error";
 import { RegisterUser } from "../config/Firebase-auth";
+import { Login } from "@mui/icons-material";
 
-export default function Signup() {
-  const [open, setOpen] = useState<boolean>(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+interface props {
+  handleLogin: () => void;
+  handleClose: () => void;
+}
+
+export default function Signup(props: props) {
+  const { handleLogin, handleClose } = props;
 
   //handling input values
   const [registerEmail, setRegisterEmail] = useState<string>("");
@@ -42,30 +46,7 @@ export default function Signup() {
     }
   });
 
-  React.useEffect(() => {
-    console.log(error);
-    if (error == "") {
-      setOpen(false);
-    }
-  }, [error]);
-
-  const handleLogin = () => {
-    //open Login and handle close of
-    //handleClose();
-  };
-
   return (
-    <div>
-      <Button onClick={handleOpen} color="inherit">
-        Account erstellen
-      </Button>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        style={{ position: "absolute", top: 30 }}
-      >
-        <DialogTitle>Registrieren</DialogTitle>
-
         <DialogContent>
           <IconButton
             onClick={handleClose}
@@ -84,7 +65,7 @@ export default function Signup() {
               setRegisterEmail(event.target.value);
             }}
             required
-            id="outlined-basic"
+            id="email"
             label="E-Mail-Adresse"
             variant="outlined"
             margin="normal"
@@ -95,7 +76,7 @@ export default function Signup() {
               setRegisterFirstName(event.target.value);
             }}
             required
-            id="outlined-basic"
+            id="first-name"
             label="Vorname"
             variant="outlined"
             margin="normal"
@@ -106,7 +87,7 @@ export default function Signup() {
               setRegisterLastName(event.target.value);
             }}
             required
-            id="outlined-basic"
+            id="last-name"
             label="Nachname"
             variant="outlined"
             margin="normal"
@@ -118,7 +99,7 @@ export default function Signup() {
               setRegisterPassword(event.target.value);
             }}
             required
-            id="outlined-basic"
+            id="password"
             label="Passwort"
             variant="outlined"
             margin="normal"
@@ -131,7 +112,7 @@ export default function Signup() {
               setRegisterConfirm(event.target.value);
             }}
             required
-            id="outlined-basic"
+            id="password-confirm"
             label="Passwort wiederholen"
             variant="outlined"
             margin="normal"
@@ -145,7 +126,7 @@ export default function Signup() {
                 setRegisterStreet(event.target.value);
               }}
               required
-              id="outlined-basic"
+              id="street"
               label="Straße"
               variant="outlined"
               margin="normal"
@@ -156,7 +137,7 @@ export default function Signup() {
                 setRegisterHousenumber(event.target.value);
               }}
               required
-              id="outlined-basic"
+              id="house-number"
               label="Hausnummer"
               variant="outlined"
               margin="normal"
@@ -169,7 +150,7 @@ export default function Signup() {
                 setRegisterCity(event.target.value);
               }}
               required
-              id="outlined-basic"
+              id="city"
               label="Stadt"
               variant="outlined"
               margin="normal"
@@ -179,7 +160,7 @@ export default function Signup() {
                 setRegisterZip(event.target.value);
               }}
               required
-              id="outlined-basic"
+              id="zip"
               label="Postleitzahl"
               variant="outlined"
               margin="normal"
@@ -243,7 +224,5 @@ export default function Signup() {
           </Button>
           <ErrorText error={error} />
         </DialogContent>
-      </Dialog>
-    </div>
   );
 }
