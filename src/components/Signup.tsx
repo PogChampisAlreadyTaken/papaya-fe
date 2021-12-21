@@ -47,182 +47,182 @@ export default function Signup(props: props) {
   });
 
   return (
-        <DialogContent>
-          <IconButton
-            onClick={handleClose}
-            style={{ right: 10, top: 10, position: "absolute" }}
-          >
-            <CloseIcon />
-          </IconButton>
-          <Button onClick={handleClose}>Mit Google anmelden</Button>
-          <div>
-            <Button onClick={handleClose}>Mit Facebook anmelden</Button>
-          </div>
-          <Divider>oder</Divider>
-          <div style={{ height: 30 }} />
-          <TextField
-            onChange={(event) => {
-              setRegisterEmail(event.target.value);
-            }}
-            required
-            id="email"
-            label="E-Mail-Adresse"
-            variant="outlined"
-            margin="normal"
-            fullWidth
-          />
-          <TextField
-            onChange={(event) => {
-              setRegisterFirstName(event.target.value);
-            }}
-            required
-            id="first-name"
-            label="Vorname"
-            variant="outlined"
-            margin="normal"
-            fullWidth
-          />
-          <TextField
-            onChange={(event) => {
-              setRegisterLastName(event.target.value);
-            }}
-            required
-            id="last-name"
-            label="Nachname"
-            variant="outlined"
-            margin="normal"
-            fullWidth
-          />
+    <DialogContent>
+      <IconButton
+        onClick={handleClose}
+        style={{ right: 10, top: 10, position: "absolute" }}
+      >
+        <CloseIcon />
+      </IconButton>
+      <Button onClick={handleClose}>Mit Google anmelden</Button>
+      <div>
+        <Button onClick={handleClose}>Mit Facebook anmelden</Button>
+      </div>
+      <Divider>oder</Divider>
+      <div style={{ height: 30 }} />
+      <TextField
+        onChange={(event) => {
+          setRegisterEmail(event.target.value);
+        }}
+        required
+        id="email"
+        label="E-Mail-Adresse"
+        variant="outlined"
+        margin="normal"
+        fullWidth
+      />
+      <TextField
+        onChange={(event) => {
+          setRegisterFirstName(event.target.value);
+        }}
+        required
+        id="first-name"
+        label="Vorname"
+        variant="outlined"
+        margin="normal"
+        fullWidth
+      />
+      <TextField
+        onChange={(event) => {
+          setRegisterLastName(event.target.value);
+        }}
+        required
+        id="last-name"
+        label="Nachname"
+        variant="outlined"
+        margin="normal"
+        fullWidth
+      />
 
-          <TextField
-            onChange={(event) => {
-              setRegisterPassword(event.target.value);
-            }}
-            required
-            id="password"
-            label="Passwort"
-            variant="outlined"
-            margin="normal"
-            fullWidth
-            type="password"
-          />
+      <TextField
+        onChange={(event) => {
+          setRegisterPassword(event.target.value);
+        }}
+        required
+        id="password"
+        label="Passwort"
+        variant="outlined"
+        margin="normal"
+        fullWidth
+        type="password"
+      />
 
-          <TextField
-            onChange={(event) => {
-              setRegisterConfirm(event.target.value);
-            }}
-            required
-            id="password-confirm"
-            label="Passwort wiederholen"
-            variant="outlined"
-            margin="normal"
-            fullWidth
-            type="password"
-          />
-          <Divider>Lieferadresse</Divider>
-          <div>
-            <TextField
-              onChange={(event) => {
-                setRegisterStreet(event.target.value);
-              }}
-              required
-              id="street"
-              label="Straße"
-              variant="outlined"
-              margin="normal"
-            />
+      <TextField
+        onChange={(event) => {
+          setRegisterConfirm(event.target.value);
+        }}
+        required
+        id="password-confirm"
+        label="Passwort wiederholen"
+        variant="outlined"
+        margin="normal"
+        fullWidth
+        type="password"
+      />
+      <Divider>Lieferadresse</Divider>
+      <div>
+        <TextField
+          onChange={(event) => {
+            setRegisterStreet(event.target.value);
+          }}
+          required
+          id="street"
+          label="Straße"
+          variant="outlined"
+          margin="normal"
+        />
 
-            <TextField
-              onChange={(event) => {
-                setRegisterHousenumber(event.target.value);
-              }}
-              required
-              id="house-number"
-              label="Hausnummer"
-              variant="outlined"
-              margin="normal"
-              type="number"
-            />
-          </div>
-          <div>
-            <TextField
-              onChange={(event) => {
-                setRegisterCity(event.target.value);
-              }}
-              required
-              id="city"
-              label="Stadt"
-              variant="outlined"
-              margin="normal"
-            />
-            <TextField
-              onChange={(event) => {
-                setRegisterZip(event.target.value);
-              }}
-              required
-              id="zip"
-              label="Postleitzahl"
-              variant="outlined"
-              margin="normal"
-              type="number"
-            />
-          </div>
+        <TextField
+          onChange={(event) => {
+            setRegisterHousenumber(event.target.value);
+          }}
+          required
+          id="house-number"
+          label="Hausnummer"
+          variant="outlined"
+          margin="normal"
+          type="number"
+        />
+      </div>
+      <div>
+        <TextField
+          onChange={(event) => {
+            setRegisterCity(event.target.value);
+          }}
+          required
+          id="city"
+          label="Stadt"
+          variant="outlined"
+          margin="normal"
+        />
+        <TextField
+          onChange={(event) => {
+            setRegisterZip(event.target.value);
+          }}
+          required
+          id="zip"
+          label="Postleitzahl"
+          variant="outlined"
+          margin="normal"
+          type="number"
+        />
+      </div>
 
-          <FormGroup>
-            <FormControlLabel
-              control={<Checkbox />}
-              label="Erhalte Rabatte, Treueangebote und andere Updates."
-            />
-          </FormGroup>
-          <div style={{ height: 20 }} />
-          <Button
-            variant="contained"
-            onClick={() => {
-              var errorMessage = RegisterUser(
-                registerEmail,
-                registerPassword,
-                registerFirstName,
-                registerLastName,
-                registerConfirm,
-                registerStreet,
-                registerHousenumber,
-                registerZip,
-                registerCity
-              );
+      <FormGroup>
+        <FormControlLabel
+          control={<Checkbox />}
+          label="Erhalte Rabatte, Treueangebote und andere Updates."
+        />
+      </FormGroup>
+      <div style={{ height: 20 }} />
+      <Button
+        variant="contained"
+        onClick={() => {
+          var errorMessage = RegisterUser(
+            registerEmail,
+            registerPassword,
+            registerFirstName,
+            registerLastName,
+            registerConfirm,
+            registerStreet,
+            registerHousenumber,
+            registerZip,
+            registerCity
+          );
 
-              setError(errorMessage);
-              console.log(error);
+          setError(errorMessage);
+          console.log(error);
 
-              handleLogin();
-            }}
-            fullWidth
-          >
-            Registrieren
-          </Button>
+          handleLogin();
+        }}
+        fullWidth
+      >
+        Registrieren
+      </Button>
 
-          <div style={{ height: 20 }} />
-          <Typography style={{ color: "grey" }}>
-            Beim Klicken auf "Absenden" erklärst Du Dich mit unseren{" "}
-            <a href="https://www.youtube.com/watch?v=GntuIA7H40c&ab_channel=sevDesk">
-              AGB
-            </a>
-            ,{" "}
-            <a href="https://www.youtube.com/watch?v=GntuIA7H40c&ab_channel=sevDesk">
-              Geschäftsbedingungen zur Sammlung von Punkten
-            </a>
-            und{" "}
-            <a href="https://www.youtube.com/watch?v=GntuIA7H40c&ab_channel=sevDesk">
-              Datenschutzerklärung
-            </a>{" "}
-            einverstanden.
-          </Typography>
+      <div style={{ height: 20 }} />
+      <Typography style={{ color: "grey" }}>
+        Beim Klicken auf "Absenden" erklärst Du Dich mit unseren{" "}
+        <a href="https://www.youtube.com/watch?v=GntuIA7H40c&ab_channel=sevDesk">
+          AGB
+        </a>
+        ,{" "}
+        <a href="https://www.youtube.com/watch?v=GntuIA7H40c&ab_channel=sevDesk">
+          Geschäftsbedingungen zur Sammlung von Punkten
+        </a>
+        und{" "}
+        <a href="https://www.youtube.com/watch?v=GntuIA7H40c&ab_channel=sevDesk">
+          Datenschutzerklärung
+        </a>{" "}
+        einverstanden.
+      </Typography>
 
-          <div style={{ height: 20 }} />
-          <Button variant="outlined" onClick={handleLogin} fullWidth>
-            Bereits ein Account?
-            {user ? user.email : null}
-          </Button>
-          <ErrorText error={error} />
-        </DialogContent>
+      <div style={{ height: 20 }} />
+      <Button variant="outlined" onClick={handleLogin} fullWidth>
+        Bereits ein Account?
+        {user ? user.email : null}
+      </Button>
+      <ErrorText error={error} />
+    </DialogContent>
   );
 }

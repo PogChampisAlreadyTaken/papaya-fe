@@ -9,14 +9,24 @@ import Signup from "./Signup";
 import Logout from "./Logout";
 import UserOverlay from "./UserOverlay";
 import { auth } from "../config/Firebase-config";
+import { onAuthStateChanged, User } from "firebase/auth";
 
 export default function CustomAppBar() {
   const [show, setShow] = React.useState(false);
   const [open, setOpen] = React.useState(false);
+  const [user, setUser] = React.useState<User | undefined>(undefined);
 
   React.useEffect(() => {
     console.log(auth.currentUser);
   }, [auth.currentUser]);
+
+  onAuthStateChanged(auth, (currentUser) => {
+    if (currentUser) {
+      setUser(currentUser);
+    }else{
+      setUser(undefined)
+    }
+  });
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -41,7 +51,7 @@ export default function CustomAppBar() {
             Warenkorb
           </Button>
           {open ? <UserOverlay open={open} setOpen={setOpen} /> : <div />}
-          {!auth.currentUser ? (
+          {user == null ? (
             <Button onClick={() => setOpen(true)} color="inherit">
               Login
             </Button>

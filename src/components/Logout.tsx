@@ -1,7 +1,8 @@
+import * as React from "react";
 import { signOut } from "@firebase/auth";
 import { Button } from "@mui/material";
-import React from "react";
 import { auth } from "../config/Firebase-config";
+import { onAuthStateChanged, User } from "firebase/auth";
 
 export default function Logout() {
   const logout = async () => {

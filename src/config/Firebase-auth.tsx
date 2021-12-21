@@ -2,6 +2,7 @@ import { auth } from "../config/Firebase-config";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signOut,
 } from "firebase/auth";
 import logging from "../config/Logging";
 import { postAddress, postUser } from "../request/userManagement";
@@ -24,11 +25,13 @@ export function RegisterUser(
     //validate input!
     //create user in firebase
     createUserWithEmailAndPassword(auth, email, password)
-      .then((result) => {
+      .then((userCredential) => {
         //to do:  --> already signed in --> so close tab for now
         //setOpen(false); redirect
+        //automatische Anmeldung
+        //ich muss jetzt flag setzen für
 
-        console.log(result.user.uid);
+        console.log(userCredential.user.uid);
         //create new address or get id of address
         if (
           city != null &&
@@ -37,16 +40,15 @@ export function RegisterUser(
           zip != null
         ) {
           postAddress(city, housenumber, street, zip).then((resultId) => {
-            var response = postUser(
-              result.user.uid,
+            postUser(
+              userCredential.user.uid,
               firstName,
               lastName,
               JSON.stringify(resultId)
-            );
-            console.log(response);
+            ).then((response) => {
+              console.log(response);
+            });
           });
-
-          //ab hier wird nichts ausgeführt but why?
         }
       })
       .catch((error) => {
