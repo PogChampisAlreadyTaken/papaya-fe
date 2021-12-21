@@ -38,10 +38,12 @@ export function ShowMealsComponent(props: Props) {
 
   React.useEffect(() => {
     updateMeals();
+    filteredMeals.sort();
   }, []);
 
   React.useEffect(() => {
     setfilteredMeals(meals.filter((meal) => meal.categoryid == selectedMenu));
+    filteredMeals.sort();
   }, [selectedMenu, meals]);
 
   function updateMeals() {

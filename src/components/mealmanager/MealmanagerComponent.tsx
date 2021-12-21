@@ -13,6 +13,8 @@ import {
   FormControl,
   Button,
   SelectChangeEvent,
+  Snackbar,
+  Stack,
 } from "@mui/material";
 
 import * as React from "react";
@@ -26,6 +28,7 @@ import {
 import { height, width } from "@mui/system";
 import { ShowMealsComponent } from "./ShowMealsComponent";
 import { MealContext } from "../context/mealContext";
+import MuiAlert, { AlertProps } from "@mui/material/Alert";
 
 type Props = {};
 
@@ -41,6 +44,8 @@ export function MealmanagerComponent(props: Props) {
   const [price, setPrice] = React.useState("");
   const [ingredients, setIngredients] = React.useState("");
   const [mealName, setMealName] = React.useState("");
+  const [openAlert, setOpenAlert] = React.useState(false);
+  const [openAlertError, setOpenAlertError] = React.useState(false);
 
   React.useEffect(() => {
     getAllCategories().then(setCategories);
@@ -52,8 +57,27 @@ export function MealmanagerComponent(props: Props) {
     setfilteredMeals(meals.filter((meal) => meal.categoryid == selectedMenu));
   }, [selectedMenu]);
 
+  //change and alert constants needed for Snackbar Alert
   const handleChange = (event: SelectChangeEvent) => {
     setselectedMenu(Number(event.target.value));
+  };
+  const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+    props,
+    ref
+  ) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenAlert(false);
+    setOpenAlertError(false);
   };
 
   function dropdownMenu() {
@@ -78,16 +102,47 @@ export function MealmanagerComponent(props: Props) {
             })}
           </Select>
         </FormControl>
-        <Button
-          variant="outlined"
-          style={{
-            height: document.getElementById("price")?.clientHeight,
-            width: "150px",
-          }}
-          onClick={() => createMeal()}
-        >
-          Hinzufügen
-        </Button>
+        <Stack>
+          <Button
+            variant="outlined"
+            style={{
+              height: document.getElementById("price")?.clientHeight,
+              width: "150px",
+            }}
+            onClick={() => createMeal()}
+            disabled={
+              validateMenuIdError() || validatePrice() || validateMenuName()
+            }
+          >
+            Hinzufügen
+          </Button>
+          <Snackbar
+            open={openAlert}
+            autoHideDuration={6000}
+            onClose={handleClose}
+          >
+            <Alert
+              onClose={handleClose}
+              severity="success"
+              sx={{ width: "100%" }}
+            >
+              Gericht erfolgreich Hinzugefügt
+            </Alert>
+          </Snackbar>
+          <Snackbar
+            open={openAlertError}
+            autoHideDuration={6000}
+            onClose={handleClose}
+          >
+            <Alert
+              onClose={handleClose}
+              severity="error"
+              sx={{ width: "100%" }}
+            >
+              Fehler bei der Übertragung
+            </Alert>
+          </Snackbar>
+        </Stack>
       </>
     );
   }
@@ -101,11 +156,22 @@ export function MealmanagerComponent(props: Props) {
       hotness: hotness,
       menuid: menuid,
     };
+    //for the snackbar
+    console.log(meal);
 
     postMeal(meal)
-      .then((response) => cleanAddFields(response))
+      .then((response) => {
+        if (response.status == 201) {
+          cleanAddFields(response);
+          setOpenAlert(true);
+        } else {
+          setOpenAlertError(true);
+        }
+      })
       .catch((error) => console.log(console.error(error)));
   }
+
+  function alertUser() {}
 
   function cleanAddFields(respone: Response) {
     setMenuid("");
@@ -120,11 +186,15 @@ export function MealmanagerComponent(props: Props) {
   function validateMenuIdHelperText(): string {
     let helperText = "";
 
+    if (menuid.length < 1) {
+      helperText = "Bitte MenuID eingeben";
+    }
+
     if (filteredMeals.length === 0) {
       helperText = "Bitte vorher Menü auswählen";
     }
 
-    if (filteredMeals.filter((meal) => meal.menuid == menuid).length > 0) {
+    if (meals.filter((meal) => meal.menuid == menuid).length > 0) {
       helperText = "MenüID bereits vergeben";
     }
 
@@ -136,11 +206,77 @@ export function MealmanagerComponent(props: Props) {
     return helperText;
   }
 
+  function validatePriceHelpertext(): string {
+    let helperText = "";
+
+    let result = /^[a-zA-Z]+$/.test(price);
+    if (result) {
+      helperText = "Zahlen nicht erlaubt";
+    }
+
+    if (price.indexOf(".") > 2) {
+      helperText = "Nicht mehr als 2 Vorkommastellen";
+    }
+    console.log(price.length);
+    if (price.indexOf(".") < 1 && price.length < 2) {
+      helperText = "Bitte mindestens eine Zahl eingeben";
+    }
+
+    if (price.indexOf(".") == -1) {
+      helperText = "Bitte Komma angeben";
+    }
+
+    return helperText;
+  }
+
+  function validateMealNameHelperText() {
+    let helperText = "";
+    if (mealName.length < 1) {
+      helperText = "Bitte Namen eingeben";
+    }
+    return helperText;
+  }
+
   function validatePrice(): boolean {
+    let result = /^[a-zA-Z]+$/.test(price);
+    if (result || price.indexOf(".") == -1) {
+      return true;
+    }
+    if (price.indexOf(".") < 2 && price.length < 2) {
+      return true;
+    }
     if (price.indexOf(".") < 3) {
       return false;
     }
+
     return true;
+  }
+
+  function validateMenuIdError() {
+    if (
+      filteredMeals.length === 0 ||
+      meals.filter((meal) => meal.menuid == menuid).length > 0
+    ) {
+      return true;
+    }
+    if (menuid.length < 1) {
+      return true;
+    }
+
+    let valueMenuid = menuid.match(/\d+/g);
+    if (valueMenuid == null && menuid != "") {
+      return true;
+    }
+
+    return false;
+  }
+
+  function validateMenuName() {
+    if (mealName.length < 1) {
+      return true;
+    }
+
+    return false;
   }
 
   function mealInputBoxes() {
@@ -154,10 +290,7 @@ export function MealmanagerComponent(props: Props) {
           onChange={(menuId) => {
             setMenuid(menuId.currentTarget.value);
           }}
-          error={
-            filteredMeals.length === 0 ||
-            filteredMeals.filter((meal) => meal.menuid == menuid).length > 0
-          }
+          error={validateMenuIdError()}
           helperText={validateMenuIdHelperText()}
         />
         <TextField
@@ -168,6 +301,8 @@ export function MealmanagerComponent(props: Props) {
           onChange={(mealName) => {
             setMealName(mealName.currentTarget.value);
           }}
+          error={validateMenuName()}
+          helperText={validateMealNameHelperText()}
         />
         <TextField
           id="price"
@@ -179,6 +314,7 @@ export function MealmanagerComponent(props: Props) {
             setPrice(dummyPrice);
           }}
           error={validatePrice()}
+          helperText={validatePriceHelpertext()}
         />
         <TextField
           id="ingredients"
@@ -215,10 +351,18 @@ export function MealmanagerComponent(props: Props) {
   return (
     <div style={{ height: "200px" }}>
       <Typography style={{ margin: "10px" }}>Gericht hinzufügen</Typography>
-      <div style={{ display: "flex", justifyContent: "center" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          marginBottom: "20px",
+        }}
+      >
         {mealInputBoxes()}
         {dropdownMenu()}
       </div>
+      <Typography>Gerichte Anzeigen: </Typography>
+
       <ShowMealsComponent></ShowMealsComponent>
     </div>
   );
