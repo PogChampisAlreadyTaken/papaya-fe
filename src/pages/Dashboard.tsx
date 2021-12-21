@@ -16,7 +16,7 @@ export default function Dashboard() {
     <div>
       <Typography>Dashboard</Typography>
       {meals.map((meal) => (
-        <Typography key={meal.id}>{meal.mealName}</Typography>
+        <Typography key={meal.menuid}>{meal.menuid}</Typography>
       ))}
       <Link to="/meals">About</Link>
     </div>
