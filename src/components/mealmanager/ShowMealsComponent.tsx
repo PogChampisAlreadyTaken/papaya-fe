@@ -1,7 +1,5 @@
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import {
-  ListItemButton,
-  ListItemText,
   TableCell,
   TableContainer,
   TableHead,
@@ -36,6 +34,10 @@ export function ShowMealsComponent(props: Props) {
   const [filteredMeals, setfilteredMeals] = React.useState<Meal[]>([]);
   const [open, setOpen] = React.useState(false);
 
+  const handleChange = (event: SelectChangeEvent) => {
+    setselectedMenu(Number(event.target.value));
+  };
+
   React.useEffect(() => {
     updateMeals();
     filteredMeals.sort();
@@ -55,9 +57,11 @@ export function ShowMealsComponent(props: Props) {
       .catch((error) => console.log(error));
   }
 
-  const handleChange = (event: SelectChangeEvent) => {
-    setselectedMenu(Number(event.target.value));
-  };
+  function initDeleteRequest(meal: Meal) {
+    deleteMeal(meal).then(() => {
+      updateMeals();
+    });
+  }
 
   function dropdownMenu() {
     return (
@@ -129,11 +133,6 @@ export function ShowMealsComponent(props: Props) {
         </TableContainer>
       </>
     );
-  }
-  function initDeleteRequest(meal: Meal) {
-    deleteMeal(meal).then(() => {
-      updateMeals();
-    });
   }
 
   return (
