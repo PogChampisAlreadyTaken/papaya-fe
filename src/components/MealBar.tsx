@@ -3,7 +3,7 @@ import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
-
+import { makeStyles } from "@material-ui/core/styles";
 import ListItemText from "@mui/material/ListItemText";
 import { useHref, useNavigate } from "react-router";
 import useQuery from "../config/queryParams";
@@ -16,8 +16,9 @@ const drawerWidth = 240;
 
 export default function MealBar() {
   const navigate = useNavigate();
+  const classes = useStyles();
   const query = useQuery();
-  const [categories, setCategories] = useState<Category[]>([])
+  const [categories, setCategories] = useState<Category[]>([]);
   const initMeals = () => {
     return (
       <>
@@ -26,6 +27,7 @@ export default function MealBar() {
             button
             selected={Number(query.get("id")) === category.id}
             divider
+            classes={{ selected: classes.listItemSelected }}
             key={category.name}
             onClick={() => {
               navigate("?category=" + category.name + "&id=" + category.id);
@@ -40,7 +42,7 @@ export default function MealBar() {
 
   React.useEffect(() => {
     getAllCategories().then(setCategories);
-  }, [])
+  }, []);
 
   return (
     <div style={{ height: "100%" }}>
@@ -50,6 +52,8 @@ export default function MealBar() {
           width: drawerWidth,
           flexShrink: 0,
           "& .MuiDrawer-paper": {
+            color: "white",
+            backgroundColor: "#2d3134f2",
             width: drawerWidth,
             boxSizing: "border-box",
           },
@@ -67,3 +71,9 @@ export default function MealBar() {
     </div>
   );
 }
+
+const useStyles = makeStyles({
+  listItemSelected: {
+    backgroundColor: "#232325fc!important",
+  },
+});
