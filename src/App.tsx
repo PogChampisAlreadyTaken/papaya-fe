@@ -9,6 +9,7 @@ import Dashboard from "./pages/Dashboard";
 import { makeStyles } from "@material-ui/core/styles";
 import { Meal } from "./model";
 import { MealContext } from "./components/context/mealContext";
+import { MealmanagerComponent } from "./components/mealmanager/MealmanagerComponent";
 
 function App() {
   const classes = useStyles();
@@ -56,6 +57,14 @@ function App() {
               element={
                 <PageWrapper>
                   <AdminPanel />
+                </PageWrapper>
+              }
+            />
+            <Route
+              path="mealmanager"
+              element={
+                <PageWrapper>
+                  <MealmanagerComponent />
                 </PageWrapper>
               }
             />
