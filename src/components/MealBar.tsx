@@ -45,9 +45,8 @@ export default function MealBar() {
   }, []);
 
   return (
-    <div style={{ height: "100%" }}>
+    <div>
       <Drawer
-        style={{ height: "100%" }}
         sx={{
           width: drawerWidth,
           flexShrink: 0,

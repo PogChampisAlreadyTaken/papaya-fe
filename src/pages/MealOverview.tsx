@@ -83,6 +83,7 @@ const useStyles = makeStyles({
     width: "50%",
     marginLeft: "10%",
     marginTop: "5%",
+    marginBottom: "5%",
   },
   accordionRoot: {
     color: "white!important",

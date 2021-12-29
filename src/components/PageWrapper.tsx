@@ -15,7 +15,8 @@ export default function PageWrapper(props: React.PropsWithChildren<props>) {
         top: 64,
         left: 240,
         width: "calc(100% - 240px)",
-        height: "100%",
+        overflow: "auto",
+        height: "calc(100% - 64px)",
       }}
     >
       {props.children}
