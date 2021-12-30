@@ -1,5 +1,4 @@
 import * as React from "react";
-import "./App.css";
 import { Homepage } from "./pages/Homepage";
 import AppBar from "./components/CustomAppBar";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -7,15 +6,17 @@ import { MealOverview } from "./pages/MealOverview";
 import PageWrapper from "./components/PageWrapper";
 import AdminPanel from "./pages/AdminPanel";
 import Dashboard from "./pages/Dashboard";
+import { makeStyles } from "@material-ui/core/styles";
 import { Meal } from "./model";
 import { MealContext } from "./components/context/mealContext";
 import { MealmanagerComponent } from "./components/mealmanager/MealmanagerComponent";
 
 function App() {
+  const classes = useStyles();
   const [mealContext, setMealContext] = React.useState<Meal[]>([]);
   return (
     <MealContext.Provider value={[mealContext, setMealContext]}>
-      <div className="App">
+      <div className={classes.app}>
         <AppBar />
         <BrowserRouter>
           <Routes>
@@ -75,3 +76,15 @@ function App() {
 }
 
 export default App;
+
+const useStyles = makeStyles({
+  app: {
+    height: "100vh",
+    width: "100vw",
+    textAlign: "center",
+    backgroundColor: "#000000",
+    backgroundImage: `url(${"background.jpg"})`,
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
+  },
+});
