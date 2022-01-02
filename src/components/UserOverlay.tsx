@@ -11,7 +11,7 @@ export default function UserOverlay() {
     setOverlayContext({ ...overlayContext, openOverlay: false });
   const handleLogin = () => setIsLogin(!isLogin);
   const [overlayContext, setOverlayContext] = React.useContext(OverlayContext);
-  const { openOverlay, message, openMessage } = overlayContext;
+  const { openOverlay } = overlayContext;
 
   return (
     <div>

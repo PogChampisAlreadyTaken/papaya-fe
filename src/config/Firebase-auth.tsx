@@ -2,14 +2,12 @@ import { auth } from "../config/Firebase-config";
 import {
   createUserWithEmailAndPassword,
   FacebookAuthProvider,
-  getRedirectResult,
   GoogleAuthProvider,
   signInWithEmailAndPassword,
   signInWithPopup,
-  signInWithRedirect,
 } from "firebase/auth";
 import logging from "../config/Logging";
-import { getUser, postAddress, postUser } from "../request/userManagement";
+import { postAddress, postUser } from "../request/userManagement";
 
 export function RegisterUser(
   email: string,
@@ -110,7 +108,6 @@ export function LoginUserWithFacebook(props: props) {
 
   signInWithPopup(auth, providerFacebook)
     .then((result) => {
-  
       // The signed-in user info.
       const user = result.user;
 

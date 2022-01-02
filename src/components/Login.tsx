@@ -10,9 +10,6 @@ import {
   LoginUserWithFacebook,
   LoginWithGoogle,
 } from "../config/Firebase-auth";
-import { GoogleAuthProvider, signInWithPopup, getAuth } from "firebase/auth";
-import { FacebookAuthProvider } from "firebase/auth";
-import GoogleLogin from "react-google-login";
 import {
   FacebookLoginButton,
   GoogleLoginButton,
@@ -32,7 +29,6 @@ export default function Login(props: props) {
   const [error, setError] = React.useState<string>("");
 
   const [overlayContext, setOverlayContext] = React.useContext(OverlayContext);
-  const { openOverlay, message, openMessage } = overlayContext;
 
   return (
     <DialogContent>
@@ -106,7 +102,7 @@ export default function Login(props: props) {
           var errorMessage = LoginUser(loginEmail, loginPassword);
 
           setError(errorMessage);
-          if (error == "") {
+          if (error === "") {
             setOverlayContext({
               openOverlay: false,
               message: "Erfolgreich eingeloggt",
