@@ -47,3 +47,27 @@ export async function getAllCategories(): Promise<Category[]> {
 
   return response.json();
 }
+
+
+export async function postMeal(meal: Meal) {
+  const response = await fetch(mealManagerUrl + "/meals", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+    },
+    body: JSON.stringify(meal)
+  });
+  return response;
+}
+
+export async function deleteMeal(meal: Meal) {
+  const response = await fetch(mealManagerUrl + "/meals/" + meal.menuid, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+    },
+  });
+  return response;
+}
