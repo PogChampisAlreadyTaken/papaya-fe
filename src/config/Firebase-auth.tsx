@@ -1,11 +1,15 @@
 import { auth } from "../config/Firebase-config";
 import {
   createUserWithEmailAndPassword,
+  FacebookAuthProvider,
+  getRedirectResult,
+  GoogleAuthProvider,
   signInWithEmailAndPassword,
-  signOut,
+  signInWithPopup,
+  signInWithRedirect,
 } from "firebase/auth";
 import logging from "../config/Logging";
-import { postAddress, postUser } from "../request/userManagement";
+import { getUser, postAddress, postUser } from "../request/userManagement";
 
 export function RegisterUser(
   email: string,
@@ -92,4 +96,59 @@ export function LoginUser(email: string, password: string): string {
     return "Bitte Werte eingeben";
   }
   return "";
+}
+
+interface props {
+  setOpen: (isOpen: boolean) => void;
+}
+
+export function LoginUserWithFacebook(props: props) {
+  const { setOpen } = props;
+
+  //login with facebook
+  const providerFacebook = new FacebookAuthProvider();
+
+  signInWithPopup(auth, providerFacebook)
+    .then((result) => {
+  
+      // The signed-in user info.
+      const user = result.user;
+
+      // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+      const credential = FacebookAuthProvider.credentialFromResult(result);
+      const accessToken = credential?.accessToken;
+
+      // ...
+      setOpen(false);
+    })
+    .catch((error) => {
+      // Handle Errors here.
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // The email of the user's account used.
+      const email = error.email;
+      // The AuthCredential type that was used.
+      const credential = FacebookAuthProvider.credentialFromError(error);
+
+      // ...
+    });
+}
+
+export function LoginWithGoogle(props: props) {
+  const { setOpen } = props;
+
+  //login with google
+  const googleProvider = new GoogleAuthProvider();
+  auth.useDeviceLanguage();
+
+  //sign in on a external page with google
+  signInWithPopup(auth, googleProvider).then(() => {
+    //check if uuid is already in database
+    if (auth.currentUser) {
+      setOpen(false);
+      //getUser(auth.currentUser?.uid).then((result) => {
+      //console.log(result);
+      //});
+    }
+  });
 }

@@ -4,27 +4,26 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
 import Basket from "./Basket";
-import Login from "./Login";
-import Signup from "./Signup";
 import Logout from "./Logout";
 import UserOverlay from "./UserOverlay";
 import { auth } from "../config/Firebase-config";
 import { onAuthStateChanged, User } from "firebase/auth";
+import CloseIcon from "@mui/icons-material/Close";
+import { IconButton } from "@mui/material";
+import Snackbar from "@mui/material/Snackbar";
+import { OverlayContext } from "./context/overlayContext";
 
 export default function CustomAppBar() {
   const [show, setShow] = React.useState(false);
-  const [open, setOpen] = React.useState(false);
   const [user, setUser] = React.useState<User | undefined>(undefined);
-
-  React.useEffect(() => {
-    console.log(auth.currentUser);
-  }, [auth.currentUser]);
+  const [overlayContext, setOverlayContext] = React.useContext(OverlayContext);
+  const { openOverlay, message, openMessage } = overlayContext;
 
   onAuthStateChanged(auth, (currentUser) => {
     if (currentUser) {
       setUser(currentUser);
-    }else{
-      setUser(undefined)
+    } else {
+      setUser(undefined);
     }
   });
 
@@ -50,14 +49,42 @@ export default function CustomAppBar() {
           >
             Warenkorb
           </Button>
-          {open ? <UserOverlay open={open} setOpen={setOpen} /> : <div />}
+          {openOverlay ? <UserOverlay /> : <div />}
           {user == null ? (
-            <Button onClick={() => setOpen(true)} color="inherit">
+            <Button
+              onClick={() =>
+                setOverlayContext({ ...overlayContext, openOverlay: true })
+              }
+              color="inherit"
+            >
               Login
             </Button>
           ) : (
             <Logout />
           )}
+          <Snackbar
+            key={message ? message : undefined}
+            open={openMessage}
+            autoHideDuration={6000}
+            onClose={() => {
+              setOverlayContext({ ...overlayContext, openMessage: false })
+            }}
+            message={message ? message : undefined}
+            action={
+              <React.Fragment>
+                <IconButton
+                  aria-label="close"
+                  color="inherit"
+                  sx={{ p: 0.5 }}
+                  onClick={() => {
+                    setOverlayContext({ ...overlayContext, openMessage: false })
+                  }}
+                >
+                  <CloseIcon />
+                </IconButton>
+              </React.Fragment>
+            }
+          />
         </Toolbar>
       </AppBar>
     </Box>

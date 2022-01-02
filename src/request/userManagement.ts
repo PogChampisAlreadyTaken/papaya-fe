@@ -11,7 +11,7 @@ export async function getHelloUser(): Promise<string> {
   return response.json();
 }
 
-export async function getUser(userId: number) {
+export async function getUser(userId: string) {
   const response = await fetch(userManagementUrl + "/user/" + userId, {
     method: "GET",
     headers: {

@@ -1,4 +1,3 @@
-import * as React from "react";
 import { useState } from "react";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { auth } from "../config/Firebase-config";
@@ -6,17 +5,22 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
 import Divider from "@mui/material/Divider";
 import Checkbox from "@mui/material/Checkbox";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { Typography } from "@mui/material";
 import ErrorText from "./ErrorText/Error";
-import { RegisterUser } from "../config/Firebase-auth";
-import { Login } from "@mui/icons-material";
+import {
+  LoginUserWithFacebook,
+  LoginWithGoogle,
+  RegisterUser,
+} from "../config/Firebase-auth";
+import {
+  FacebookLoginButton,
+  GoogleLoginButton,
+} from "react-social-login-buttons";
 
 interface props {
   handleLogin: () => void;
@@ -54,10 +58,24 @@ export default function Signup(props: props) {
       >
         <CloseIcon />
       </IconButton>
-      <Button onClick={handleClose}>Mit Google anmelden</Button>
+      <GoogleLoginButton
+        onClick={() => {
+          LoginWithGoogle({ setOpen: handleClose });
+        }}
+      >
+        <span>Mit Google anmelden</span>
+      </GoogleLoginButton>
+      <div style={{ height: 5 }} />
       <div>
-        <Button onClick={handleClose}>Mit Facebook anmelden</Button>
+        <FacebookLoginButton
+          onClick={() => {
+            LoginUserWithFacebook({ setOpen: handleClose });
+          }}
+        >
+          <span>Mit Facebook anmelden</span>
+        </FacebookLoginButton>
       </div>
+      <div style={{ height: 30 }} />
       <Divider>oder</Divider>
       <div style={{ height: 30 }} />
       <TextField

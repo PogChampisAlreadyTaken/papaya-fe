@@ -9,19 +9,27 @@ import AdminPanel from "./pages/AdminPanel";
 import Dashboard from "./pages/Dashboard";
 import { Meal } from "./model";
 import { MealContext } from "./components/context/mealContext";
+import { OverlayContext } from "./components/context/overlayContext";
 
 function App() {
   const [mealContext, setMealContext] = React.useState<Meal[]>([]);
+  const [overlayContext, setOverlayContext] = React.useState({
+    openOverlay: false,
+    message: "",
+    openMessage: false
+  });
   return (
     <MealContext.Provider value={[mealContext, setMealContext]}>
       <div className="App">
-        <AppBar />
+        <OverlayContext.Provider value={[overlayContext, setOverlayContext]}>
+          <AppBar />
+        </OverlayContext.Provider>
         <BrowserRouter>
           <Routes>
             <Route
               path="hello"
               element={
-                <PageWrapper>
+                <PageWrapper> 
                   <Homepage />
                 </PageWrapper>
               }
