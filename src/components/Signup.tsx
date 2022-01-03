@@ -209,9 +209,11 @@ export default function Signup(props: props) {
           );
 
           setError(errorMessage);
+
           console.log(error);
 
           handleLogin();
+          handleClose();
         }}
         fullWidth
       >
