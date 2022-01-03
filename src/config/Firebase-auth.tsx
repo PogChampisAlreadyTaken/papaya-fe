@@ -5,9 +5,11 @@ import {
   GoogleAuthProvider,
   signInWithEmailAndPassword,
   signInWithPopup,
+  User,
 } from "firebase/auth";
 import logging from "../config/Logging";
-import { postAddress, postUser } from "../request/userManagement";
+import { getUser, postAddress, postUser } from "../request/userManagement";
+import { Customer } from "../model";
 
 export function RegisterUser(
   email: string,
@@ -46,7 +48,7 @@ export function RegisterUser(
               userCredential.user.uid,
               firstName,
               lastName,
-              JSON.stringify(resultId)
+              resultId
             ).then((response) => {
               console.log(response);
             });
@@ -139,13 +141,21 @@ export function LoginWithGoogle(props: props) {
   auth.useDeviceLanguage();
 
   //sign in on a external page with google
-  signInWithPopup(auth, googleProvider).then(() => {
+  signInWithPopup(auth, googleProvider).then((result) => {
     //check if uuid is already in database
-    if (auth.currentUser) {
-      setOpen(false);
-      //getUser(auth.currentUser?.uid).then((result) => {
-      //console.log(result);
-      //});
-    }
+    const response = getUser(result.user.uid).then((res) => {
+      if (res == null) {
+        //user is not registerd
+        postUser(result.user.uid, "", "", 0);
+        setOpen(false);
+      }
+      return res;
+    });
+
+    setOpen(false);
+    // overlay zum Adresse öffnen
+    //getUser(auth.currentUser?.uid).then((result) => {
+    //console.log(result);
+    //});
   });
 }

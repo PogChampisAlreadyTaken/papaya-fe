@@ -66,11 +66,15 @@ export default function CustomAppBar() {
             <Logout />
           )}
           <Snackbar
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "center",
+            }}
             key={message ? message : undefined}
             open={openMessage}
             autoHideDuration={6000}
             onClose={() => {
-              setOverlayContext({ ...overlayContext, openMessage: false })
+              setOverlayContext({ ...overlayContext, openMessage: false });
             }}
             message={message ? message : undefined}
             action={
@@ -80,7 +84,10 @@ export default function CustomAppBar() {
                   color="inherit"
                   sx={{ p: 0.5 }}
                   onClick={() => {
-                    setOverlayContext({ ...overlayContext, openMessage: false })
+                    setOverlayContext({
+                      ...overlayContext,
+                      openMessage: false,
+                    });
                   }}
                 >
                   <CloseIcon />

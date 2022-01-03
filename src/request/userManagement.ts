@@ -18,8 +18,22 @@ export async function getUser(userId: string) {
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "*",
     },
-  });
-  return response.json();
+  })
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error(response.statusText);
+      }
+    })
+    .then((response) => {
+      return response;
+    })
+    .catch((response) => {
+      return null;
+    });
+  console.log(response);
+  return response;
 }
 
 export async function postAddress(
@@ -50,7 +64,7 @@ export async function postUser(
   id: string,
   last_name: string,
   first_name: string,
-  customer_address_id: string
+  customer_address_id: number
 ) {
   console.log("POST User");
 
