@@ -111,13 +111,14 @@ export function LoginUserWithFacebook(props: props) {
   signInWithPopup(auth, providerFacebook)
     .then((result) => {
       // The signed-in user info.
-      const user = result.user;
-
-      // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-      const credential = FacebookAuthProvider.credentialFromResult(result);
-      const accessToken = credential?.accessToken;
-
-      // ...
+      getUser(result.user.uid).then((res) => {
+        if (res == null) {
+          //user is not registerd
+          postUser(result.user.uid, "", "", 0);
+          setOpen(false);
+        }
+        return res;
+      });
       setOpen(false);
     })
     .catch((error) => {
@@ -143,7 +144,7 @@ export function LoginWithGoogle(props: props) {
   //sign in on a external page with google
   signInWithPopup(auth, googleProvider).then((result) => {
     //check if uuid is already in database
-    const response = getUser(result.user.uid).then((res) => {
+    getUser(result.user.uid).then((res) => {
       if (res == null) {
         //user is not registerd
         postUser(result.user.uid, "", "", 0);
@@ -151,11 +152,6 @@ export function LoginWithGoogle(props: props) {
       }
       return res;
     });
-
     setOpen(false);
-    // overlay zum Adresse öffnen
-    //getUser(auth.currentUser?.uid).then((result) => {
-    //console.log(result);
-    //});
   });
 }
