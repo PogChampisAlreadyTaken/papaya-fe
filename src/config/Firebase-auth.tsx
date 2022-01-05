@@ -1,4 +1,4 @@
-import { auth } from "../config/Firebase-config";
+import app, { auth } from "../config/Firebase-config";
 import {
   createUserWithEmailAndPassword,
   FacebookAuthProvider,
@@ -10,6 +10,9 @@ import {
 import logging from "../config/Logging";
 import { getUser, postAddress, postUser } from "../request/userManagement";
 import { Customer } from "../model";
+import { TryRounded } from "@mui/icons-material";
+import { darkBlack } from "material-ui/styles/colors";
+import firebase from "../config/Firebase-config";
 
 export function RegisterUser(
   email: string,
@@ -150,8 +153,14 @@ export function LoginWithGoogle(props: props) {
         postUser(result.user.uid, "", "", 0);
         setOpen(false);
       }
+
       return res;
     });
+
     setOpen(false);
   });
 }
+
+export function GetAllUsers(props: props) {}
+
+export function ChangePrivilege() {}

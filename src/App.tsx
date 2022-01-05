@@ -7,10 +7,14 @@ import PageWrapper from "./components/PageWrapper";
 import AdminPanel from "./pages/AdminPanel";
 import Dashboard from "./pages/Dashboard";
 import { makeStyles } from "@material-ui/core/styles";
-import { Meal } from "./model";
+import { Customer, Meal } from "./model";
 import { MealContext } from "./components/context/mealContext";
 import { OverlayContext } from "./components/context/overlayContext";
 import { MealmanagerComponent } from "./components/mealmanager/MealmanagerComponent";
+import { CustomerContext } from "./components/context/customerContext";
+import { auth } from "./config/Firebase-config";
+import { ReactKeycloakProvider } from '@react-keycloak/web'
+import keycloak from './keycloak'
 
 function App() {
   const classes = useStyles();
@@ -20,7 +24,10 @@ function App() {
     message: "",
     openMessage: false,
   });
+const [customerContext, setCustomerContext] = React.useState<Customer|undefined>(undefined);
+
   return (
+    <CustomerContext.Provider value={[customerContext, setCustomerContext]}>
     <MealContext.Provider value={[mealContext, setMealContext]}>
       <div className={classes.app}>
         <OverlayContext.Provider value={[overlayContext, setOverlayContext]}>
@@ -80,10 +87,12 @@ function App() {
         </BrowserRouter>
       </div>
     </MealContext.Provider>
+    </CustomerContext.Provider>
   );
 }
 
 export default App;
+
 
 const useStyles = makeStyles({
   app: {

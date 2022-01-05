@@ -13,10 +13,13 @@ import CloseIcon from "@mui/icons-material/Close";
 import { IconButton } from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
 import { OverlayContext } from "./context/overlayContext";
+import { Customer } from "../model";
+import { CustomerContext } from "./context/customerContext";
 
 export default function CustomAppBar() {
   const [show, setShow] = React.useState(false);
   const [user, setUser] = React.useState<User | undefined>(undefined);
+  const [customerContext, setCustomerContext] = React.useContext(CustomerContext); 
   const [overlayContext, setOverlayContext] = React.useContext(OverlayContext);
   const { openOverlay, message, openMessage } = overlayContext;
 
@@ -64,6 +67,11 @@ export default function CustomAppBar() {
             </Button>
           ) : (
             <Logout />
+          )}
+          {customerContext?.role.admin == true ? (
+            <Button>Admin Tools</Button>
+          ) : (
+            <div></div>
           )}
           <Snackbar
             anchorOrigin={{

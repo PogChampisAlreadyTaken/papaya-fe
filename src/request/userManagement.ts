@@ -80,6 +80,8 @@ export async function postUser(
       first_name: first_name,
       customer_address_id: customer_address_id,
     }),
-  });
+  })
   return response.json();
 }
+
+
