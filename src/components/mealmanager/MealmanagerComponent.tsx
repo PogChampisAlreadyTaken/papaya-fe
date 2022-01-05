@@ -11,6 +11,7 @@ import {
   SelectChangeEvent,
   Snackbar,
   Stack,
+  Paper,
 } from "@mui/material";
 
 import * as React from "react";
@@ -340,20 +341,22 @@ export function MealmanagerComponent(props: Props) {
   //final Page
   return (
     <div style={{ height: "200px" }}>
-      <Typography style={{ margin: "10px" }}>Gericht hinzufügen</Typography>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          marginBottom: "20px",
-        }}
-      >
-        {mealInputBoxes()}
-        {dropdownMenu()}
-      </div>
-      <Typography>Gerichte Anzeigen: </Typography>
+      <Paper>
+        <Typography style={{ margin: "10px" }}>Gericht hinzufügen</Typography>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginBottom: "20px",
+          }}
+        >
+          {mealInputBoxes()}
+          {dropdownMenu()}
+        </div>
+        <Typography>Gerichte Anzeigen: </Typography>
 
-      <ShowMealsComponent />
+        <ShowMealsComponent />
+      </Paper>
     </div>
   );
 }

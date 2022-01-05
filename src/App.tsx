@@ -17,8 +17,9 @@ function App() {
   return (
     <MealContext.Provider value={[mealContext, setMealContext]}>
       <div className={classes.app}>
-        <AppBar />
         <BrowserRouter>
+          <AppBar />
+
           <Routes>
             <Route
               path="hello"
@@ -40,7 +41,7 @@ function App() {
               path="/"
               element={
                 <PageWrapper>
-                  <Dashboard />
+                  <MealOverview />
                 </PageWrapper>
               }
             />

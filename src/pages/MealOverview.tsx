@@ -73,7 +73,6 @@ export function MealOverview(props: Props) {
           </Accordion>
         );
       })}
-      <Link to="/">About</Link>
     </div>
   );
 }

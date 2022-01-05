@@ -8,10 +8,12 @@ import Basket from "./Basket";
 import Login from "./Login";
 import Signup from "./Signup";
 import Logout from "./Logout";
+import { useNavigate } from "react-router-dom";
 
 export default function CustomAppBar() {
   const [show, setShow] = React.useState(false);
   const classes = useStyles();
+  const nav = useNavigate();
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -30,6 +32,14 @@ export default function CustomAppBar() {
         <Toolbar>
           <Button
             color="inherit"
+            onClick={() => {
+              nav("/");
+            }}
+          >
+            Home
+          </Button>
+          <Button
+            color="inherit"
             style={{ float: "right" }}
             onClick={() => {
               setShow(!show);
@@ -40,6 +50,9 @@ export default function CustomAppBar() {
           <Login />
           <Signup />
           <Logout />
+          <Button onClick={() => nav("mealmanager")} color="inherit">
+            Gericht Hinzufügen
+          </Button>
         </Toolbar>
       </AppBar>
     </Box>
