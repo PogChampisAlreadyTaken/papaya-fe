@@ -1,14 +1,9 @@
 import Keycloak from "keycloak-js";
 
-let initOptions = {
-  url: "https://0.0.0.0:8445/auth",
+const keycloak = Keycloak({
+  url: "https://keycloak-liimootbm.cloud.okteto.net/auth",
   realm: "Papaya",
-  clientId: "papaya-frontend",
-  onLoad: "login-required",
-};
-
-// Setup Keycloak instance as needed
-// Pass initialization options as required or leave blank to load from 'keycloak.json'
-const keycloak = Keycloak(initOptions);
+  clientId: "papaya-frontend-dev",
+});
 
 export default keycloak;

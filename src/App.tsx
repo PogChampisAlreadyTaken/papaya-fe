@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Homepage } from "./pages/Homepage";
 import AppBar from "./components/CustomAppBar";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, HashRouter, Route, Routes } from "react-router-dom";
 import { MealOverview } from "./pages/MealOverview";
 import PageWrapper from "./components/PageWrapper";
 import AdminPanel from "./pages/AdminPanel";
@@ -13,8 +13,8 @@ import { OverlayContext } from "./components/context/overlayContext";
 import { MealmanagerComponent } from "./components/mealmanager/MealmanagerComponent";
 import { CustomerContext } from "./components/context/customerContext";
 import { auth } from "./config/Firebase-config";
-import { ReactKeycloakProvider } from '@react-keycloak/web'
-import keycloak from './keycloak'
+import { ReactKeycloakProvider, useKeycloak } from "@react-keycloak/web";
+import keycloak from "./keycloak";
 
 function App() {
   const classes = useStyles();
@@ -24,75 +24,93 @@ function App() {
     message: "",
     openMessage: false,
   });
-const [customerContext, setCustomerContext] = React.useState<Customer|undefined>(undefined);
+  const [customerContext, setCustomerContext] = React.useState<
+    Customer | undefined
+  >(undefined);
+
+  const eventLogger = (event: unknown, error: unknown) => {
+    console.log("onKeycloakEvent", event, error);
+  };
+
+  const tokenLogger = (tokens: unknown) => {
+    console.log("onKeycloakTokens", tokens);
+  };
 
   return (
-    <CustomerContext.Provider value={[customerContext, setCustomerContext]}>
-    <MealContext.Provider value={[mealContext, setMealContext]}>
-      <div className={classes.app}>
-        <OverlayContext.Provider value={[overlayContext, setOverlayContext]}>
-          <AppBar />
-        </OverlayContext.Provider>
-        <BrowserRouter>
-          <Routes>
-            <Route
-              path="hello"
-              element={
-                <PageWrapper>
-                  <Homepage />
-                </PageWrapper>
-              }
-            />
-            <Route
-              path="dashboard"
-              element={
-                <PageWrapper>
-                  <Dashboard />
-                </PageWrapper>
-              }
-            />
-            <Route
-              path="/"
-              element={
-                <PageWrapper>
-                  <Dashboard />
-                </PageWrapper>
-              }
-            />
-            <Route
-              path="meals"
-              element={
-                <PageWrapper>
-                  <MealOverview />
-                </PageWrapper>
-              }
-            />
-            <Route
-              path="admin"
-              element={
-                <PageWrapper>
-                  <AdminPanel />
-                </PageWrapper>
-              }
-            />
-            <Route
-              path="mealmanager"
-              element={
-                <PageWrapper>
-                  <MealmanagerComponent />
-                </PageWrapper>
-              }
-            />
-          </Routes>
-        </BrowserRouter>
-      </div>
-    </MealContext.Provider>
-    </CustomerContext.Provider>
+    <ReactKeycloakProvider
+      authClient={keycloak}
+      onEvent={eventLogger}
+      onTokens={tokenLogger}
+      initOptions={{ checkLoginIframe: false }}
+    >
+      <CustomerContext.Provider value={[customerContext, setCustomerContext]}>
+        <MealContext.Provider value={[mealContext, setMealContext]}>
+          <div className={classes.app}>
+            <OverlayContext.Provider
+              value={[overlayContext, setOverlayContext]}
+            >
+              <AppBar />
+            </OverlayContext.Provider>
+            <BrowserRouter>
+              <Routes>
+                <Route
+                  path="hello"
+                  element={
+                    <PageWrapper>
+                      <Homepage />
+                    </PageWrapper>
+                  }
+                />
+                <Route
+                  path="dashboard"
+                  element={
+                    <PageWrapper>
+                      <Dashboard />
+                    </PageWrapper>
+                  }
+                />
+                <Route
+                  path="/"
+                  element={
+                    <PageWrapper>
+                      <Dashboard />
+                    </PageWrapper>
+                  }
+                />
+                <Route
+                  path="meals"
+                  element={
+                    <PageWrapper>
+                      <MealOverview />
+                    </PageWrapper>
+                  }
+                />
+                <Route
+                  path="admin"
+                  element={
+                    <PageWrapper>
+                      <AdminPanel />
+                    </PageWrapper>
+                  }
+                />
+                <Route
+                  path="mealmanager"
+                  element={
+                    <PageWrapper>
+                      <MealmanagerComponent />
+                    </PageWrapper>
+                  }
+                />
+              </Routes>
+            </BrowserRouter>
+          </div>
+        </MealContext.Provider>
+      </CustomerContext.Provider>
+    </ReactKeycloakProvider>
   );
 }
 
 export default App;
-
 
 const useStyles = makeStyles({
   app: {

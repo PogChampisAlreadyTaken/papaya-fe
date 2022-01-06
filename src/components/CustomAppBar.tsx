@@ -15,13 +15,16 @@ import Snackbar from "@mui/material/Snackbar";
 import { OverlayContext } from "./context/overlayContext";
 import { Customer } from "../model";
 import { CustomerContext } from "./context/customerContext";
+import { useKeycloak } from "@react-keycloak/web";
 
 export default function CustomAppBar() {
   const [show, setShow] = React.useState(false);
   const [user, setUser] = React.useState<User | undefined>(undefined);
-  const [customerContext, setCustomerContext] = React.useContext(CustomerContext); 
+  const [customerContext, setCustomerContext] =
+    React.useContext(CustomerContext);
   const [overlayContext, setOverlayContext] = React.useContext(OverlayContext);
   const { openOverlay, message, openMessage } = overlayContext;
+  const { keycloak, initialized } = useKeycloak();
 
   onAuthStateChanged(auth, (currentUser) => {
     if (currentUser) {
@@ -56,10 +59,11 @@ export default function CustomAppBar() {
             Warenkorb
           </Button>
           {openOverlay ? <UserOverlay /> : <div />}
-          {user == null ? (
+          {!keycloak.authenticated ? (
             <Button
-              onClick={() =>
-                setOverlayContext({ ...overlayContext, openOverlay: true })
+              onClick={
+                () => keycloak.login()
+                //setOverlayContext({ ...overlayContext, openOverlay: true })
               }
               color="inherit"
             >

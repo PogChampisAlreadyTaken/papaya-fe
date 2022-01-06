@@ -16,12 +16,16 @@ import {
 } from "react-social-login-buttons";
 import { OverlayContext } from "./context/overlayContext";
 
+
+import { useKeycloak } from "@react-keycloak/web";
+
 interface props {
   handleLogin: () => void;
 }
 
 export default function Login(props: props) {
   const { handleLogin } = props;
+  const { keycloak, initialized } = useKeycloak();
 
   //handling userinput
   const [loginEmail, setLoginEmail] = React.useState("");

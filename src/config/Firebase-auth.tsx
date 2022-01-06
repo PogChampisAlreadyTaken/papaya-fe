@@ -14,6 +14,9 @@ import { TryRounded } from "@mui/icons-material";
 import { darkBlack } from "material-ui/styles/colors";
 import firebase from "../config/Firebase-config";
 
+import { useKeycloak } from '@react-keycloak/web'
+import keycloak from "../keycloak";
+
 export function RegisterUser(
   email: string,
   password: string,
@@ -30,6 +33,11 @@ export function RegisterUser(
   } else {
     //todo: validate email:  setError("Die angegebeneE-Mail ist nicht gültig");
     //validate input!
+
+    //keycloak.register()
+
+
+
     //create user in firebase
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
