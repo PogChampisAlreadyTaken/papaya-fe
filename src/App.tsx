@@ -48,10 +48,9 @@ function App() {
           <div className={classes.app}>
             <OverlayContext.Provider
               value={[overlayContext, setOverlayContext]}
-            >
-              <AppBar />
-            </OverlayContext.Provider>
+            ></OverlayContext.Provider>
             <BrowserRouter>
+              <AppBar />
               <Routes>
                 <Route
                   path="hello"
@@ -73,7 +72,7 @@ function App() {
                   path="/"
                   element={
                     <PageWrapper>
-                      <Dashboard />
+                      <MealOverview />
                     </PageWrapper>
                   }
                 />

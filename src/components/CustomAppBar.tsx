@@ -13,6 +13,7 @@ import Basket from "./Basket";
 import { CustomerContext } from "./context/customerContext";
 import { OverlayContext } from "./context/overlayContext";
 import Logout from "./Logout";
+import { useNavigate } from "react-router-dom";
 
 export default function CustomAppBar() {
   const [show, setShow] = React.useState(false);
@@ -24,6 +25,7 @@ export default function CustomAppBar() {
   const { keycloak, initialized } = useKeycloak();
 
   const classes = useStyles();
+  const nav = useNavigate();
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -39,6 +41,14 @@ export default function CustomAppBar() {
         {show && <Basket />}
 
         <Toolbar>
+          <Button
+            color="inherit"
+            onClick={() => {
+              nav("/");
+            }}
+          >
+            Home
+          </Button>
           <Button
             color="inherit"
             style={{ float: "right" }}
@@ -95,6 +105,9 @@ export default function CustomAppBar() {
               </React.Fragment>
             }
           />
+          <Button onClick={() => nav("mealmanager")} color="inherit">
+            Gericht Hinzufügen
+          </Button>
         </Toolbar>
       </AppBar>
     </Box>

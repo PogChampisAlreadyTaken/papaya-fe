@@ -35,6 +35,7 @@ export function MealOverview(props: Props) {
   React.useEffect(() => {
     let id = Number(query.get("id"));
     let updatedMeals = meals.filter((meal) => meal.categoryid === id);
+    updatedMeals.sort((a, b) => (a.menuid > b.menuid ? 1 : -1));
     setupdatedMeals(updatedMeals);
   }, [loc.search, meals]);
 
@@ -73,7 +74,6 @@ export function MealOverview(props: Props) {
           </Accordion>
         );
       })}
-      <Link to="/">About</Link>
     </div>
   );
 }
