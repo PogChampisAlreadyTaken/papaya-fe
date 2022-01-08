@@ -14,7 +14,7 @@ import { MealmanagerComponent } from "./components/mealmanager/MealmanagerCompon
 import { CustomerContext } from "./components/context/customerContext";
 import { auth } from "./config/Firebase-config";
 import { ReactKeycloakProvider, useKeycloak } from "@react-keycloak/web";
-import keycloak from "./keycloak";
+import keycloak, { onKeycloakEvent } from "./keycloak";
 
 function App() {
   const classes = useStyles();
@@ -39,9 +39,9 @@ function App() {
   return (
     <ReactKeycloakProvider
       authClient={keycloak}
-      onEvent={eventLogger}
+      onEvent={onKeycloakEvent}
       onTokens={tokenLogger}
-      initOptions={{ checkLoginIframe: false }}
+      initOptions={{ checkLoginIframe: true }}
     >
       <CustomerContext.Provider value={[customerContext, setCustomerContext]}>
         <MealContext.Provider value={[mealContext, setMealContext]}>

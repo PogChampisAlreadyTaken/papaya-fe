@@ -1,4 +1,5 @@
 import { userManagementUrl } from "../endpoints";
+import keycloak from "../keycloak";
 
 export async function getHelloUser(): Promise<string> {
   const response = await fetch(userManagementUrl + "/hello", {
@@ -11,28 +12,17 @@ export async function getHelloUser(): Promise<string> {
   return response.json();
 }
 
-export async function getUser(userId: string) {
+export async function getUser(userId: string | undefined) {
+  //todo: maybe change to axios?
   const response = await fetch(userManagementUrl + "/user/" + userId, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "*",
+      Authorization: "Bearer " + keycloak.token,
     },
-  })
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      } else {
-        throw new Error(response.statusText);
-      }
-    })
-    .then((response) => {
-      return response;
-    })
-    .catch((response) => {
-      return null;
-    });
-  console.log(response);
+  });
+  console.log(JSON.stringify(response.body));
   return response;
 }
 
@@ -49,6 +39,7 @@ export async function postAddress(
     headers: {
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "*",
+      Authorization: "Bearer " + keycloak.token,
     },
     body: JSON.stringify({
       city: city,
@@ -61,10 +52,10 @@ export async function postAddress(
 }
 
 export async function postUser(
-  id: string,
-  last_name: string,
-  first_name: string,
-  customer_address_id: number
+  id?: string,
+  last_name?: string,
+  first_name?: string,
+  customer_address_id?: number
 ) {
   console.log("POST User");
 
@@ -73,6 +64,7 @@ export async function postUser(
     headers: {
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "*",
+      Authorization: "Bearer " + keycloak.token,
     },
     body: JSON.stringify({
       id: id,
@@ -80,8 +72,6 @@ export async function postUser(
       first_name: first_name,
       customer_address_id: customer_address_id,
     }),
-  })
+  });
   return response.json();
 }
-
-

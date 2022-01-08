@@ -1,21 +1,18 @@
-import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
 import { makeStyles } from "@material-ui/core/styles";
-import Button from "@mui/material/Button";
-import Basket from "./Basket";
-import Logout from "./Logout";
-import UserOverlay from "./UserOverlay";
-import { auth } from "../config/Firebase-config";
-import { onAuthStateChanged, User } from "firebase/auth";
 import CloseIcon from "@mui/icons-material/Close";
 import { IconButton } from "@mui/material";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import Snackbar from "@mui/material/Snackbar";
-import { OverlayContext } from "./context/overlayContext";
-import { Customer } from "../model";
-import { CustomerContext } from "./context/customerContext";
+import Toolbar from "@mui/material/Toolbar";
 import { useKeycloak } from "@react-keycloak/web";
+import { User } from "firebase/auth";
+import * as React from "react";
+import Basket from "./Basket";
+import { CustomerContext } from "./context/customerContext";
+import { OverlayContext } from "./context/overlayContext";
+import Logout from "./Logout";
 
 export default function CustomAppBar() {
   const [show, setShow] = React.useState(false);
@@ -26,13 +23,6 @@ export default function CustomAppBar() {
   const { openOverlay, message, openMessage } = overlayContext;
   const { keycloak, initialized } = useKeycloak();
 
-  onAuthStateChanged(auth, (currentUser) => {
-    if (currentUser) {
-      setUser(currentUser);
-    } else {
-      setUser(undefined);
-    }
-  });
   const classes = useStyles();
 
   return (
@@ -58,13 +48,11 @@ export default function CustomAppBar() {
           >
             Warenkorb
           </Button>
-          {openOverlay ? <UserOverlay /> : <div />}
           {!keycloak.authenticated ? (
             <Button
-              onClick={
-                () => keycloak.login()
-                //setOverlayContext({ ...overlayContext, openOverlay: true })
-              }
+              onClick={() => {
+                keycloak.login();
+              }}
               color="inherit"
             >
               Login
@@ -72,7 +60,7 @@ export default function CustomAppBar() {
           ) : (
             <Logout />
           )}
-          {customerContext?.role.admin == true ? (
+          {keycloak.hasResourceRole("admin") == true ? (
             <Button>Admin Tools</Button>
           ) : (
             <div></div>
