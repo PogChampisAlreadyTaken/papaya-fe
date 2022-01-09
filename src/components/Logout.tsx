@@ -1,11 +1,20 @@
-import { signOut } from "@firebase/auth";
 import { Button } from "@mui/material";
+import { useKeycloak } from "@react-keycloak/web";
 import React from "react";
-import { auth } from "../config/Firebase-config";
+import { OverlayContext } from "./context/overlayContext";
 
 export default function Logout() {
+  const [overlayContext, setOverlayContext] = React.useContext(OverlayContext);
+  const { keycloak } = useKeycloak();
+
   const logout = async () => {
-    await signOut(auth);
+    setOverlayContext({
+      ...overlayContext,
+      openMessage: true,
+      message: "Erfolgreich ausgeloggt",
+    });
+
+    keycloak.logout();
   };
 
   return (
