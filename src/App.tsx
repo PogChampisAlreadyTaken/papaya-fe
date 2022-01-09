@@ -15,6 +15,7 @@ import { CustomerContext } from "./components/context/customerContext";
 import { auth } from "./config/Firebase-config";
 import { ReactKeycloakProvider, useKeycloak } from "@react-keycloak/web";
 import keycloak, { onKeycloakEvent } from "./keycloak";
+import AdminRoute from "./helpers/PrivateRoute";
 
 function App() {
   const classes = useStyles();
@@ -100,7 +101,9 @@ function App() {
                   path="mealmanager"
                   element={
                     <PageWrapper>
-                      <MealmanagerComponent />
+                      <AdminRoute>
+                        <MealmanagerComponent />
+                      </AdminRoute>
                     </PageWrapper>
                   }
                 />
