@@ -20,7 +20,7 @@ function App() {
   const classes = useStyles();
   const [mealContext, setMealContext] = React.useState<Meal[]>([]);
   const [overlayContext, setOverlayContext] = React.useState({
-    openOverlay: false,
+    open: false,
     message: "",
     openMessage: false,
   });
@@ -50,7 +50,9 @@ function App() {
               value={[overlayContext, setOverlayContext]}
             ></OverlayContext.Provider>
             <BrowserRouter>
-              <AppBar />
+                <OverlayContext.Provider value={[overlayContext, setOverlayContext]}>
+          <AppBar />
+        </OverlayContext.Provider>
               <Routes>
                 <Route
                   path="hello"

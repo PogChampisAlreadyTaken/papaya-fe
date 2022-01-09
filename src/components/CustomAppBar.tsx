@@ -14,6 +14,9 @@ import { CustomerContext } from "./context/customerContext";
 import { OverlayContext } from "./context/overlayContext";
 import Logout from "./Logout";
 import { useNavigate } from "react-router-dom";
+import UserOverlay from "./usermanagement/UserOverlay";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { getAddress, getUser } from "../request/userManagement";
 
 export default function CustomAppBar() {
   const [show, setShow] = React.useState(false);
@@ -21,7 +24,7 @@ export default function CustomAppBar() {
   const [customerContext, setCustomerContext] =
     React.useContext(CustomerContext);
   const [overlayContext, setOverlayContext] = React.useContext(OverlayContext);
-  const { openOverlay, message, openMessage } = overlayContext;
+  const { open, message, openMessage } = overlayContext;
   const { keycloak, initialized } = useKeycloak();
 
   const classes = useStyles();
@@ -70,6 +73,25 @@ export default function CustomAppBar() {
           ) : (
             <Logout />
           )}
+          {!keycloak.authenticated ? (
+            <div />
+          ) : (
+            <IconButton
+              onClick={() => {
+                const response = getUser(keycloak.subject).then((user) => {
+                  getAddress(user.customer_address_id).then((address) => {
+                    user.address = address;
+                    setCustomerContext(user);
+                  });
+                });
+                setOverlayContext({ ...overlayContext, open: true });
+              }}
+              color="inherit"
+            >
+              <AccountCircleIcon />
+            </IconButton>
+          )}
+          {open ? <UserOverlay /> : <div />}
           {keycloak.hasResourceRole("admin") == true ? (
             <Button>Admin Tools</Button>
           ) : (
@@ -105,9 +127,13 @@ export default function CustomAppBar() {
               </React.Fragment>
             }
           />
-          <Button onClick={() => nav("mealmanager")} color="inherit">
-            Gericht Hinzufügen
-          </Button>
+          {keycloak.hasResourceRole("admin") == true ? (
+            <Button onClick={() => nav("mealmanager")} color="inherit">
+              Gericht Hinzufügen
+            </Button>
+          ) : (
+            <div></div>
+          )}
         </Toolbar>
       </AppBar>
     </Box>
