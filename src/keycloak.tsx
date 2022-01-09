@@ -7,7 +7,7 @@ const keycloak = Keycloak({
   clientId:
     window.location.hostname === "localhost"
       ? "papaya-frontend-dev"
-      : "papaya-frontned",
+      : "papaya-frontend",
 });
 
 export const onKeycloakEvent = (event: unknown) => {
