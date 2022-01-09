@@ -4,7 +4,10 @@ import { getUser, postUser } from "./request/userManagement";
 const keycloak = Keycloak({
   url: "https://keycloak-liimootbm.cloud.okteto.net/auth",
   realm: "Papaya",
-  clientId: "papaya-frontend-dev",
+  clientId:
+    window.location.hostname === "localhost"
+      ? "papaya-frontend-dev"
+      : "papaya-frontned",
 });
 
 export const onKeycloakEvent = (event: unknown) => {

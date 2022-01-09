@@ -50,9 +50,11 @@ function App() {
               value={[overlayContext, setOverlayContext]}
             ></OverlayContext.Provider>
             <BrowserRouter>
-                <OverlayContext.Provider value={[overlayContext, setOverlayContext]}>
-          <AppBar />
-        </OverlayContext.Provider>
+              <OverlayContext.Provider
+                value={[overlayContext, setOverlayContext]}
+              >
+                <AppBar />
+              </OverlayContext.Provider>
               <Routes>
                 <Route
                   path="hello"
