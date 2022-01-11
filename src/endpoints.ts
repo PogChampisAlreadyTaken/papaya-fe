@@ -7,4 +7,6 @@ export const userManagementUrl =
     ? "http://localhost:8080"
     : "https://papaya-usermanagement-be-liimootbm.cloud.okteto.net";
 export const orderingSystemUrl =
-  "https://papaya-orderingsystem-be-liimootbm.cloud.okteto.net";
+  window.location.hostname === "localhost"
+    ? "http://localhost:8080/"
+    : "https://papaya-orderingsystem-be-liimootbm.cloud.okteto.net";
