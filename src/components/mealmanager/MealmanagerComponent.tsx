@@ -12,6 +12,7 @@ import {
   Snackbar,
   Stack,
   Paper,
+  Divider,
 } from "@mui/material";
 
 import * as React from "react";
@@ -342,7 +343,13 @@ export function MealmanagerComponent(props: Props) {
   return (
     <div style={{ height: "200px" }}>
       <Paper>
-        <Typography style={{ margin: "10px" }}>Gericht hinzufügen</Typography>
+        <div style={{ height: "30px" }} />
+        <Typography style={{ margin: "10px", fontSize: "30px" }}>
+          Gerichte hinzufügen
+        </Typography>
+        <div style={{ height: "30px" }} />
+        <Divider></Divider>
+        <div style={{ height: "30px" }} />
         <div
           style={{
             display: "flex",

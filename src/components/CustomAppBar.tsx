@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 import UserOverlay from "./usermanagement/UserOverlay";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { getAddress, getUser } from "../request/userManagement";
+import AdminMenu from "./AdminMenu";
 
 export default function CustomAppBar() {
   const [show, setShow] = React.useState(false);
@@ -52,15 +53,20 @@ export default function CustomAppBar() {
           >
             Home
           </Button>
-          <Button
-            color="inherit"
-            style={{ float: "right" }}
-            onClick={() => {
-              setShow(!show);
-            }}
-          >
-            Warenkorb
-          </Button>
+          {keycloak.hasRealmRole("admin") == false ? (
+            <Button
+              color="inherit"
+              style={{ float: "right" }}
+              onClick={() => {
+                setShow(!show);
+              }}
+            >
+              Warenkorb
+            </Button>
+          ) : (
+            <div />
+          )}
+
           {!keycloak.authenticated ? (
             <Button
               onClick={() => {
@@ -78,6 +84,7 @@ export default function CustomAppBar() {
           ) : (
             <IconButton
               onClick={() => {
+                console.log(keycloak.hasRealmRole("admin"));
                 const response = getUser(keycloak.subject).then((user) => {
                   getAddress(user.customer_address_id).then((address) => {
                     user.address = address;
@@ -92,11 +99,6 @@ export default function CustomAppBar() {
             </IconButton>
           )}
           {open ? <UserOverlay /> : <div />}
-          {keycloak.hasResourceRole("admin") == true ? (
-            <Button>Admin Tools</Button>
-          ) : (
-            <div></div>
-          )}
           <Snackbar
             anchorOrigin={{
               vertical: "bottom",
@@ -127,16 +129,19 @@ export default function CustomAppBar() {
               </React.Fragment>
             }
           />
-          {keycloak.hasResourceRole("admin") == true ? (
-            <Button onClick={() => nav("mealmanager")} color="inherit">
-              Gericht Hinzufügen
+          {keycloak.hasRealmRole("admin") == false ? (
+            <Button
+              color="inherit"
+              onClick={() => {
+                nav("reservation");
+              }}
+            >
+              Tisch reservieren
             </Button>
           ) : (
             <div></div>
           )}
-          <Button color="inherit" onClick={() => nav("reservation")}>
-            Tisch reservieren
-          </Button>
+          <AdminMenu></AdminMenu>
         </Toolbar>
       </AppBar>
     </Box>

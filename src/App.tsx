@@ -4,7 +4,6 @@ import AppBar from "./components/CustomAppBar";
 import { BrowserRouter, HashRouter, Route, Routes } from "react-router-dom";
 import { MealOverview } from "./pages/MealOverview";
 import PageWrapper from "./components/PageWrapper";
-import AdminPanel from "./pages/AdminPanel";
 import Dashboard from "./pages/Dashboard";
 import { makeStyles } from "@material-ui/core/styles";
 import { Customer, Meal } from "./model";
@@ -20,6 +19,8 @@ import Reservation from "./components/Reservation";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import { de } from "date-fns/locale";
+import TimemanagerComponent from "./components/usermanagement/TimemanagerComponent";
+import DeliverAreaComponent from "./components/usermanagement/DeliverAreaComponent";
 
 function App() {
   const classes = useStyles();
@@ -102,21 +103,32 @@ function App() {
                       </PageWrapper>
                     }
                   />
-
-                  <Route
-                    path="admin"
-                    element={
-                      <PageWrapper>
-                        <AdminPanel />
-                      </PageWrapper>
-                    }
-                  />
                   <Route
                     path="mealmanager"
                     element={
                       <PageWrapper>
                         <AdminRoute>
                           <MealmanagerComponent />
+                        </AdminRoute>
+                      </PageWrapper>
+                    }
+                  />
+                  <Route
+                    path="timemanager"
+                    element={
+                      <PageWrapper>
+                        <AdminRoute>
+                          <TimemanagerComponent />
+                        </AdminRoute>
+                      </PageWrapper>
+                    }
+                  />
+                  <Route
+                    path="delivermanager"
+                    element={
+                      <PageWrapper>
+                        <AdminRoute>
+                          <DeliverAreaComponent />
                         </AdminRoute>
                       </PageWrapper>
                     }
