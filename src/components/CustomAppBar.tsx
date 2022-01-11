@@ -141,7 +141,11 @@ export default function CustomAppBar() {
           ) : (
             <div></div>
           )}
-          <AdminMenu></AdminMenu>
+          {keycloak.hasRealmRole("admin") == true ? (
+            <AdminMenu></AdminMenu>
+          ) : (
+            <div></div>
+          )}
         </Toolbar>
       </AppBar>
     </Box>
