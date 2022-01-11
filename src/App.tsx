@@ -16,6 +16,10 @@ import { auth } from "./config/Firebase-config";
 import { ReactKeycloakProvider, useKeycloak } from "@react-keycloak/web";
 import keycloak, { onKeycloakEvent } from "./keycloak";
 import AdminRoute from "./helpers/PrivateRoute";
+import Reservation from "./components/Reservation";
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
+import { de } from "date-fns/locale";
 
 function App() {
   const classes = useStyles();
@@ -56,58 +60,69 @@ function App() {
               >
                 <AppBar />
               </OverlayContext.Provider>
-              <Routes>
-                <Route
-                  path="hello"
-                  element={
-                    <PageWrapper>
-                      <Homepage />
-                    </PageWrapper>
-                  }
-                />
-                <Route
-                  path="dashboard"
-                  element={
-                    <PageWrapper>
-                      <Dashboard />
-                    </PageWrapper>
-                  }
-                />
-                <Route
-                  path="/"
-                  element={
-                    <PageWrapper>
-                      <MealOverview />
-                    </PageWrapper>
-                  }
-                />
-                <Route
-                  path="meals"
-                  element={
-                    <PageWrapper>
-                      <MealOverview />
-                    </PageWrapper>
-                  }
-                />
-                <Route
-                  path="admin"
-                  element={
-                    <PageWrapper>
-                      <AdminPanel />
-                    </PageWrapper>
-                  }
-                />
-                <Route
-                  path="mealmanager"
-                  element={
-                    <PageWrapper>
-                      <AdminRoute>
-                        <MealmanagerComponent />
-                      </AdminRoute>
-                    </PageWrapper>
-                  }
-                />
-              </Routes>
+              <LocalizationProvider dateAdapter={AdapterDateFns} locale={de}>
+                <Routes>
+                  <Route
+                    path="hello"
+                    element={
+                      <PageWrapper>
+                        <Homepage />
+                      </PageWrapper>
+                    }
+                  />
+                  <Route
+                    path="dashboard"
+                    element={
+                      <PageWrapper>
+                        <Dashboard />
+                      </PageWrapper>
+                    }
+                  />
+                  <Route
+                    path="/"
+                    element={
+                      <PageWrapper>
+                        <MealOverview />
+                      </PageWrapper>
+                    }
+                  />
+                  <Route
+                    path="meals"
+                    element={
+                      <PageWrapper>
+                        <MealOverview />
+                      </PageWrapper>
+                    }
+                  />
+                  <Route
+                    path="reservation"
+                    element={
+                      <PageWrapper>
+                        <Reservation />
+                      </PageWrapper>
+                    }
+                  />
+
+                  <Route
+                    path="admin"
+                    element={
+                      <PageWrapper>
+                        <AdminPanel />
+                      </PageWrapper>
+                    }
+                  />
+                  <Route
+                    path="mealmanager"
+                    element={
+                      <PageWrapper>
+                        <AdminRoute>
+                          <MealmanagerComponent />
+                        </AdminRoute>
+                      </PageWrapper>
+                    }
+                  />
+                </Routes>
+              </LocalizationProvider>
             </BrowserRouter>
           </div>
         </MealContext.Provider>

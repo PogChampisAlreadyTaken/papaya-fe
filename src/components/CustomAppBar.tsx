@@ -134,6 +134,9 @@ export default function CustomAppBar() {
           ) : (
             <div></div>
           )}
+          <Button color="inherit" onClick={() => nav("reservation")}>
+            Tisch reservieren
+          </Button>
         </Toolbar>
       </AppBar>
     </Box>
