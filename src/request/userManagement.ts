@@ -2,17 +2,6 @@ import { userManagementUrl } from "../endpoints";
 import keycloak from "../keycloak";
 import { Address, Customer } from "../model";
 
-export async function getHelloUser(): Promise<string> {
-  const response = await fetch(userManagementUrl + "/hello", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
-    },
-  });
-  return response.json();
-}
-
 export function getUser(userId: string | undefined): Promise<Customer> {
   //todo: maybe change to axios?
   const response = fetch(userManagementUrl + "/user/" + userId, {
@@ -148,4 +137,34 @@ export async function getAddress(id?: number): Promise<Address> {
     }
   });
   return response;
+}
+
+export async function getDeliverTime(): Promise<number> {
+  const response = await fetch(
+    userManagementUrl + "/timemanagement/delivertime",
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+    }
+  );
+  return response.json();
+}
+
+export async function updateDeliverTime(delivertime: number) {
+  console.log("PUT User");
+  await fetch(userManagementUrl + "/timemanagement/delivertime", {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+      Authorization: "Bearer " + keycloak.token,
+    },
+    body: JSON.stringify({
+      id: "1",
+      time_in_minutes: delivertime,
+    }),
+  });
 }
