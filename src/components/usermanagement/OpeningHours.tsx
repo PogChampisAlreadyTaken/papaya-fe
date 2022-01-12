@@ -40,13 +40,7 @@ export default function OpeningHours() {
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
-          <TableRow>
-            <TableCell sx={{ fontStyle: "bold" }}>Wochentag</TableCell>
-            <TableCell align="right"></TableCell>
-            <TableCell align="right"></TableCell>
-            <TableCell align="right"></TableCell>
-            <TableCell align="right"></TableCell>
-          </TableRow>
+          <TableRow></TableRow>
         </TableHead>
         <TableBody>
           {rows.map((row) => (

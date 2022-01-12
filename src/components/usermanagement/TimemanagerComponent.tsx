@@ -16,12 +16,22 @@ import "react-phone-number-input/style.css";
 
 import { getFreeTable } from "../../request/orderingSystem";
 import OpeningHours from "./OpeningHours";
+import {
+  getDeliverTime,
+  updateDeliverTime,
+} from "../../request/userManagement";
+import ActionYoutubeSearchedFor from "material-ui/svg-icons/action/youtube-searched-for";
 
 export default function TimemanagerComponent() {
   const nav = useNavigate();
-  const [deliverTime, setDeliverTime] = React.useState<String>("50");
+  const [deliverTime, setDeliverTime] = React.useState<string>("");
   const [showButton, setShowButton] = React.useState<boolean>(false);
 
+  React.useEffect(() => {
+    getDeliverTime().then((time) => {
+      setDeliverTime(time.toString());
+    });
+  }, []);
   return (
     <div style={{ height: "300px" }}>
       <Paper style={{ backgroundColor: "#white", opacity: "95%" }}>
@@ -50,8 +60,9 @@ export default function TimemanagerComponent() {
         {showButton ? (
           <Button
             onClick={() => {
+              const changedTime = parseInt(deliverTime);
+              updateDeliverTime(changedTime);
               setShowButton(false);
-              console.log(deliverTime);
             }}
           >
             Lieferzeit einstellen

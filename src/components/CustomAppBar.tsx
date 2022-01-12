@@ -53,19 +53,16 @@ export default function CustomAppBar() {
           >
             Home
           </Button>
-          {keycloak.hasRealmRole("admin") == false ? (
-            <Button
-              color="inherit"
-              style={{ float: "right" }}
-              onClick={() => {
-                setShow(!show);
-              }}
-            >
-              Warenkorb
-            </Button>
-          ) : (
-            <div />
-          )}
+
+          <Button
+            color="inherit"
+            style={{ float: "right" }}
+            onClick={() => {
+              setShow(!show);
+            }}
+          >
+            Warenkorb
+          </Button>
 
           {!keycloak.authenticated ? (
             <Button
