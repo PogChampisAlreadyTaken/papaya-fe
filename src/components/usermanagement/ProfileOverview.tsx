@@ -42,17 +42,27 @@ export default function ProfileOverview(props: props) {
       </IconButton>
       <div>
         <EmojiEmotionsIcon style={{ fontSize: 70 }} />
-        <Typography>{customerContext?.first_name}</Typography>
-        <Typography>{customerContext?.last_name}</Typography>
+        <Typography>
+          {customerContext?.first_name}
+          {}
+        </Typography>
+        <Typography>
+          {customerContext?.last_name}
+          {}
+        </Typography>
+        <div style={{ height: "20px" }} />
         <Divider>Lieferaddresse</Divider>
-        <Typography> {customerContext?.address?.street}</Typography>
-        <Typography> {customerContext?.address?.house_number}</Typography>
-        <Typography> {customerContext?.address?.zip}</Typography>
-        <Typography> {customerContext?.address?.city}</Typography>
-
-        <Typography>{customerContext?.customer_address_id}</Typography>
+        <div style={{ height: "20px" }} />
+        <Typography>
+          {customerContext?.address?.street}{" "}
+          {customerContext?.address?.house_number}
+        </Typography>
+        <Typography>
+          {" "}
+          {customerContext?.address?.zip} {customerContext?.address?.city}
+        </Typography>
       </div>
-
+      <div style={{ height: "20px" }} />
       <Button
         variant="outlined"
         onClick={() => {
@@ -62,6 +72,7 @@ export default function ProfileOverview(props: props) {
       >
         Adresse ändern oder hinzufügen
       </Button>
+      <div style={{ height: "20px" }} />
     </DialogContent>
   );
 }
