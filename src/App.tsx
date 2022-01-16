@@ -51,92 +51,87 @@ function App() {
     >
       <CustomerContext.Provider value={[customerContext, setCustomerContext]}>
         <MealContext.Provider value={[mealContext, setMealContext]}>
-          <div className={classes.app}>
-            <OverlayContext.Provider
-              value={[overlayContext, setOverlayContext]}
-            ></OverlayContext.Provider>
-            <BrowserRouter>
-              <OverlayContext.Provider
-                value={[overlayContext, setOverlayContext]}
-              >
+          <OverlayContext.Provider value={[overlayContext, setOverlayContext]}>
+            <div className={classes.app}>
+              <BrowserRouter>
                 <AppBar />
-              </OverlayContext.Provider>
-              <LocalizationProvider dateAdapter={AdapterDateFns} locale={de}>
-                <Routes>
-                  <Route
-                    path="hello"
-                    element={
-                      <PageWrapper>
-                        <Homepage />
-                      </PageWrapper>
-                    }
-                  />
-                  <Route
-                    path="dashboard"
-                    element={
-                      <PageWrapper>
-                        <Dashboard />
-                      </PageWrapper>
-                    }
-                  />
-                  <Route
-                    path="/"
-                    element={
-                      <PageWrapper>
-                        <MealOverview />
-                      </PageWrapper>
-                    }
-                  />
-                  <Route
-                    path="meals"
-                    element={
-                      <PageWrapper>
-                        <MealOverview />
-                      </PageWrapper>
-                    }
-                  />
-                  <Route
-                    path="reservation"
-                    element={
-                      <PageWrapper>
-                        <Reservation />
-                      </PageWrapper>
-                    }
-                  />
-                  <Route
-                    path="mealmanager"
-                    element={
-                      <PageWrapper>
-                        <AdminRoute>
-                          <MealmanagerComponent />
-                        </AdminRoute>
-                      </PageWrapper>
-                    }
-                  />
-                  <Route
-                    path="timemanager"
-                    element={
-                      <PageWrapper>
-                        <AdminRoute>
-                          <TimemanagerComponent />
-                        </AdminRoute>
-                      </PageWrapper>
-                    }
-                  />
-                  <Route
-                    path="delivermanager"
-                    element={
-                      <PageWrapper>
-                        <AdminRoute>
-                          <DeliverAreaComponent />
-                        </AdminRoute>
-                      </PageWrapper>
-                    }
-                  />
-                </Routes>
-              </LocalizationProvider>
-            </BrowserRouter>
-          </div>
+                <LocalizationProvider dateAdapter={AdapterDateFns} locale={de}>
+                  <Routes>
+                    <Route
+                      path="hello"
+                      element={
+                        <PageWrapper>
+                          <Homepage />
+                        </PageWrapper>
+                      }
+                    />
+                    <Route
+                      path="dashboard"
+                      element={
+                        <PageWrapper>
+                          <Dashboard />
+                        </PageWrapper>
+                      }
+                    />
+                    <Route
+                      path="/"
+                      element={
+                        <PageWrapper>
+                          <MealOverview />
+                        </PageWrapper>
+                      }
+                    />
+                    <Route
+                      path="meals"
+                      element={
+                        <PageWrapper>
+                          <MealOverview />
+                        </PageWrapper>
+                      }
+                    />
+                    <Route
+                      path="reservation"
+                      element={
+                        <PageWrapper>
+                          <Reservation />
+                        </PageWrapper>
+                      }
+                    />
+                    <Route
+                      path="mealmanager"
+                      element={
+                        <PageWrapper>
+                          <AdminRoute>
+                            <MealmanagerComponent />
+                          </AdminRoute>
+                        </PageWrapper>
+                      }
+                    />
+                    <Route
+                      path="timemanager"
+                      element={
+                        <PageWrapper>
+                          <AdminRoute>
+                            <TimemanagerComponent />
+                          </AdminRoute>
+                        </PageWrapper>
+                      }
+                    />
+                    <Route
+                      path="delivermanager"
+                      element={
+                        <PageWrapper>
+                          <AdminRoute>
+                            <DeliverAreaComponent />
+                          </AdminRoute>
+                        </PageWrapper>
+                      }
+                    />
+                  </Routes>
+                </LocalizationProvider>
+              </BrowserRouter>
+            </div>
+          </OverlayContext.Provider>
         </MealContext.Provider>
       </CustomerContext.Provider>
     </ReactKeycloakProvider>

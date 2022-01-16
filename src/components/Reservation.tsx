@@ -19,19 +19,21 @@ import TimePicker from "@mui/lab/TimePicker";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
 import NavigationIcon from "@mui/icons-material/Navigation";
-import { getFreeTable } from "../request/orderingSystem";
+import { getFreeTable, postReservation } from "../request/orderingSystem";
+import { OverlayContext } from "./context/overlayContext";
 
 export default function Reservation() {
   const nav = useNavigate();
   const [date, setDate] = React.useState<Date | null>(new Date());
   const [time, setTime] = React.useState<Date | null>(new Date());
-  const [mergedTime, setMergedTime] = React.useState<Date>(new Date());
+  const [mergedTime, setMergedTime] = React.useState<number>(0);
   const [people, setPeople] = React.useState("4");
   const [name, setName] = React.useState("");
-  const [phoneNumber, setPhonenumber] = React.useState<String>();
+  const [phoneNumber, setPhonenumber] = React.useState<string>("");
   const [isFree, setIsFree] = React.useState<boolean>(false);
   const [showFeedback, setShowFeedback] = React.useState<boolean>(false);
-  const [tableId, setTableId] = React.useState<number>();
+  const [tableId, setTableId] = React.useState<number>(0);
+  const [overlayContext, setOverlayContext] = React.useContext(OverlayContext);
 
   return (
     <div style={{ height: "300px" }}>
@@ -93,15 +95,18 @@ export default function Reservation() {
                   time.getMinutes(),
                   time.getSeconds()
                 );
-                setMergedTime(newMergedTime);
+                setMergedTime(newMergedTime.getTime());
 
-                getFreeTable(newMergedTime.getTime()).then((response) => {
-                  console.log(response);
-                  if (response != null) {
-                    setIsFree(true);
-                    setTableId(response);
+                getFreeTable(newMergedTime.getTime(), parseInt(people)).then(
+                  (response) => {
+                    console.log(response);
+                    // hier andere Abfrage
+                    if (response != null) {
+                      setIsFree(true);
+                      setTableId(response);
+                    }
                   }
-                });
+                );
               }
               setShowFeedback(true);
             }}
@@ -141,9 +146,9 @@ export default function Reservation() {
               id="Telefonnummer"
               label="Telefonnummer"
               variant="standard"
-              value={name}
+              value={phoneNumber}
               onChange={(phoneNumber) => {
-                setName(phoneNumber.currentTarget.value);
+                setPhonenumber(phoneNumber.currentTarget.value);
               }}
             />
             <div>
@@ -152,7 +157,24 @@ export default function Reservation() {
                   console.log(mergedTime);
                   console.log("Tag und Uhrzeit: " + date);
                   console.log("Personenanzahl: " + people);
-                  nav("/");
+
+                  postReservation({
+                    phonenumber: phoneNumber,
+                    tableid: tableId,
+                    name: name,
+                    reservationDate: mergedTime,
+                  }).then((response) => {
+                    //response abfrage, because show successfull reservation
+                    if (response.status == 200) {
+                      console.log("Reserviert");
+                      setOverlayContext({
+                        ...overlayContext,
+                        message: "Erfolgreich reserviert",
+                        openMessage: true,
+                      });
+                      nav("/");
+                    }
+                  });
                 }}
               >
                 Tisch reservieren

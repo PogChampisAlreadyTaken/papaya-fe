@@ -13,28 +13,41 @@ export async function getHelloOrder(): Promise<string> {
   return body;
 }
 
-export async function getFreeTable(dateTime: number): Promise<number> {
-  const response = await fetch(orderingSystemUrl + "reservation/table", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
-    },
-    body: JSON.stringify(dateTime),
-  });
+export async function getFreeTable(
+  dateTime: number,
+  seats: number
+): Promise<number> {
+  const response = await fetch(
+    orderingSystemUrl + "reservation/table/" + dateTime + "/" + seats,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+    }
+  );
   const body = await response.json();
   return body;
 }
 
 export async function postReservation(reservation: Reservation) {
-  const response = await fetch(orderingSystemUrl + "reservation/table", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
-    },
-    body: JSON.stringify(reservation),
-  });
-  const body = await response.json();
-  return body;
+  const response = await fetch(
+    orderingSystemUrl +
+      "reservation/" +
+      reservation.reservationDate +
+      "/" +
+      reservation.name +
+      "/" +
+      reservation.tableid,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: reservation.phonenumber,
+    }
+  );
+  return response;
 }
