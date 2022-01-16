@@ -154,10 +154,6 @@ export default function Reservation() {
             <div>
               <Button
                 onClick={() => {
-                  console.log(mergedTime);
-                  console.log("Tag und Uhrzeit: " + date);
-                  console.log("Personenanzahl: " + people);
-
                   postReservation({
                     phonenumber: phoneNumber,
                     tableid: tableId,

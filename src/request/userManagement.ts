@@ -147,6 +147,7 @@ export async function getDeliverTime(): Promise<number> {
       headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
+        Authorization: "Bearer " + keycloak.token,
       },
     }
   );
