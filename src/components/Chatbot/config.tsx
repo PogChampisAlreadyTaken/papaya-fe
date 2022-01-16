@@ -2,6 +2,8 @@ import { createChatBotMessage } from "react-chatbot-kit";
 import IConfig from "react-chatbot-kit/build/src/interfaces/IConfig";
 import SmartToyIcon from "@mui/icons-material/SmartToy";
 import InitialOptions from "./initialOptions";
+import { getOpeningHours } from "../../request/userManagement";
+import ChatbotOpeningHours from "./ChatbotOpeningHours";
 
 const config: IConfig = {
   initialMessages: [
@@ -17,6 +19,12 @@ const config: IConfig = {
       widgetFunc: (props: any) => <InitialOptions {...props} />,
       mapStateToProps: ["messages"],
       props: {},
+    },
+    {
+      widgetName: "openingHours",
+      widgetFunc: (props: any) => <ChatbotOpeningHours {...props} />,
+      mapStateToProps: ["messages"],
+      props: { openingHours: getOpeningHours() },
     },
   ],
   customComponents: {
