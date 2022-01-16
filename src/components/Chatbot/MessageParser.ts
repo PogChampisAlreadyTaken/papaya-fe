@@ -17,6 +17,8 @@ class MessageParser {
       this.actionProvider.handleDeliveryTime();
     } else if (checkContact(message)) {
       this.actionProvider.handleContact();
+    } else if (openingHours(message)) {
+      this.actionProvider.handleOpeningHours();
     } else {
       this.actionProvider.handleUnknown();
     }
@@ -24,6 +26,10 @@ class MessageParser {
 }
 
 export default MessageParser;
+
+const openingHours = (message: string) => {
+  return message.includes("öffnungszeiten") || message.includes("offen");
+};
 
 const checkHello = (message: string) => {
   return (
