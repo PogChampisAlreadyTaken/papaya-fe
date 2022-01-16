@@ -94,7 +94,10 @@ function App() {
                         path="/"
                         element={
                           <PageWrapper>
-                            <MealOverview />
+                            <div className={classes.flex}>
+                              <MealOverview />
+                              <Basket />
+                            </div>
                           </PageWrapper>
                         }
                       />
@@ -141,6 +144,17 @@ function App() {
                             <AdminRoute>
                               <DeliverAreaComponent />
                             </AdminRoute>
+                          </PageWrapper>
+                        }
+                      />
+                      <Route
+                        path="ordermanager"
+                        element={
+                          <PageWrapper>
+                            <div className={classes.flex}>
+                              <AddressInputComponent />
+                              <Basket />
+                            </div>
                           </PageWrapper>
                         }
                       />
