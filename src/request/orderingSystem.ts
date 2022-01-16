@@ -18,7 +18,7 @@ export async function getFreeTable(
   seats: number
 ): Promise<number> {
   const response = await fetch(
-    orderingSystemUrl + "/reservation/table/" + dateTime + "/" + seats,
+    orderingSystemUrl + "reservation/table/" + dateTime + "/" + seats,
     {
       method: "GET",
       headers: {
@@ -34,7 +34,7 @@ export async function getFreeTable(
 export async function postReservation(reservation: Reservation) {
   const response = await fetch(
     orderingSystemUrl +
-      "/reservation/" +
+      "reservation/" +
       reservation.reservationDate +
       "/" +
       reservation.name +

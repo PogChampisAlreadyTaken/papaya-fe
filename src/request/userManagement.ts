@@ -4,6 +4,7 @@ import { Address, Customer } from "../model";
 import { OpeningHour } from "../model/openingHour";
 
 export function getUser(userId: string | undefined): Promise<Customer> {
+  //todo: maybe change to axios?
   const response = fetch(userManagementUrl + "/user/" + userId, {
     method: "GET",
     headers: {
@@ -23,6 +24,7 @@ export function getUser(userId: string | undefined): Promise<Customer> {
           if (profile != undefined) {
             postUser(profile.id, profile.lastName, profile.firstName, 0).then(
               () => {
+                //todo: logging
                 console.log("User erfolgreich erstellt");
               }
             );
@@ -44,6 +46,8 @@ export async function postAddress(
   street: string,
   zip: string
 ) {
+  console.log("POST Address");
+
   const response = await fetch(userManagementUrl + "/user/address", {
     method: "POST",
     headers: {
@@ -67,6 +71,8 @@ export async function postUser(
   first_name?: string,
   customer_address_id?: number
 ) {
+  console.log("POST User");
+
   const response = await fetch(userManagementUrl + "/user", {
     method: "POST",
     headers: {
@@ -115,6 +121,8 @@ export async function updateUser(
 }
 
 export async function getAddress(id?: number): Promise<Address> {
+  console.log("GET Address");
+
   const response = await fetch(userManagementUrl + "/user/address/" + id, {
     method: "GET",
     headers: {
@@ -140,7 +148,6 @@ export async function getDeliverTime(): Promise<number> {
       headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
-        Authorization: "Bearer " + keycloak.token,
       },
     }
   );
@@ -148,6 +155,7 @@ export async function getDeliverTime(): Promise<number> {
 }
 
 export async function updateDeliverTime(delivertime: number) {
+  console.log("PUT User");
   await fetch(userManagementUrl + "/timemanagement/delivertime", {
     method: "PUT",
     headers: {
