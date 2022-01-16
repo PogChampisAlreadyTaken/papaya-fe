@@ -6,7 +6,7 @@ import { MealOverview } from "./pages/MealOverview";
 import PageWrapper from "./components/PageWrapper";
 import Dashboard from "./pages/Dashboard";
 import { makeStyles } from "@material-ui/core/styles";
-import { Customer, Meal } from "./model";
+import { Address, Customer, Meal, Order } from "./model";
 import { MealContext } from "./components/context/mealContext";
 import { OverlayContext } from "./components/context/overlayContext";
 import { MealmanagerComponent } from "./components/mealmanager/MealmanagerComponent";
@@ -21,9 +21,22 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import { de } from "date-fns/locale";
 import TimemanagerComponent from "./components/usermanagement/TimemanagerComponent";
 import DeliverAreaComponent from "./components/usermanagement/DeliverAreaComponent";
+import { OrderContext } from "./components/context/orderContext";
+import Basket from "./components/Basket";
+import AddressInputComponent from "./components/orderingsystem/AddressInputComponent";
+import { useLocalStorage } from "./helpers/useLocalStorage";
+import { AddressContext } from "./components/context/addressContext";
 
 function App() {
   const classes = useStyles();
+  const [orderContext, setOrderContext] = useLocalStorage<Order>("order", {
+    shoppingItem: [],
+    remarks: "",
+  });
+  const [addressContext, setAddressContext] = useLocalStorage<Address>(
+    "address",
+    { city: "", house_number: "", street: "", zip: "" }
+  );
   const [mealContext, setMealContext] = React.useState<Meal[]>([]);
   const [overlayContext, setOverlayContext] = React.useState({
     open: false,
@@ -51,92 +64,111 @@ function App() {
     >
       <CustomerContext.Provider value={[customerContext, setCustomerContext]}>
         <MealContext.Provider value={[mealContext, setMealContext]}>
-          <div className={classes.app}>
-            <OverlayContext.Provider
-              value={[overlayContext, setOverlayContext]}
-            ></OverlayContext.Provider>
-            <BrowserRouter>
-              <OverlayContext.Provider
-                value={[overlayContext, setOverlayContext]}
-              >
-                <AppBar />
-              </OverlayContext.Provider>
-              <LocalizationProvider dateAdapter={AdapterDateFns} locale={de}>
-                <Routes>
-                  <Route
-                    path="hello"
-                    element={
-                      <PageWrapper>
-                        <Homepage />
-                      </PageWrapper>
-                    }
-                  />
-                  <Route
-                    path="dashboard"
-                    element={
-                      <PageWrapper>
-                        <Dashboard />
-                      </PageWrapper>
-                    }
-                  />
-                  <Route
-                    path="/"
-                    element={
-                      <PageWrapper>
-                        <MealOverview />
-                      </PageWrapper>
-                    }
-                  />
-                  <Route
-                    path="meals"
-                    element={
-                      <PageWrapper>
-                        <MealOverview />
-                      </PageWrapper>
-                    }
-                  />
-                  <Route
-                    path="reservation"
-                    element={
-                      <PageWrapper>
-                        <Reservation />
-                      </PageWrapper>
-                    }
-                  />
-                  <Route
-                    path="mealmanager"
-                    element={
-                      <PageWrapper>
-                        <AdminRoute>
-                          <MealmanagerComponent />
-                        </AdminRoute>
-                      </PageWrapper>
-                    }
-                  />
-                  <Route
-                    path="timemanager"
-                    element={
-                      <PageWrapper>
-                        <AdminRoute>
-                          <TimemanagerComponent />
-                        </AdminRoute>
-                      </PageWrapper>
-                    }
-                  />
-                  <Route
-                    path="delivermanager"
-                    element={
-                      <PageWrapper>
-                        <AdminRoute>
-                          <DeliverAreaComponent />
-                        </AdminRoute>
-                      </PageWrapper>
-                    }
-                  />
-                </Routes>
-              </LocalizationProvider>
-            </BrowserRouter>
-          </div>
+          <OrderContext.Provider value={[orderContext, setOrderContext]}>
+              <div className={classes.app}>
+                <OverlayContext.Provider
+                  value={[overlayContext, setOverlayContext]}
+                ></OverlayContext.Provider>
+                <BrowserRouter>
+                  <OverlayContext.Provider
+                    value={[overlayContext, setOverlayContext]}
+                  >
+                    <AppBar />
+                  </OverlayContext.Provider>
+                  <LocalizationProvider
+                    dateAdapter={AdapterDateFns}
+                    locale={de}
+                  >
+                    <Routes>
+                      <Route
+                        path="hello"
+                        element={
+                          <PageWrapper>
+                            <Homepage />
+                          </PageWrapper>
+                        }
+                      />
+                      <Route
+                        path="dashboard"
+                        element={
+                          <PageWrapper>
+                            <Dashboard />
+                          </PageWrapper>
+                        }
+                      />
+                      <Route
+                        path="/"
+                        element={
+                          <PageWrapper>
+                            <div className={classes.flex}>
+                              <MealOverview />
+                              <Basket />
+                            </div>
+                          </PageWrapper>
+                        }
+                      />
+                      <Route
+                        path="meals"
+                        element={
+                          <PageWrapper>
+                            <MealOverview />
+                          </PageWrapper>
+                        }
+                      />
+                      <Route
+                        path="reservation"
+                        element={
+                          <PageWrapper>
+                            <Reservation />
+                          </PageWrapper>
+                        }
+                      />
+                      <Route
+                        path="mealmanager"
+                        element={
+                          <PageWrapper>
+                            <AdminRoute>
+                              <MealmanagerComponent />
+                            </AdminRoute>
+                          </PageWrapper>
+                        }
+                      />
+                      <Route
+                        path="timemanager"
+                        element={
+                          <PageWrapper>
+                            <AdminRoute>
+                              <TimemanagerComponent />
+                            </AdminRoute>
+                          </PageWrapper>
+                        }
+                      />
+                      <Route
+                        path="delivermanager"
+                        element={
+                          <PageWrapper>
+                            <AdminRoute>
+                              <DeliverAreaComponent />
+                            </AdminRoute>
+                          </PageWrapper>
+                        }
+                      />
+                      <Route
+                        path="ordermanager"
+                        element={
+                          <PageWrapper>
+                            <div className={classes.flex}>
+                              <AddressInputComponent />
+                              <Basket />
+                            </div>
+                          </PageWrapper>
+                        }
+                      />
+                    </Routes>
+                  </LocalizationProvider>
+                </BrowserRouter>
+              </div>
+          </OrderContext.Provider>
         </MealContext.Provider>
       </CustomerContext.Provider>
     </ReactKeycloakProvider>
@@ -154,5 +186,10 @@ const useStyles = makeStyles({
     backgroundImage: `url(${"background.jpg"})`,
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
+  },
+
+  flex: {
+    display: "flex",
+    padding: "10px",
   },
 });
