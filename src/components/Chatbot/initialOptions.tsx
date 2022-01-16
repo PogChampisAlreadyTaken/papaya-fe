@@ -36,6 +36,18 @@ export default function InitialOptions(props: Props) {
         actionProvider.handleContact();
       },
     },
+    {
+      text: "Öffnungszeiten?",
+      onClick: () => {
+        const message = createClientMessage("Öffnungszeiten", {});
+
+        setState((prevState: any) => ({
+          ...prevState,
+          messages: [...prevState.messages, message],
+        }));
+        actionProvider.handleOpeningHours();
+      },
+    },
   ];
   return (
     <div>

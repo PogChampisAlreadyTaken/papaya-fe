@@ -1,4 +1,4 @@
-import { getDeliverTime } from "../../request/userManagement";
+import { getDeliverTime, getOpeningHours } from "../../request/userManagement";
 
 class ActionProvider {
   createChatbotMessage: any;
@@ -43,10 +43,10 @@ class ActionProvider {
         return deliveryTime;
       })
       .catch((error: any) => {
-        return 1;
+        return 25;
       });
     const message = this.createChatbotMessage(
-      "Die Lieferzeit beträgt aktuell etwa " + time + " Stunden"
+      "Die Lieferzeit beträgt aktuell etwa " + time + " Minuten."
     );
 
     this.setState((prevState: any) => ({
@@ -76,7 +76,17 @@ class ActionProvider {
     }));
   }
 
-  async handleBusinessHours() {}
+  async handleOpeningHours() {
+    const message = this.createChatbotMessage(
+      "Zu diesen Zeiten sind wir geöffnet.",
+      { widget: "openingHours" }
+    );
+
+    this.setState((prevState: any) => ({
+      ...prevState,
+      messages: [...prevState.messages, message],
+    }));
+  }
 }
 
 export default ActionProvider;
