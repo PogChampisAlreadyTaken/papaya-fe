@@ -64,17 +64,11 @@ function App() {
     >
       <CustomerContext.Provider value={[customerContext, setCustomerContext]}>
         <MealContext.Provider value={[mealContext, setMealContext]}>
-          <OrderContext.Provider value={[orderContext, setOrderContext]}>
+          <OverlayContext.Provider value={[overlayContext, setOverlayContext]}>
+            <OrderContext.Provider value={[orderContext, setOrderContext]}>
               <div className={classes.app}>
-                <OverlayContext.Provider
-                  value={[overlayContext, setOverlayContext]}
-                ></OverlayContext.Provider>
                 <BrowserRouter>
-                  <OverlayContext.Provider
-                    value={[overlayContext, setOverlayContext]}
-                  >
-                    <AppBar />
-                  </OverlayContext.Provider>
+                  <AppBar />
                   <LocalizationProvider
                     dateAdapter={AdapterDateFns}
                     locale={de}
@@ -100,10 +94,7 @@ function App() {
                         path="/"
                         element={
                           <PageWrapper>
-                            <div className={classes.flex}>
-                              <MealOverview />
-                              <Basket />
-                            </div>
+                            <MealOverview />
                           </PageWrapper>
                         }
                       />
@@ -153,22 +144,12 @@ function App() {
                           </PageWrapper>
                         }
                       />
-                      <Route
-                        path="ordermanager"
-                        element={
-                          <PageWrapper>
-                            <div className={classes.flex}>
-                              <AddressInputComponent />
-                              <Basket />
-                            </div>
-                          </PageWrapper>
-                        }
-                      />
                     </Routes>
                   </LocalizationProvider>
                 </BrowserRouter>
               </div>
-          </OrderContext.Provider>
+            </OrderContext.Provider>
+          </OverlayContext.Provider>
         </MealContext.Provider>
       </CustomerContext.Provider>
     </ReactKeycloakProvider>

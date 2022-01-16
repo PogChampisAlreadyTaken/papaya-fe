@@ -30,7 +30,7 @@ export default function MealBar() {
             classes={{ selected: classes.listItemSelected }}
             key={category.name}
             onClick={() => {
-              navigate("?category=" + category.name + "&id=" + category.id);
+              navigate("/?category=" + category.name + "&id=" + category.id);
             }}
           >
             <ListItemText primary={category.name} />

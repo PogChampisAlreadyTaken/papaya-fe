@@ -1,6 +1,6 @@
 export interface Reservation {
   tableid: number;
-  phonenumber: number;
+  phonenumber: string;
   name: string;
   reservationDate: number;
 }
