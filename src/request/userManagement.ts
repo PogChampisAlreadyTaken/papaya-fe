@@ -1,6 +1,7 @@
 import { userManagementUrl } from "../endpoints";
 import keycloak from "../keycloak";
 import { Address, Customer } from "../model";
+import { OpeningHour } from "../model/openingHour";
 
 export function getUser(userId: string | undefined): Promise<Customer> {
   const response = fetch(userManagementUrl + "/user/" + userId, {
@@ -159,4 +160,51 @@ export async function updateDeliverTime(delivertime: number) {
       time_in_minutes: delivertime,
     }),
   });
+}
+
+export function getOpeningHours(): OpeningHour[] {
+  return [
+    {
+      day: "Montag",
+      times: [
+        ["11:00", "15:00"],
+        ["17:00", "22:00"],
+      ],
+    },
+    {
+      day: "Mittwoch",
+      times: [
+        ["11:00", "15:00"],
+        ["17:00", "22:00"],
+      ],
+    },
+    {
+      day: "Donnerstag",
+      times: [
+        ["11:00", "15:00"],
+        ["17:00", "22:00"],
+      ],
+    },
+    {
+      day: "Freitag",
+      times: [
+        ["11:00", "15:00"],
+        ["17:00", "22:00"],
+      ],
+    },
+    {
+      day: "Samstag",
+      times: [
+        ["11:00", "15:00"],
+        ["17:00", "22:00"],
+      ],
+    },
+    {
+      day: "Sonntag",
+      times: [
+        ["11:00", "15:00"],
+        ["17:00", "22:00"],
+      ],
+    },
+  ];
 }
