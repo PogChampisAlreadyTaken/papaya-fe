@@ -14,7 +14,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import { OrderContext } from "./context/orderContext";
 import { display } from "@mui/system";
 import { useNavigate } from "react-router-dom";
-import { getAddress, getUser } from "../request/userManagement";
 import { CustomerContext } from "./context/customerContext";
 import { useKeycloak } from "@react-keycloak/web";
 
@@ -142,14 +141,6 @@ export default function Basket() {
         <Button
           variant="contained"
           onClick={() => {
-            if (!keycloak.authenticated) {
-              const response = getUser(keycloak.subject).then((user) => {
-                getAddress(user.customer_address_id).then((address) => {
-                  user.address = address;
-                  setCustomer(user);
-                });
-              });
-            }
             navigate("/ordermanager");
           }}
         >

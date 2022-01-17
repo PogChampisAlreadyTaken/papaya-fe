@@ -22,7 +22,7 @@ import { useNavigate } from "react-router-dom";
 import { useKeycloak } from "@react-keycloak/web";
 import { OrderContext } from "../context/orderContext";
 import { postOrder } from "../../request/orderingSystem";
-import { getAddress, getUser } from "../../request/userManagement";
+import { OverlayContext } from "../context/overlayContext";
 
 type Props = {};
 
@@ -32,6 +32,7 @@ export default function OrderViewComponent(props: Props) {
 
   const [showButton, setShowButton] = React.useState<boolean>();
   const [orderPlacementText, setOrderPlacementText] = React.useState<String>();
+  const [overlayContext, setOverlayContext] = React.useContext(OverlayContext);
   const { keycloak, initialized } = useKeycloak();
 
   const classes = useStyles();
@@ -46,8 +47,6 @@ export default function OrderViewComponent(props: Props) {
   let text = "Bestellung abschließen";
 
   React.useEffect(() => {
-    
-
     console.log(customer);
 
     if (!keycloak.authenticated) {
@@ -59,7 +58,31 @@ export default function OrderViewComponent(props: Props) {
     }
   }, [customer]);
 
-  return (
+  return !keycloak.authenticated ? (
+    // kein angemeldetete User
+    // Button mit, bitte anmelden!
+    <Card className={classes.root}>
+      <Button
+        onClick={() => {
+          keycloak.login();
+        }}
+      >
+        Bitte erstmal Anmelden!
+      </Button>
+    </Card>
+  ) : customer?.customer_address_id == 0 ? (
+    // user muss noch seine Addresse anlegen
+    <Card className={classes.root}>
+      <Button
+        onClick={() => {
+          //overlay aufploppen
+          setOverlayContext({ ...overlayContext, open: true });
+        }}
+      >
+        Addresse hinzufügen
+      </Button>
+    </Card>
+  ) : (
     <Card className={classes.root}>
       <List>
         <ListItem>{customer?.first_name}</ListItem>
