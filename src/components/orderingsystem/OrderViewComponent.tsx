@@ -21,7 +21,7 @@ import { Navigate } from "react-router";
 import { useNavigate } from "react-router-dom";
 import { useKeycloak } from "@react-keycloak/web";
 import { OrderContext } from "../context/orderContext";
-import { postOrder } from "../../request/orderingSystem";
+import { getMailNotification, postOrder } from "../../request/orderingSystem";
 import { OverlayContext } from "../context/overlayContext";
 
 type Props = {};
@@ -102,8 +102,12 @@ export default function OrderViewComponent(props: Props) {
       </List>
       <Button
         onClick={() => {
-          console.log("Hallo");
-          postOrder(orderContext);
+          postOrder(orderContext).then((order) => {
+            getMailNotification();
+            orderContext.shoppingItem = [];
+            setOrderContext(orderContext);
+            window.localStorage.clear();
+          });
           navigate("/sendorder");
         }}
         disabled={showButton}

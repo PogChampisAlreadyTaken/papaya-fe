@@ -61,25 +61,20 @@ export async function postOrder(order: Order) {
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "*",
     },
-<<<<<<< HEAD
-=======
-    body: JSON.stringify({
-      customer: 1,
-      shoppingItem: JSON.stringify(order)
-    }),
->>>>>>> parent of e7f9ca5 (added getOrder and FinalView on order)
+    body: JSON.stringify(order),
   });
   return response;
 }
 
 export async function getMailNotification() {
-  const email =  await keycloak.loadUserProfile().then((profile) =>  profile.email);
-  if(email === undefined){
-    return null
+  const email = await keycloak
+    .loadUserProfile()
+    .then((profile) => profile.email);
+  if (email === undefined) {
+    return null;
   }
   const response = await fetch(orderingSystemUrl + "/mail/" + email, {
     method: "GET",
-
     headers: {
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "*",
@@ -87,8 +82,6 @@ export async function getMailNotification() {
   });
   return response;
 }
-<<<<<<< HEAD
-
 
 export async function getOrder(customer: Customer) {
   const response = await fetch(orderingSystemUrl + "/order" + customer.id, {
@@ -102,5 +95,3 @@ export async function getOrder(customer: Customer) {
   const body = await response.json();
   return body;
 }
-=======
->>>>>>> parent of e7f9ca5 (added getOrder and FinalView on order)
