@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
 import { CustomerContext } from "../components/context/customerContext";
 import OrderComponent from "../components/orderingsystem/OrderComponent";
-import { Customer, Order } from "../model";
+import { Order } from "../model";
 import { getOrder } from "../request/orderingSystem";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -32,9 +32,9 @@ export default function OrderHistory() {
   return (
     <Paper className={classes.root}>
       <TypographyW>Meine Bestellungen</TypographyW>
-      {orders.length != 0 ? (
+      {orders.length !== 0 ? (
         orders
-          .filter((o) => o.shoppingItem.length != 0)
+          .filter((o) => o.shoppingItem.length !== 0)
           .map((order) => <OrderComponent key={order.orderID} order={order} />)
       ) : (
         <TypographyW>

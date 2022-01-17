@@ -1,5 +1,4 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
 import { Button, Card, IconButton, TableContainer } from "@mui/material";
 
 import Table from "@mui/material/Table";
@@ -7,12 +6,10 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
 import { Delete, Remove, Add } from "@mui/icons-material";
 import { ShoppingItem } from "../model/shoppingItem";
 import { makeStyles } from "@material-ui/core/styles";
 import { OrderContext } from "./context/orderContext";
-import { display } from "@mui/system";
 import { useNavigate } from "react-router-dom";
 import { CustomerContext } from "./context/customerContext";
 import { useKeycloak } from "@react-keycloak/web";
@@ -22,17 +19,20 @@ export default function Basket() {
   const [customer, setCustomer] = React.useContext(CustomerContext);
 
   const [showButtonWeiter, setShowButtonWeiter] = React.useState<boolean>();
-  const [orderPlacementTextBasket, setOrderPlacementTextBasket] = React.useState<String>();
+  const [
+    orderPlacementTextBasket,
+    setOrderPlacementTextBasket,
+  ] = React.useState<String>();
 
   const classes = useStyles();
   const navigate = useNavigate();
   const { keycloak, initialized } = useKeycloak();
 
   React.useEffect(() => {
-    if(orderContext.shoppingItem.length==0){
+    if (orderContext.shoppingItem.length == 0) {
       setShowButtonWeiter(true);
       setOrderPlacementTextBasket("Noch nichts im Warenkorb");
-    }else{
+    } else {
       setShowButtonWeiter(false);
       setOrderPlacementTextBasket("Weiter");
     }
@@ -155,7 +155,7 @@ export default function Basket() {
                       {
                         <>
                           <IconButton
-                           style={{ color: "#fff" }}
+                            style={{ color: "#fff" }}
                             onClick={() => {
                               minusMeal(meals);
                             }}
@@ -181,8 +181,10 @@ export default function Basket() {
                         </>
                       }
                     </TableCell>
-                    <TableCell style={{color: "#fff"}} align="right">{meals.meal.price}</TableCell>
-                    <TableCell style={{color: "#fff"}} align="right">
+                    <TableCell style={{ color: "#fff" }} align="right">
+                      {meals.meal.price}
+                    </TableCell>
+                    <TableCell style={{ color: "#fff" }} align="right">
                       {(meals.meal.price * meals.amount).toFixed(2) + "€"}
                     </TableCell>
                   </TableRow>

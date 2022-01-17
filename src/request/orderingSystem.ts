@@ -1,5 +1,5 @@
 import { orderingSystemUrl } from "../endpoints";
-import { Order, Customer } from "../model";
+import { Order } from "../model";
 import keycloak from "../keycloak";
 import { Reservation } from "../model/reservation";
 

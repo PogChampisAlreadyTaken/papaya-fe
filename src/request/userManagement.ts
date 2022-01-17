@@ -15,13 +15,13 @@ export function getUser(userId: string | undefined): Promise<Customer> {
     .then((response) => {
       if (response.ok) {
         return response.json();
-      } else if (response.status == 403) {
+      } else if (response.status === 403) {
         console.log("Access denied");
-      } else if (response.status == 404) {
+      } else if (response.status === 404) {
         //add user to database
         console.log("User was not found but will be created");
         const response = keycloak.loadUserProfile().then((profile) => {
-          if (profile != undefined) {
+          if (profile !== undefined) {
             const response = postUser(
               profile.id,
               profile.lastName,
@@ -97,7 +97,6 @@ export async function updateUser(
   first_name?: string,
   customer_address_id?: number
 ): Promise<Customer> {
-
   const response = await fetch(userManagementUrl + "/user/" + id, {
     method: "PUT",
     headers: {
