@@ -1,6 +1,16 @@
 // @flow
 import * as React from "react";
+import { OrderContext } from "../context/orderContext";
 type Props = {};
-export function MealmanagerComponent(props: Props) {
-  return <div></div>;
+export function OrderingsystemComponent(props: Props) {
+  const [orderContext, setOrderContext] = React.useContext(OrderContext);
+
+
+
+
+  return (<div>
+    
+
+
+  </div>);
 }

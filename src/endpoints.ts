@@ -5,4 +5,4 @@ export const paymentServiceUrl =
 export const userManagementUrl =
   "https://papaya-usermanagement-be-liimootbm.cloud.okteto.net";
 export const orderingSystemUrl =
-  "https://papaya-orderingsystem-be-liimootbm.cloud.okteto.net";
+  "https://papaya-ordermanager-be-liimootbm.cloud.okteto.net";

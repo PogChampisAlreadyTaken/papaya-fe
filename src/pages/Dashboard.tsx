@@ -5,7 +5,6 @@ import { MealContext } from "../components/context/mealContext";
 import { Payment, Customer, Meal } from "../model";
 import { getMeal } from "../request/mealManager";
 import { getPayment } from "../request/paymentManager";
-import { getUser } from "../request/userManagement";
 
 export default function Dashboard() {
   const [meals, setMeals] = React.useContext(MealContext);

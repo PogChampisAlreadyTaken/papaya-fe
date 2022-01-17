@@ -1,4 +1,5 @@
 import { orderingSystemUrl } from "../endpoints";
+import { Order, Customer } from "../model";
 import keycloak from "../keycloak";
 import { Reservation } from "../model/reservation";
 
@@ -53,6 +54,17 @@ export async function postReservation(reservation: Reservation) {
   return response;
 }
 
+export async function postOrder(order: Order) {
+  const response = await fetch(orderingSystemUrl + "/order", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+    },
+  });
+  return response;
+}
+
 export async function getMailNotification() {
   const email =  await keycloak.loadUserProfile().then((profile) =>  profile.email);
   if(email === undefined){
@@ -60,10 +72,25 @@ export async function getMailNotification() {
   }
   const response = await fetch(orderingSystemUrl + "/mail/" + email, {
     method: "GET",
+
     headers: {
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "*",
     },
   });
   return response;
+}
+
+
+export async function getOrder(customer: Customer) {
+  const response = await fetch(orderingSystemUrl + "/order" + customer.id, {
+    method: "GET",
+
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+    },
+  });
+  const body = await response.json();
+  return body;
 }
