@@ -100,6 +100,7 @@ export default function OrderViewComponent(props: Props) {
       </List>
       <Button
         onClick={() => {
+          orderContext.customer = customer?.id;
           postOrder(orderContext).then((response) => {
             if (response.status == 200 || 201) {
               getMailNotification();

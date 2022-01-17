@@ -27,7 +27,9 @@ import OrderViewComponent from "./components/orderingsystem/OrderViewComponent";
 import { useLocalStorage } from "./helpers/useLocalStorage";
 import { AddressContext } from "./components/context/addressContext";
 import { getAddress, getUser } from "./request/userManagement";
+import OrderHistory from "./pages/OrderHistory";
 import SendOrderComponent from "./components/orderingsystem/SendOrderComponent";
+
 
 function App() {
   const classes = useStyles();
@@ -82,6 +84,14 @@ function App() {
                         element={
                           <PageWrapper>
                             <Homepage />
+                          </PageWrapper>
+                        }
+                      />
+                      <Route
+                        path="orderhistory"
+                        element={
+                          <PageWrapper>
+                            <OrderHistory />
                           </PageWrapper>
                         }
                       />
