@@ -1,4 +1,5 @@
 import { orderingSystemUrl } from "../endpoints";
+import keycloak from "../keycloak";
 import { Reservation } from "../model/reservation";
 
 export async function getHelloOrder(): Promise<string> {
@@ -49,5 +50,20 @@ export async function postReservation(reservation: Reservation) {
       body: reservation.phonenumber,
     }
   );
+  return response;
+}
+
+export async function getMailNotification() {
+  const email =  await keycloak.loadUserProfile().then((profile) =>  profile.email);
+  if(email === undefined){
+    return null
+  }
+  const response = await fetch(orderingSystemUrl + "/mail/" + email, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+    },
+  });
   return response;
 }
