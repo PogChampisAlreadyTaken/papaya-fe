@@ -102,6 +102,7 @@ export default function OrderViewComponent(props: Props) {
       </List>
       <Button
         onClick={() => {
+          orderContext.customer = customer?.id;
           postOrder(orderContext).then((order) => {
             getMailNotification();
             orderContext.shoppingItem = [];

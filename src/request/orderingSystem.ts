@@ -83,8 +83,8 @@ export async function getMailNotification() {
   return response;
 }
 
-export async function getOrder(customer: Customer) {
-  const response = await fetch(orderingSystemUrl + "/order" + customer.id, {
+export async function getOrder(customerId: string): Promise<Order[]> {
+  const response = await fetch(orderingSystemUrl + "/order/" + customerId, {
     method: "GET",
 
     headers: {
