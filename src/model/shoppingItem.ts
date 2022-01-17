@@ -1,6 +1,6 @@
 import { Meal } from ".";
 
-export interface shoppingItem{
+export interface ShoppingItem{
     meal: Meal,
     amount: number, 
 }

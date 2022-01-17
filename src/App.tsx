@@ -23,7 +23,7 @@ import TimemanagerComponent from "./components/usermanagement/TimemanagerCompone
 import DeliverAreaComponent from "./components/usermanagement/DeliverAreaComponent";
 import { OrderContext } from "./components/context/orderContext";
 import Basket from "./components/Basket";
-import AddressInputComponent from "./components/orderingsystem/AddressInputComponent";
+import OrderViewComponent from "./components/orderingsystem/OrderViewComponent";
 import { useLocalStorage } from "./helpers/useLocalStorage";
 import { AddressContext } from "./components/context/addressContext";
 
@@ -33,10 +33,6 @@ function App() {
     shoppingItem: [],
     remarks: "",
   });
-  const [addressContext, setAddressContext] = useLocalStorage<Address>(
-    "address",
-    { city: "", house_number: "", street: "", zip: "" }
-  );
   const [mealContext, setMealContext] = React.useState<Meal[]>([]);
   const [overlayContext, setOverlayContext] = React.useState({
     open: false,
@@ -152,7 +148,18 @@ function App() {
                         element={
                           <PageWrapper>
                             <div className={classes.flex}>
-                              <AddressInputComponent />
+                              <OrderViewComponent />
+                              <Basket />
+                            </div>
+                          </PageWrapper>
+                        }
+                      />
+                      <Route
+                        path="sendorder"
+                        element={
+                          <PageWrapper>
+                            <div className={classes.flex}>
+                              <OrderViewComponent />
                               <Basket />
                             </div>
                           </PageWrapper>

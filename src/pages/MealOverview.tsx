@@ -13,7 +13,7 @@ import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import { OrderContext } from "../components/context/orderContext";
-import { shoppingItem } from "../model/shoppingItem";
+import { ShoppingItem } from "../model/shoppingItem";
 
 type Props = {};
 export function MealOverview(props: Props) {
@@ -28,7 +28,7 @@ export function MealOverview(props: Props) {
     const old = orderContext.shoppingItem.find(
       (element) => element.meal === meal
     );
-    const item: shoppingItem = {
+    const item: ShoppingItem = {
       meal,
       amount: 1,
     };

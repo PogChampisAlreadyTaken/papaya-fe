@@ -1,4 +1,5 @@
 import { orderingSystemUrl } from "../endpoints";
+import { Order, Customer } from "../model";
 import { Reservation } from "../model/reservation";
 
 export async function getHelloOrder(): Promise<string> {
@@ -49,5 +50,22 @@ export async function postReservation(reservation: Reservation) {
       body: reservation.phonenumber,
     }
   );
+  return response;
+}
+
+export async function postOrder(order: Order) {
+  const response = await fetch(orderingSystemUrl + "/order", {
+    method: "POST",
+
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+    },
+    body: JSON.stringify({
+      customer: 1,
+      shoppingItem: JSON.stringify(order)
+    }),
+  });
+
   return response;
 }

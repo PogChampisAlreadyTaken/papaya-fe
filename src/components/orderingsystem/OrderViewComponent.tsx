@@ -7,6 +7,7 @@ import {
   createTheme,
   ThemeProvider,
   Button,
+  textFieldClasses,
 } from "@mui/material";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -16,20 +17,47 @@ import { CustomerContext } from "../context/customerContext";
 import { Customer } from "../../model";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
+import { Navigate } from "react-router";
+import { useNavigate } from "react-router-dom";
+import { useKeycloak } from "@react-keycloak/web";
+import { OrderContext } from "../context/orderContext";
+import { postOrder } from "../../request/orderingSystem";
+import { getAddress, getUser } from "../../request/userManagement";
 
 type Props = {};
 
-export default function AddressInputComponent(props: Props) {
+export default function OrderViewComponent(props: Props) {
   const [customer, setCustomer] = React.useContext(CustomerContext);
+  const [orderContext, setOrderContext] = React.useContext(OrderContext);
+
+  const [showButton, setShowButton] = React.useState<boolean>();
+  const [orderPlacementText, setOrderPlacementText] = React.useState<String>();
+  const { keycloak, initialized } = useKeycloak();
 
   const classes = useStyles();
-
+  const navigate = useNavigate();
   const theme = createTheme({
     palette: {
       primary: { main: "#e91e63", contrastText: "#fff" },
       secondary: { main: "#03a9f4", contrastText: "#fff" },
     },
   });
+
+  let text = "Bestellung abschließen";
+
+  React.useEffect(() => {
+    
+
+    console.log(customer);
+
+    if (!keycloak.authenticated) {
+      setOrderPlacementText("Bitte melden Sie sich an");
+      setShowButton(true);
+    } else {
+      setOrderPlacementText("Bestellung abschließen");
+      setShowButton(false);
+    }
+  }, [customer]);
 
   return (
     <Card className={classes.root}>
@@ -52,9 +80,12 @@ export default function AddressInputComponent(props: Props) {
       <Button
         onClick={() => {
           console.log("Hallo");
+          postOrder(orderContext);
+          navigate("/sendorder");
         }}
+        disabled={showButton}
       >
-        Bestellung abschließen
+        {orderPlacementText}
       </Button>
     </Card>
   );

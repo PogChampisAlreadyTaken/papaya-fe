@@ -9,19 +9,25 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Delete, Remove, Add } from "@mui/icons-material";
-import { shoppingItem } from "../model/shoppingItem";
+import { ShoppingItem } from "../model/shoppingItem";
 import { makeStyles } from "@material-ui/core/styles";
 import { OrderContext } from "./context/orderContext";
 import { display } from "@mui/system";
+import { useNavigate } from "react-router-dom";
+import { getAddress, getUser } from "../request/userManagement";
+import { CustomerContext } from "./context/customerContext";
+import { useKeycloak } from "@react-keycloak/web";
 
 export default function Basket() {
   const [orderContext, setOrderContext] = React.useContext(OrderContext);
+  const [customer, setCustomer] = React.useContext(CustomerContext);
   const classes = useStyles();
+  const navigate = useNavigate();
+  const { keycloak, initialized } = useKeycloak();
 
-  React.useEffect(() => {
-  }, [orderContext]);
+  React.useEffect(() => {}, [orderContext]);
 
-  const deleteMeal = (shoppingItem: shoppingItem) => {
+  const deleteMeal = (shoppingItem: ShoppingItem) => {
     const index = orderContext.shoppingItem.indexOf(shoppingItem);
     if (index > -1) {
       orderContext.shoppingItem.splice(index, 1);
@@ -34,8 +40,8 @@ export default function Basket() {
     setOrderContext(updatedOrderContext);
   };
 
-  const minusMeal = (shoppingItem: shoppingItem) => {
-    const item: shoppingItem = {
+  const minusMeal = (shoppingItem: ShoppingItem) => {
+    const item: ShoppingItem = {
       meal: shoppingItem.meal,
       amount: shoppingItem.amount--,
     };
@@ -52,8 +58,8 @@ export default function Basket() {
     }
   };
 
-  const plusMeal = (shoppingItem: shoppingItem) => {
-    const item: shoppingItem = {
+  const plusMeal = (shoppingItem: ShoppingItem) => {
+    const item: ShoppingItem = {
       meal: shoppingItem.meal,
       amount: shoppingItem.amount++,
     };
@@ -133,7 +139,22 @@ export default function Basket() {
             </TableBody>
           </Table>
         </TableContainer>
-        <Button variant="contained">Weiter</Button>
+        <Button
+          variant="contained"
+          onClick={() => {
+            if (!keycloak.authenticated) {
+              const response = getUser(keycloak.subject).then((user) => {
+                getAddress(user.customer_address_id).then((address) => {
+                  user.address = address;
+                  setCustomer(user);
+                });
+              });
+            }
+            navigate("/ordermanager");
+          }}
+        >
+          Weiter
+        </Button>
       </Card>
     </>
   );

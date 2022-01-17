@@ -1,9 +1,9 @@
 import { Customer } from ".";
-import { shoppingItem } from "./shoppingItem";
+import { ShoppingItem } from "./shoppingItem";
 
 export interface Order{
     orderID?: number;
-    customer?: Customer;
-    shoppingItem: shoppingItem[];
+    customer?: string;
+    shoppingItem: ShoppingItem[];
     remarks: String;
 }
