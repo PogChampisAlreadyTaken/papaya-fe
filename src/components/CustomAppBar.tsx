@@ -9,21 +9,24 @@ import Toolbar from "@mui/material/Toolbar";
 import { useKeycloak } from "@react-keycloak/web";
 import { User } from "firebase/auth";
 import * as React from "react";
-import Basket from "./Basket";
 import { CustomerContext } from "./context/customerContext";
 import { OverlayContext } from "./context/overlayContext";
 import Logout from "./Logout";
 import { useNavigate } from "react-router-dom";
 import UserOverlay from "./usermanagement/UserOverlay";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { getAddress, getUser } from "../request/userManagement";
 import AdminMenu from "./AdminMenu";
+import { OrderContext } from "./context/orderContext";
+import { Order } from "../model";
+import { AddressContext } from "./context/addressContext";
 
 export default function CustomAppBar() {
   const [show, setShow] = React.useState(false);
   const [user, setUser] = React.useState<User | undefined>(undefined);
+  const [orderContext, setOrderContext] = React.useContext(OrderContext);
   const [customerContext, setCustomerContext] =
     React.useContext(CustomerContext);
+  const [addressContext, setAddressContext] = React.useContext(AddressContext);
   const [overlayContext, setOverlayContext] = React.useContext(OverlayContext);
   const { open, message, openMessage } = overlayContext;
   const { keycloak, initialized } = useKeycloak();
@@ -42,8 +45,6 @@ export default function CustomAppBar() {
         }}
         color="primary"
       >
-        {show && <Basket />}
-
         <Toolbar>
           <Button
             color="inherit"
@@ -52,16 +53,6 @@ export default function CustomAppBar() {
             }}
           >
             Home
-          </Button>
-
-          <Button
-            color="inherit"
-            style={{ float: "right" }}
-            onClick={() => {
-              setShow(!show);
-            }}
-          >
-            Warenkorb
           </Button>
 
           {!keycloak.authenticated ? (
@@ -82,12 +73,7 @@ export default function CustomAppBar() {
             <IconButton
               onClick={() => {
                 console.log(keycloak.hasRealmRole("admin"));
-                const response = getUser(keycloak.subject).then((user) => {
-                  getAddress(user.customer_address_id).then((address) => {
-                    user.address = address;
-                    setCustomerContext(user);
-                  });
-                });
+
                 setOverlayContext({ ...overlayContext, open: true });
               }}
               color="inherit"
