@@ -27,7 +27,6 @@ import OrderViewComponent from "./components/orderingsystem/OrderViewComponent";
 import { useLocalStorage } from "./helpers/useLocalStorage";
 import { AddressContext } from "./components/context/addressContext";
 import { getAddress, getUser } from "./request/userManagement";
-import SendOrderComponent from "./components/orderingsystem/SendOrderComponent";
 
 function App() {
   const classes = useStyles();
@@ -173,7 +172,8 @@ function App() {
                         element={
                           <PageWrapper>
                             <div className={classes.flex}>
-                              <SendOrderComponent />
+                              <OrderViewComponent />
+                              <Basket />
                             </div>
                           </PageWrapper>
                         }

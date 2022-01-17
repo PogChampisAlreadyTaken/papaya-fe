@@ -61,6 +61,13 @@ export async function postOrder(order: Order) {
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "*",
     },
+<<<<<<< HEAD
+=======
+    body: JSON.stringify({
+      customer: 1,
+      shoppingItem: JSON.stringify(order)
+    }),
+>>>>>>> parent of e7f9ca5 (added getOrder and FinalView on order)
   });
   return response;
 }
@@ -80,6 +87,7 @@ export async function getMailNotification() {
   });
   return response;
 }
+<<<<<<< HEAD
 
 
 export async function getOrder(customer: Customer) {
@@ -94,3 +102,5 @@ export async function getOrder(customer: Customer) {
   const body = await response.json();
   return body;
 }
+=======
+>>>>>>> parent of e7f9ca5 (added getOrder and FinalView on order)
