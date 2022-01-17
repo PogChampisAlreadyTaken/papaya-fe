@@ -1,4 +1,6 @@
 // @flow
+// @author Alois Roscher
+
 import { Button, Typography } from "@mui/material";
 import * as React from "react";
 import { useLocation } from "react-router";
@@ -13,6 +15,7 @@ import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import { bgcolor } from "@mui/system";
+import { getMailNotification } from "../request/orderingSystem";
 
 type Props = {};
 export function MealOverview(props: Props) {
@@ -21,7 +24,9 @@ export function MealOverview(props: Props) {
   const [meals, setMeals] = React.useContext(MealContext);
   const [updatedMeals, setupdatedMeals] = React.useState<Meal[]>([]);
   const loc = useLocation();
-  const addToCart = () => {};
+  const addToCart = () => {
+    getMailNotification();
+  };
 
   React.useEffect(() => {
     if (meals.length === 0) {
@@ -70,7 +75,7 @@ export function MealOverview(props: Props) {
                 size="small"
                 variant="outlined"
                 sx={{ color: "white", borderColor: "white" }}
-                onChange={addToCart}
+                onClick={addToCart}
               >
                 Gericht Hinzufügen
               </Button>

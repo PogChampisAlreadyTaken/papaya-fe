@@ -1,3 +1,5 @@
+//@author Alois Roscher
+
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import {
   TableCell,
