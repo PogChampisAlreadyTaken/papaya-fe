@@ -102,7 +102,7 @@ export default function OrderViewComponent(props: Props) {
       </List>
       <Button
         onClick={() => {
-          console.log("Hallo");
+          orderContext.customer=customer?.id;
           postOrder(orderContext);
           navigate("/sendorder");
         }}

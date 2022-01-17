@@ -61,11 +61,22 @@ export async function postOrder(order: Order) {
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "*",
     },
-    body: JSON.stringify({
-      customer: 1,
-      shoppingItem: JSON.stringify(order)
-    }),
+    body: JSON.stringify(order),
   });
 
   return response;
+}
+
+
+export async function getOrder(customer: Customer) {
+  const response = await fetch(orderingSystemUrl + "/order" + customer.id, {
+    method: "GET",
+
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+    },
+  });
+  const body = await response.json();
+  return body;
 }
