@@ -1,4 +1,6 @@
 // @flow
+// @author Alois Roscher
+
 import { Button, Typography } from "@mui/material";
 import * as React from "react";
 import { useLocation } from "react-router";
@@ -12,8 +14,13 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
+<<<<<<< feature/orderingsystem
 import { OrderContext } from "../components/context/orderContext";
 import { ShoppingItem } from "../model/shoppingItem";
+=======
+import { bgcolor } from "@mui/system";
+import { getMailNotification } from "../request/orderingSystem";
+>>>>>>> feature/OrderHistory
 
 type Props = {};
 export function MealOverview(props: Props) {
@@ -23,6 +30,7 @@ export function MealOverview(props: Props) {
   const [orderContext, setOrderContext] = React.useContext(OrderContext);
   const [updatedMeals, setupdatedMeals] = React.useState<Meal[]>([]);
   const loc = useLocation();
+<<<<<<< feature/orderingsystem
 
   const addToCart = (meal: Meal) => {
     const old = orderContext.shoppingItem.find(
@@ -46,6 +54,10 @@ export function MealOverview(props: Props) {
       shoppingItem: [...orderContext.shoppingItem, item],
     };
     setOrderContext(updatedOrderContext);
+=======
+  const addToCart = () => {
+    getMailNotification();
+>>>>>>> feature/OrderHistory
   };
 
   React.useEffect(() => {
@@ -95,7 +107,11 @@ export function MealOverview(props: Props) {
                 size="small"
                 variant="outlined"
                 sx={{ color: "white", borderColor: "white" }}
+<<<<<<< feature/orderingsystem
                 onClick={() => addToCart(meal)}
+=======
+                onClick={addToCart}
+>>>>>>> feature/OrderHistory
               >
                 Gericht Hinzufügen
               </Button>
