@@ -20,11 +20,23 @@ import { useKeycloak } from "@react-keycloak/web";
 export default function Basket() {
   const [orderContext, setOrderContext] = React.useContext(OrderContext);
   const [customer, setCustomer] = React.useContext(CustomerContext);
+
+  const [showButtonWeiter, setShowButtonWeiter] = React.useState<boolean>();
+  const [orderPlacementTextBasket, setOrderPlacementTextBasket] = React.useState<String>();
+
   const classes = useStyles();
   const navigate = useNavigate();
   const { keycloak, initialized } = useKeycloak();
 
-  React.useEffect(() => {}, [orderContext]);
+  React.useEffect(() => {
+    if(orderContext.shoppingItem.length==0){
+      setShowButtonWeiter(true);
+      setOrderPlacementTextBasket("Noch nichts im Warenkorb");
+    }else{
+      setShowButtonWeiter(false);
+      setOrderPlacementTextBasket("Weiter");
+    }
+  }, [orderContext]);
 
   const deleteMeal = (shoppingItem: ShoppingItem) => {
     const index = orderContext.shoppingItem.indexOf(shoppingItem);
@@ -140,11 +152,12 @@ export default function Basket() {
         </TableContainer>
         <Button
           variant="contained"
+          disabled={showButtonWeiter}
           onClick={() => {
             navigate("/ordermanager");
           }}
         >
-          Weiter
+          {orderPlacementTextBasket}
         </Button>
       </Card>
     </>

@@ -28,7 +28,6 @@ export function getUser(userId: string | undefined): Promise<Customer> {
               profile.firstName,
               0
             ).then((response) => {
-              console.log(response);
               console.log("User erfolgreich erstellt");
               return response;
             });
@@ -98,7 +97,6 @@ export async function updateUser(
   first_name?: string,
   customer_address_id?: number
 ): Promise<Customer> {
-  console.log("PUT User");
 
   const response = await fetch(userManagementUrl + "/user/" + id, {
     method: "PUT",

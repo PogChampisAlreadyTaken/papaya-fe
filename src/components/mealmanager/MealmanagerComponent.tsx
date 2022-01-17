@@ -162,7 +162,6 @@ export function MealmanagerComponent(props: Props) {
 
   function validatePrice(): boolean {
     let result = /[a-zA-Z]+$/.test(price);
-    console.log(result);
     if (result || price.indexOf(".") == -1) {
       return true;
     }
