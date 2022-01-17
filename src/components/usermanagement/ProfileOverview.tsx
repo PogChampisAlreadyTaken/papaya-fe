@@ -19,6 +19,7 @@ import Keycloak, {
 import { CustomerContext } from "../context/customerContext";
 import React from "react";
 import { getAddress } from "../../request/userManagement";
+import { useNavigate } from "react-router";
 
 interface props {
   setIsAddingAddress: (value: boolean) => void;
@@ -26,9 +27,11 @@ interface props {
 }
 
 export default function ProfileOverview(props: props) {
+  const nav = useNavigate();
   const { setIsAddingAddress, handleClose } = props;
-  const [customerContext, setCustomerContext] =
-    React.useContext(CustomerContext);
+  const [customerContext, setCustomerContext] = React.useContext(
+    CustomerContext
+  );
 
   return (
     <DialogContent>
@@ -58,7 +61,6 @@ export default function ProfileOverview(props: props) {
           {customerContext?.address?.house_number}
         </Typography>
         <Typography>
-          {" "}
           {customerContext?.address?.zip} {customerContext?.address?.city}
         </Typography>
       </div>
@@ -71,6 +73,13 @@ export default function ProfileOverview(props: props) {
         fullWidth
       >
         Adresse ändern oder hinzufügen
+      </Button>
+      <div style={{ height: "20px" }} />
+      <Divider />
+      <div style={{ height: "20px" }} />
+
+      <Button variant="outlined" onClick={() => nav("/orderhistory")} fullWidth>
+        Bestellungen ansehen?
       </Button>
       <div style={{ height: "20px" }} />
     </DialogContent>

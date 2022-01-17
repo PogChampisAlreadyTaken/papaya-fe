@@ -21,6 +21,7 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import { de } from "date-fns/locale";
 import TimemanagerComponent from "./components/usermanagement/TimemanagerComponent";
 import DeliverAreaComponent from "./components/usermanagement/DeliverAreaComponent";
+import OrderHistory from "./pages/OrderHistory";
 
 function App() {
   const classes = useStyles();
@@ -70,6 +71,14 @@ function App() {
                       element={
                         <PageWrapper>
                           <Dashboard />
+                        </PageWrapper>
+                      }
+                    />
+                    <Route
+                      path="orderhistory"
+                      element={
+                        <PageWrapper>
+                          <OrderHistory />
                         </PageWrapper>
                       }
                     />
