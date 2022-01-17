@@ -5,5 +5,4 @@ export interface Order{
     orderID?: number;
     customer?: string;
     shoppingItem: ShoppingItem[];
-    remarks: String;
 }

@@ -7,7 +7,6 @@ type State = Order;
 export const OrderContext = React.createContext<[State, Dispatch]>([
     {
         shoppingItem:[],
-        remarks: ""
     },
   () => {},
 ]);

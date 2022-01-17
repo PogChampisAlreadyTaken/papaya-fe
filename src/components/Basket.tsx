@@ -76,7 +76,7 @@ export default function Basket() {
     <>
       <Card className={classes.root}>
         <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 100 }} size="small" aria-label="a dense table">
+          <Table sx={{ minWidth: 100, minHeight: 400 }} size="small" aria-label="a dense table">
             <TableHead>
               <TableRow>
                 <TableCell>Nr.</TableCell>
@@ -131,7 +131,7 @@ export default function Basket() {
                     </TableCell>
                     <TableCell align="right">{meals.meal.price}</TableCell>
                     <TableCell align="right">
-                      {meals.meal.price * meals.amount}
+                      {(meals.meal.price * meals.amount).toFixed(2)+ "€"}
                     </TableCell>
                   </TableRow>
                 );

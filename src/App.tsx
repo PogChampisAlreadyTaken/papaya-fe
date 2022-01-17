@@ -31,7 +31,6 @@ function App() {
   const classes = useStyles();
   const [orderContext, setOrderContext] = useLocalStorage<Order>("order", {
     shoppingItem: [],
-    remarks: "",
   });
   const [mealContext, setMealContext] = React.useState<Meal[]>([]);
   const [overlayContext, setOverlayContext] = React.useState({
