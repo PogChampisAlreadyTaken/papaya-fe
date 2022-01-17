@@ -47,8 +47,6 @@ export default function OrderViewComponent(props: Props) {
   let text = "Bestellung abschließen";
 
   React.useEffect(() => {
-    console.log(customer);
-
     if (!keycloak.authenticated) {
       setOrderPlacementText("Bitte melden Sie sich an");
       setShowButton(true);
@@ -103,12 +101,16 @@ export default function OrderViewComponent(props: Props) {
       <Button
         onClick={() => {
           orderContext.customer = customer?.id;
-          postOrder(orderContext).then((order) => {
-            getMailNotification();
-            orderContext.shoppingItem = [];
-            setOrderContext(orderContext);
-            window.localStorage.clear();
-          });
+          postOrder(orderContext).then((response) => {
+            if (response.status == 200 || 201) {
+              getMailNotification();
+              orderContext.shoppingItem = [];
+              setOrderContext(orderContext);
+              window.localStorage.clear();
+            } else {
+              setOpenAlertError(true);
+            }
+          }).catch((error)=> console.error(error));
           navigate("/sendorder");
         }}
         disabled={showButton}
@@ -130,3 +132,7 @@ const useStyles = makeStyles({
     marginBottom: "5%",
   },
 });
+function setOpenAlertError(arg0: boolean) {
+  throw new Error("Order could not be sent");
+}
+

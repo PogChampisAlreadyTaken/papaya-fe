@@ -28,6 +28,8 @@ import { useLocalStorage } from "./helpers/useLocalStorage";
 import { AddressContext } from "./components/context/addressContext";
 import { getAddress, getUser } from "./request/userManagement";
 import OrderHistory from "./pages/OrderHistory";
+import SendOrderComponent from "./components/orderingsystem/SendOrderComponent";
+
 
 function App() {
   const classes = useStyles();
@@ -45,13 +47,11 @@ function App() {
   >(undefined);
 
   const eventLogger = (event: unknown, error: unknown) => {
-    console.log("onKeycloakEvent", event, error);
     if (event === "onAuthSuccess") {
       if (keycloak.subject) {
         const response = getUser(keycloak.subject).then((user) => {
           if (user != undefined) {
             getAddress(user.customer_address_id).then((address) => {
-              console.log("GET Address");
               user.address = address;
               setCustomerContext(user);
             });
@@ -61,15 +61,10 @@ function App() {
     }
   };
 
-  const tokenLogger = (tokens: unknown) => {
-    console.log("onKeycloakTokens", tokens);
-  };
-
   return (
     <ReactKeycloakProvider
       authClient={keycloak}
       onEvent={eventLogger}
-      onTokens={tokenLogger}
       initOptions={{ checkLoginIframe: true }}
     >
       <CustomerContext.Provider value={[customerContext, setCustomerContext]}>
@@ -180,10 +175,7 @@ function App() {
                         path="sendorder"
                         element={
                           <PageWrapper>
-                            <div className={classes.flex}>
-                              <OrderViewComponent />
-                              <Basket />
-                            </div>
+                            <SendOrderComponent />
                           </PageWrapper>
                         }
                       />

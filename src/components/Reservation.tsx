@@ -99,8 +99,6 @@ export default function Reservation() {
 
                 getFreeTable(newMergedTime.getTime(), parseInt(people)).then(
                   (response) => {
-                    console.log(response);
-                    // hier andere Abfrage
                     if (response != null) {
                       setIsFree(true);
                       setTableId(response);

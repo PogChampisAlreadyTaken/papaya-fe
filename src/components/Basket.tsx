@@ -20,11 +20,23 @@ import { useKeycloak } from "@react-keycloak/web";
 export default function Basket() {
   const [orderContext, setOrderContext] = React.useContext(OrderContext);
   const [customer, setCustomer] = React.useContext(CustomerContext);
+
+  const [showButtonWeiter, setShowButtonWeiter] = React.useState<boolean>();
+  const [orderPlacementTextBasket, setOrderPlacementTextBasket] = React.useState<String>();
+
   const classes = useStyles();
   const navigate = useNavigate();
   const { keycloak, initialized } = useKeycloak();
 
-  React.useEffect(() => {}, [orderContext]);
+  React.useEffect(() => {
+    if(orderContext.shoppingItem.length==0){
+      setShowButtonWeiter(true);
+      setOrderPlacementTextBasket("Noch nichts im Warenkorb");
+    }else{
+      setShowButtonWeiter(false);
+      setOrderPlacementTextBasket("Weiter");
+    }
+  }, [orderContext]);
 
   const deleteMeal = (shoppingItem: ShoppingItem) => {
     const index = orderContext.shoppingItem.indexOf(shoppingItem);
@@ -73,20 +85,46 @@ export default function Basket() {
 
   return (
     <>
-      <Card className={classes.root}>
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 100, minHeight: 400 }} size="small" aria-label="a dense table">
+      <Card className={classes.root} style={{ background: "#282c34f0" }}>
+        <TableContainer>
+          <Table
+            sx={{ minWidth: 100, minHeight: 400, background: "#282c34f0" }}
+            size="small"
+            aria-label="a dense table"
+          >
             <TableHead>
               <TableRow>
-                <TableCell>Nr.</TableCell>
-                <TableCell align="right">Name</TableCell>
-                <TableCell align="right">Anzahl</TableCell>
+                <TableCell style={{ color: "#fff", fontWeight: "bold" }}>
+                  Nr.
+                </TableCell>
+                <TableCell
+                  style={{ color: "#fff", fontWeight: "bold" }}
+                  align="left"
+                >
+                  Name
+                </TableCell>
+                <TableCell
+                  style={{ color: "#fff", fontWeight: "bold" }}
+                  align="center"
+                >
+                  Anzahl
+                </TableCell>
                 <TableCell
                   align="right"
                   className={classes.buttons}
                 ></TableCell>
-                <TableCell align="right">Einzelpreis</TableCell>
-                <TableCell align="right">Gesamtpreis</TableCell>
+                <TableCell
+                  style={{ color: "#fff", fontWeight: "bold" }}
+                  align="right"
+                >
+                  Preis
+                </TableCell>
+                <TableCell
+                  style={{ color: "#fff", fontWeight: "bold" }}
+                  align="center"
+                >
+                  Gesamtpreis
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -96,15 +134,28 @@ export default function Basket() {
                     key={meals.meal.menuid}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
-                    <TableCell component="th" scope="row">
+                    <TableCell
+                      style={{ color: "#fff" }}
+                      component="th"
+                      scope="row"
+                    >
                       {meals.meal.menuid}
                     </TableCell>
-                    <TableCell align="right">{meals.meal.mealName}</TableCell>
-                    <TableCell align="right">{meals.amount}</TableCell>
-                    <TableCell align="right" className={classes.buttons}>
+                    <TableCell style={{ color: "#fff" }} align="left">
+                      {meals.meal.mealName}
+                    </TableCell>
+                    <TableCell style={{ color: "#fff" }} align="center">
+                      {meals.amount}
+                    </TableCell>
+                    <TableCell
+                      style={{ color: "#fff" }}
+                      align="right"
+                      className={classes.buttons}
+                    >
                       {
                         <>
                           <IconButton
+                           style={{ color: "#fff" }}
                             onClick={() => {
                               minusMeal(meals);
                             }}
@@ -112,6 +163,7 @@ export default function Basket() {
                             <Remove fontSize="small" />
                           </IconButton>
                           <IconButton
+                            style={{ color: "#fff" }}
                             onClick={() => {
                               deleteMeal(meals);
                             }}
@@ -119,6 +171,7 @@ export default function Basket() {
                             <Delete fontSize="small" />
                           </IconButton>
                           <IconButton
+                            style={{ color: "#fff" }}
                             onClick={() => {
                               plusMeal(meals);
                             }}
@@ -128,9 +181,9 @@ export default function Basket() {
                         </>
                       }
                     </TableCell>
-                    <TableCell align="right">{meals.meal.price}</TableCell>
-                    <TableCell align="right">
-                      {(meals.meal.price * meals.amount).toFixed(2)+ "€"}
+                    <TableCell style={{color: "#fff"}} align="right">{meals.meal.price}</TableCell>
+                    <TableCell style={{color: "#fff"}} align="right">
+                      {(meals.meal.price * meals.amount).toFixed(2) + "€"}
                     </TableCell>
                   </TableRow>
                 );
@@ -139,12 +192,19 @@ export default function Basket() {
           </Table>
         </TableContainer>
         <Button
-          variant="contained"
+          sx={{
+            color: "white",
+            borderColor: "white",
+            marginTop: "10px",
+            marginBottom: "10px",
+          }}
+          variant="outlined"
+          disabled={showButtonWeiter}
           onClick={() => {
             navigate("/ordermanager");
           }}
         >
-          Weiter
+          {orderPlacementTextBasket}
         </Button>
       </Card>
     </>
@@ -153,11 +213,15 @@ export default function Basket() {
 
 const useStyles = makeStyles({
   root: {
-    width: "50%",
+    width: "35%",
     marginRight: "5%",
-    marginTop: "5%",
-    marginBottom: "5%",
+    marginBottom: "80px",
+    marginLeft: "5px",
     paddingLeft: "10px",
+    paddingRight: "10px",
+    paddingTop: "10px",
+    marginTop: "85px",
+    background: "#282c34f0",
   },
   buttons: {
     display: "flex",
