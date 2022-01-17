@@ -15,7 +15,6 @@ import Logout from "./Logout";
 import { useNavigate } from "react-router-dom";
 import UserOverlay from "./usermanagement/UserOverlay";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { getAddress, getUser } from "../request/userManagement";
 import AdminMenu from "./AdminMenu";
 import { OrderContext } from "./context/orderContext";
 import { Order } from "../model";
@@ -74,12 +73,7 @@ export default function CustomAppBar() {
             <IconButton
               onClick={() => {
                 console.log(keycloak.hasRealmRole("admin"));
-                const response = getUser(keycloak.subject).then((user) => {
-                  getAddress(user.customer_address_id).then((address) => {
-                    user.address = address;
-                    setCustomerContext(user);
-                  });
-                });
+
                 setOverlayContext({ ...overlayContext, open: true });
               }}
               color="inherit"

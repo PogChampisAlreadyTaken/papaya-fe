@@ -13,7 +13,7 @@ import { MealmanagerComponent } from "./components/mealmanager/MealmanagerCompon
 import { CustomerContext } from "./components/context/customerContext";
 import { auth } from "./config/Firebase-config";
 import { ReactKeycloakProvider, useKeycloak } from "@react-keycloak/web";
-import keycloak, { onKeycloakEvent } from "./keycloak";
+import keycloak from "./keycloak";
 import AdminRoute from "./helpers/PrivateRoute";
 import Reservation from "./components/Reservation";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
@@ -26,6 +26,7 @@ import Basket from "./components/Basket";
 import OrderViewComponent from "./components/orderingsystem/OrderViewComponent";
 import { useLocalStorage } from "./helpers/useLocalStorage";
 import { AddressContext } from "./components/context/addressContext";
+import { getAddress, getUser } from "./request/userManagement";
 
 function App() {
   const classes = useStyles();
@@ -45,6 +46,19 @@ function App() {
 
   const eventLogger = (event: unknown, error: unknown) => {
     console.log("onKeycloakEvent", event, error);
+    if (event === "onAuthSuccess") {
+      if (keycloak.subject) {
+        const response = getUser(keycloak.subject).then((user) => {
+          if (user != undefined) {
+            getAddress(user.customer_address_id).then((address) => {
+              console.log("GET Address");
+              user.address = address;
+              setCustomerContext(user);
+            });
+          }
+        });
+      }
+    }
   };
 
   const tokenLogger = (tokens: unknown) => {
@@ -54,7 +68,7 @@ function App() {
   return (
     <ReactKeycloakProvider
       authClient={keycloak}
-      onEvent={onKeycloakEvent}
+      onEvent={eventLogger}
       onTokens={tokenLogger}
       initOptions={{ checkLoginIframe: true }}
     >

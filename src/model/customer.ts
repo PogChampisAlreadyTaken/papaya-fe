@@ -7,6 +7,7 @@ export interface Customer {
 }
 
 export interface Address {
+  id?: number;
   city: string;
   house_number: string;
   street: string;
