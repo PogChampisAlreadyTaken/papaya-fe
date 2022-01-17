@@ -19,15 +19,22 @@ export function getUser(userId: string | undefined): Promise<Customer> {
         console.log("Access denied");
       } else if (response.status == 404) {
         //add user to database
-        keycloak.loadUserProfile().then((profile) => {
+        console.log("User was not found but will be created");
+        const response = keycloak.loadUserProfile().then((profile) => {
           if (profile != undefined) {
-            postUser(profile.id, profile.lastName, profile.firstName, 0).then(
-              () => {
-                console.log("User erfolgreich erstellt");
-              }
-            );
+            const response = postUser(
+              profile.id,
+              profile.lastName,
+              profile.firstName,
+              0
+            ).then((response) => {
+              console.log("User erfolgreich erstellt");
+              return response;
+            });
+            return response;
           }
         });
+        return response;
       } else {
         throw new Error(response.statusText);
       }
@@ -43,7 +50,7 @@ export async function postAddress(
   houseNumber: string,
   street: string,
   zip: string
-) {
+): Promise<Address> {
   const response = await fetch(userManagementUrl + "/user/address", {
     method: "POST",
     headers: {
@@ -89,8 +96,7 @@ export async function updateUser(
   last_name?: string,
   first_name?: string,
   customer_address_id?: number
-) {
-  console.log("PUT User");
+): Promise<Customer> {
 
   const response = await fetch(userManagementUrl + "/user/" + id, {
     method: "PUT",
@@ -112,6 +118,7 @@ export async function updateUser(
       throw new Error(response.statusText);
     }
   });
+  return response;
 }
 
 export async function getAddress(id?: number): Promise<Address> {

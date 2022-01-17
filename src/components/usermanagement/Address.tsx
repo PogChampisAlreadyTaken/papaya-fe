@@ -99,14 +99,19 @@ export default function Address(props: props) {
             registerHousenumber,
             registerStreet,
             registerZip
-          ).then((resultId) => {
+          ).then((address) => {
             if (customer != undefined) {
+              //set address of customer
               updateUser(
                 customer.id,
                 customer.last_name,
                 customer.first_name,
-                resultId
-              );
+                address?.id
+              ).then((user) => {
+                //update success
+                user.address = address;
+                setCustomerContext(user);
+              });
             }
           });
           handleClose();

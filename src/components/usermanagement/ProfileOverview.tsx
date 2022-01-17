@@ -53,14 +53,22 @@ export default function ProfileOverview(props: props) {
         <div style={{ height: "20px" }} />
         <Divider>Lieferaddresse</Divider>
         <div style={{ height: "20px" }} />
-        <Typography>
-          {customerContext?.address?.street}{" "}
-          {customerContext?.address?.house_number}
-        </Typography>
-        <Typography>
-          {" "}
-          {customerContext?.address?.zip} {customerContext?.address?.city}
-        </Typography>
+        {customerContext?.customer_address_id == 0 ||
+        customerContext?.customer_address_id == undefined ? (
+          <></>
+        ) : (
+          <div>
+            {" "}
+            <Typography>
+              {customerContext?.address?.street}{" "}
+              {customerContext?.address?.house_number}
+            </Typography>
+            <Typography>
+              {" "}
+              {customerContext?.address?.zip} {customerContext?.address?.city}
+            </Typography>
+          </div>
+        )}
       </div>
       <div style={{ height: "20px" }} />
       <Button
