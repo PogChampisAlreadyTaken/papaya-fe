@@ -4,19 +4,16 @@
 import { Button, Typography } from "@mui/material";
 import * as React from "react";
 import { useLocation } from "react-router";
-import { Link } from "react-router-dom";
 import { MealContext } from "../components/context/mealContext";
 import useQuery from "../config/queryParams";
 import { makeStyles } from "@material-ui/core/styles";
-import { Meal, Order } from "../model";
+import { Meal } from "../model";
 import { getAllMeals } from "../request/mealManager";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import { OrderContext } from "../components/context/orderContext";
 import { ShoppingItem } from "../model/shoppingItem";
-import { getMailNotification } from "../request/orderingSystem";
 
 type Props = {};
 export function MealOverview(props: Props) {

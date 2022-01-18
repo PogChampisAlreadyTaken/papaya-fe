@@ -2,7 +2,6 @@ import { Card, CardContent, Grid } from "@mui/material";
 import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import { Meal } from "../../model";
 import { ShoppingItem } from "../../model/shoppingItem";
 const TypographyW = withStyles({
   root: {

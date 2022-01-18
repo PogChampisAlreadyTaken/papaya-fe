@@ -7,29 +7,18 @@ import Button from "@mui/material/Button";
 import Snackbar from "@mui/material/Snackbar";
 import Toolbar from "@mui/material/Toolbar";
 import { useKeycloak } from "@react-keycloak/web";
-import { User } from "firebase/auth";
 import * as React from "react";
-import { CustomerContext } from "./context/customerContext";
 import { OverlayContext } from "./context/overlayContext";
 import Logout from "./Logout";
 import { useNavigate } from "react-router-dom";
 import UserOverlay from "./usermanagement/UserOverlay";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import AdminMenu from "./AdminMenu";
-import { OrderContext } from "./context/orderContext";
-import { Order } from "../model";
-import { AddressContext } from "./context/addressContext";
 
 export default function CustomAppBar() {
-  const [show, setShow] = React.useState(false);
-  const [user, setUser] = React.useState<User | undefined>(undefined);
-  const [orderContext, setOrderContext] = React.useContext(OrderContext);
-  const [customerContext, setCustomerContext] =
-    React.useContext(CustomerContext);
-  const [addressContext, setAddressContext] = React.useContext(AddressContext);
   const [overlayContext, setOverlayContext] = React.useContext(OverlayContext);
   const { open, message, openMessage } = overlayContext;
-  const { keycloak, initialized } = useKeycloak();
+  const { keycloak } = useKeycloak();
 
   const classes = useStyles();
   const nav = useNavigate();
@@ -110,7 +99,7 @@ export default function CustomAppBar() {
               </React.Fragment>
             }
           />
-          {keycloak.hasRealmRole("admin") == false ? (
+          {keycloak.hasRealmRole("admin") === false ? (
             <Button
               color="inherit"
               onClick={() => {
@@ -122,7 +111,7 @@ export default function CustomAppBar() {
           ) : (
             <div></div>
           )}
-          {keycloak.hasRealmRole("admin") == true ? (
+          {keycloak.hasRealmRole("admin") === true ? (
             <AdminMenu></AdminMenu>
           ) : (
             <div></div>

@@ -14,7 +14,6 @@ import {
   Paper,
   Divider,
 } from "@mui/material";
-
 import * as React from "react";
 import { Meal } from "../../model";
 import { Category } from "../../model/category";
@@ -50,7 +49,7 @@ export function MealmanagerComponent(props: Props) {
 
   React.useEffect(() => {
     getAllMeals().then(setMeals);
-    setfilteredMeals(meals.filter((meal) => meal.categoryid == selectedMenu));
+    setfilteredMeals(meals.filter((meal) => meal.categoryid === selectedMenu));
   }, [selectedMenu]);
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -87,7 +86,7 @@ export function MealmanagerComponent(props: Props) {
     };
     postMeal(meal)
       .then((response) => {
-        if (response.status == 201) {
+        if (response.status === 201) {
           cleanAddFields(response);
           setOpenAlert(true);
         } else {
@@ -118,12 +117,12 @@ export function MealmanagerComponent(props: Props) {
       helperText = "Bitte vorher Menü auswählen";
     }
 
-    if (meals.filter((meal) => meal.menuid == menuid).length > 0) {
+    if (meals.filter((meal) => meal.menuid === menuid).length > 0) {
       helperText = "MenüID bereits vergeben";
     }
 
     let valueMenuid = menuid.match(/\d+/g);
-    if (valueMenuid == null && menuid != "") {
+    if (valueMenuid === null && menuid !== "") {
       helperText = "Buchstaben nicht erlaubt";
     }
 
@@ -145,7 +144,7 @@ export function MealmanagerComponent(props: Props) {
       helperText = "Bitte mindestens eine Zahl eingeben";
     }
 
-    if (price.indexOf(".") == -1) {
+    if (price.indexOf(".") === -1) {
       helperText = "Bitte Komma angeben";
     }
 
@@ -162,7 +161,7 @@ export function MealmanagerComponent(props: Props) {
 
   function validatePrice(): boolean {
     let result = /[a-zA-Z]+$/.test(price);
-    if (result || price.indexOf(".") == -1) {
+    if (result || price.indexOf(".") === -1) {
       return true;
     }
     if (price.indexOf(".") < 2 && price.length < 2) {
@@ -178,7 +177,7 @@ export function MealmanagerComponent(props: Props) {
   function validateMenuIdError() {
     if (
       filteredMeals.length === 0 ||
-      meals.filter((meal) => meal.menuid == menuid).length > 0
+      meals.filter((meal) => meal.menuid === menuid).length > 0
     ) {
       return true;
     }
@@ -187,7 +186,7 @@ export function MealmanagerComponent(props: Props) {
     }
     // \d Metacharacter allows global search for digits
     let valueMenuid = menuid.match(/\d+/g);
-    if (valueMenuid == null && menuid != "") {
+    if (valueMenuid === null && menuid !== "") {
       return true;
     }
 

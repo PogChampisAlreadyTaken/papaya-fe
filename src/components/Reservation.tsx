@@ -1,24 +1,8 @@
-import {
-  Button,
-  ButtonGroup,
-  Divider,
-  Fab,
-  Paper,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Button, Divider, Paper, TextField, Typography } from "@mui/material";
 import DatePicker from "@mui/lab/DatePicker";
-import StaticDatePicker from "@mui/lab/StaticDatePicker";
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import type {} from "@mui/lab/themeAugmentation";
-import { createTheme, fontSize } from "@mui/system";
-import "../helpers/calender-style.css";
-import StaticDateTimePicker from "@mui/lab/StaticDateTimePicker";
 import TimePicker from "@mui/lab/TimePicker";
-import "react-phone-number-input/style.css";
-import PhoneInput from "react-phone-number-input";
-import NavigationIcon from "@mui/icons-material/Navigation";
 import { getFreeTable, postReservation } from "../request/orderingSystem";
 import { OverlayContext } from "./context/overlayContext";
 
@@ -36,7 +20,14 @@ export default function Reservation() {
   const [overlayContext, setOverlayContext] = React.useContext(OverlayContext);
 
   return (
-    <div style={{ height: "300px" }}>
+    <div
+      style={{
+        height: "300px",
+        width: "80%",
+        margin: "auto",
+        marginTop: "10px",
+      }}
+    >
       <Paper style={{ backgroundColor: "#white", opacity: "95%" }}>
         <div style={{ height: "30px" }} />
         <Typography style={{ margin: "10px", fontSize: "30px" }}>
@@ -159,8 +150,7 @@ export default function Reservation() {
                     reservationDate: mergedTime,
                   }).then((response) => {
                     //response abfrage, because show successfull reservation
-                    if (response.status == 200) {
-                      console.log("Reserviert");
+                    if (response.status === 200) {
                       setOverlayContext({
                         ...overlayContext,
                         message: "Erfolgreich reserviert",

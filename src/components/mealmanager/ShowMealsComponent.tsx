@@ -1,6 +1,4 @@
 //@author Alois Roscher
-
-import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import {
   TableCell,
   TableContainer,
@@ -34,7 +32,6 @@ export function ShowMealsComponent(props: Props) {
   const [selectedMenu, setselectedMenu] = React.useState<number>(0);
   const [meals, setMeals] = React.useContext(MealContext);
   const [filteredMeals, setfilteredMeals] = React.useState<Meal[]>([]);
-  const [open, setOpen] = React.useState(false);
 
   const handleChange = (event: SelectChangeEvent) => {
     setselectedMenu(Number(event.target.value));
@@ -46,7 +43,7 @@ export function ShowMealsComponent(props: Props) {
   }, []);
 
   React.useEffect(() => {
-    setfilteredMeals(meals.filter((meal) => meal.categoryid == selectedMenu));
+    setfilteredMeals(meals.filter((meal) => meal.categoryid === selectedMenu));
     filteredMeals.sort();
   }, [selectedMenu, meals]);
 

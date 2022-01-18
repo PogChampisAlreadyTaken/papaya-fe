@@ -1,12 +1,14 @@
-import { Divider, Grid, Paper } from "@mui/material";
+import { Grid } from "@mui/material";
 import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
-import { Meal, Order } from "../../model";
+import { Order } from "../../model";
 import ShoppingItemComponent from "./ShoppingItemComponent";
 import { OrderContext } from "../context/orderContext";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import { useNavigate } from "react-router";
+
 const TypographyW = withStyles({
   root: {
     color: "#FFFFFF",
@@ -28,6 +30,7 @@ interface Props {
 
 export default function OrderComponent(props: Props) {
   const { order } = props;
+  const navigate = useNavigate();
   const [orderContext, setOrderContext] = React.useContext(OrderContext);
   const classes = useStyles();
 
@@ -65,6 +68,7 @@ export default function OrderComponent(props: Props) {
             <StyledButton
               onClick={() => {
                 setOrderContext({ shoppingItem: order.shoppingItem });
+                navigate("/");
               }}
             >
               zur Bestellung hinzufügen

@@ -1,7 +1,5 @@
 import { Dialog, DialogTitle } from "@mui/material";
-
 import * as React from "react";
-import keycloak from "../../keycloak";
 import { OverlayContext } from "../context/overlayContext";
 import Address from "./Address";
 import ProfileOverview from "./ProfileOverview";
@@ -10,7 +8,6 @@ export default function UserOverlay() {
   const [isAddingAddress, setIsAddingAddress] = React.useState<boolean>(false);
   const handleClose = () =>
     setOverlayContext({ ...overlayContext, open: false });
-  const handleAddingAddress = () => setIsAddingAddress(!isAddingAddress);
   const [overlayContext, setOverlayContext] = React.useContext(OverlayContext);
   const { open } = overlayContext;
 
@@ -21,9 +18,11 @@ export default function UserOverlay() {
         onClose={() => {
           setOverlayContext({ ...overlayContext, open: false });
         }}
-        style={{ textAlign: "center" }}
+        style={{ textAlign: "center", background: "#282c34f0" }}
       >
-        <DialogTitle>
+        <DialogTitle
+          style={{ background: "#282c34f0", fontWeight: "bold", color: "#fff" }}
+        >
           {isAddingAddress ? "Adresse hinzufügen" : "Profil"}
         </DialogTitle>
         {isAddingAddress ? (

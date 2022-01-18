@@ -11,12 +11,9 @@ import { ShoppingItem } from "../model/shoppingItem";
 import { makeStyles } from "@material-ui/core/styles";
 import { OrderContext } from "./context/orderContext";
 import { useNavigate } from "react-router-dom";
-import { CustomerContext } from "./context/customerContext";
-import { useKeycloak } from "@react-keycloak/web";
 
 export default function Basket() {
   const [orderContext, setOrderContext] = React.useContext(OrderContext);
-  const [customer, setCustomer] = React.useContext(CustomerContext);
 
   const [showButtonWeiter, setShowButtonWeiter] = React.useState<boolean>();
   const [
@@ -26,10 +23,9 @@ export default function Basket() {
 
   const classes = useStyles();
   const navigate = useNavigate();
-  const { keycloak, initialized } = useKeycloak();
 
   React.useEffect(() => {
-    if (orderContext.shoppingItem.length == 0) {
+    if (orderContext.shoppingItem.length === 0) {
       setShowButtonWeiter(true);
       setOrderPlacementTextBasket("Noch nichts im Warenkorb");
     } else {
@@ -70,11 +66,6 @@ export default function Basket() {
   };
 
   const plusMeal = (shoppingItem: ShoppingItem) => {
-    const item: ShoppingItem = {
-      meal: shoppingItem.meal,
-      amount: shoppingItem.amount++,
-    };
-
     const updatedOrderContext = {
       ...orderContext,
       shoppingItem: [...orderContext.shoppingItem],

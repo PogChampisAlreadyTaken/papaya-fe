@@ -1,23 +1,10 @@
-// @flow
-
-import {
-  Typography,
-  TextField,
-  Card,
-  createTheme,
-  ThemeProvider,
-  Button,
-  textFieldClasses,
-} from "@mui/material";
+import { Card, Button } from "@mui/material";
 import { makeStyles } from "@material-ui/core/styles";
 
 import * as React from "react";
-import { AddressContext } from "../context/addressContext";
 import { CustomerContext } from "../context/customerContext";
-import { Customer } from "../../model";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-import { Navigate } from "react-router";
 import { useNavigate } from "react-router-dom";
 import { useKeycloak } from "@react-keycloak/web";
 import { OrderContext } from "../context/orderContext";
@@ -33,18 +20,10 @@ export default function OrderViewComponent(props: Props) {
   const [showButton, setShowButton] = React.useState<boolean>();
   const [orderPlacementText, setOrderPlacementText] = React.useState<String>();
   const [overlayContext, setOverlayContext] = React.useContext(OverlayContext);
-  const { keycloak, initialized } = useKeycloak();
+  const { keycloak } = useKeycloak();
 
   const classes = useStyles();
   const navigate = useNavigate();
-  const theme = createTheme({
-    palette: {
-      primary: { main: "#e91e63", contrastText: "#fff" },
-      secondary: { main: "#03a9f4", contrastText: "#fff" },
-    },
-  });
-
-  let text = "Bestellung abschließen";
 
   React.useEffect(() => {
     if (!keycloak.authenticated) {
@@ -68,7 +47,7 @@ export default function OrderViewComponent(props: Props) {
         Bitte erstmal Anmelden!
       </Button>
     </Card>
-  ) : customer?.customer_address_id == 0 ? (
+  ) : customer?.customer_address_id === 0 ? (
     // user muss noch seine Addresse anlegen
     <Card className={classes.root}>
       <Button
@@ -101,16 +80,18 @@ export default function OrderViewComponent(props: Props) {
       <Button
         onClick={() => {
           orderContext.customer = customer?.id;
-          postOrder(orderContext).then((response) => {
-            if (response.status == 200 || 201) {
-              getMailNotification();
-              orderContext.shoppingItem = [];
-              setOrderContext(orderContext);
-              window.localStorage.clear();
-            } else {
-              setOpenAlertError(true);
-            }
-          }).catch((error)=> console.error(error));
+          postOrder(orderContext)
+            .then((response) => {
+              if (response.status === 200 || 201) {
+                getMailNotification();
+                orderContext.shoppingItem = [];
+                setOrderContext(orderContext);
+                window.localStorage.clear();
+              } else {
+                setOpenAlertError(true);
+              }
+            })
+            .catch((error) => console.error(error));
           navigate("/sendorder");
         }}
         disabled={showButton}
@@ -135,4 +116,3 @@ const useStyles = makeStyles({
 function setOpenAlertError(arg0: boolean) {
   throw new Error("Order could not be sent");
 }
-

@@ -7,6 +7,7 @@ import { Order } from "../model";
 import { getOrder } from "../request/orderingSystem";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
+
 const TypographyW = withStyles({
   root: {
     color: "#FFFFFF",

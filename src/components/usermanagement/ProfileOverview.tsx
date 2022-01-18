@@ -1,26 +1,15 @@
-import { useState } from "react";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
 import DialogContent from "@mui/material/DialogContent";
 import Divider from "@mui/material/Divider";
-import Checkbox from "@mui/material/Checkbox";
-import FormGroup from "@mui/material/FormGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
 import { Typography } from "@mui/material";
-import keycloak from "../../keycloak";
-import Keycloak, {
-  KeycloakInstance,
-  KeycloakProfile,
-  KeycloakPromise,
-} from "keycloak-js";
+
 import { CustomerContext } from "../context/customerContext";
 import React from "react";
-import { getAddress } from "../../request/userManagement";
-
 import { useNavigate } from "react-router";
+
 interface props {
   setIsAddingAddress: (value: boolean) => void;
   handleClose: () => void;
@@ -34,39 +23,47 @@ export default function ProfileOverview(props: props) {
   );
 
   return (
-    <DialogContent>
+    <DialogContent style={{ background: "#282c34f0" }}>
       <IconButton
         onClick={() => {
           handleClose();
         }}
-        style={{ right: 10, top: 10, position: "absolute" }}
+        style={{ right: 10, top: 10, position: "absolute", color: "#fff" }}
       >
         <CloseIcon />
       </IconButton>
       <div>
-        <EmojiEmotionsIcon style={{ fontSize: 70 }} />
-        <Typography>
+        <EmojiEmotionsIcon style={{ fontSize: 70, color: "#fff" }} />
+        <Typography style={{ color: "#fff" }}>
           {customerContext?.first_name}
           {}
         </Typography>
-        <Typography>
+        <Typography style={{ color: "#fff" }}>
           {customerContext?.last_name}
           {}
         </Typography>
         <div style={{ height: "20px" }} />
-        <Divider>Lieferaddresse</Divider>
+        <Divider
+          style={{
+            color: "#fff",
+            borderBlockColor: "#fff",
+            fontWeight: "bold",
+          }}
+        >
+          Lieferadresse
+        </Divider>
         <div style={{ height: "20px" }} />
-        {customerContext?.customer_address_id == 0 ||
-        customerContext?.customer_address_id == undefined ? (
+        {customerContext?.customer_address_id === 0 ||
+        customerContext?.customer_address_id === undefined ? (
           <></>
         ) : (
           <div>
             {" "}
-            <Typography>
+            <Typography style={{ color: "#fff" }}>
               {customerContext?.address?.street}{" "}
               {customerContext?.address?.house_number}
             </Typography>
-            <Typography>
+            <Typography style={{ color: "#fff" }}>
               {" "}
               {customerContext?.address?.zip} {customerContext?.address?.city}
             </Typography>
@@ -75,6 +72,12 @@ export default function ProfileOverview(props: props) {
       </div>
       <div style={{ height: "20px" }} />
       <Button
+        sx={{
+          color: "white",
+          borderColor: "#fff",
+          marginTop: "10px",
+          marginBottom: "10px",
+        }}
         variant="outlined"
         onClick={() => {
           setIsAddingAddress(true);
@@ -87,7 +90,20 @@ export default function ProfileOverview(props: props) {
       <Divider />
       <div style={{ height: "20px" }} />
 
-      <Button variant="outlined" onClick={() => nav("/orderhistory")} fullWidth>
+      <Button
+        variant="outlined"
+        sx={{
+          color: "white",
+          borderColor: "#fff",
+          marginTop: "10px",
+          marginBottom: "10px",
+        }}
+        onClick={() => {
+          handleClose();
+          nav("/orderhistory");
+        }}
+        fullWidth
+      >
         Bestellungen ansehen?
       </Button>
       <div style={{ height: "20px" }} />

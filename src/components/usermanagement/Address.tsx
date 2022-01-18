@@ -1,14 +1,26 @@
 import { useState } from "react";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import DialogContent from "@mui/material/DialogContent";
 import Divider from "@mui/material/Divider";
 import { postAddress, updateUser } from "../../request/userManagement";
 import { CustomerContext } from "../context/customerContext";
+import { withStyles } from "@material-ui/core/styles";
 import React from "react";
 import { OverlayContext } from "../context/overlayContext";
+import { makeStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+
+const StyledButton = withStyles({
+  root: {
+    backgroundColor: "white",
+    color: "black",
+    "&:hover": {
+      backgroundColor: "#ffffff57",
+    },
+  },
+})(Button);
 
 interface props {
   setIsAddingAddress: (value: boolean) => void;
@@ -23,17 +35,16 @@ export default function Address(props: props) {
   const [registerHousenumber, setRegisterHousenumber] = useState<string>("");
   const [registerZip, setRegisterZip] = useState<string>("");
   const [registerCity, setRegisterCity] = useState<string>("");
-  const [error, setError] = useState<string>("");
 
-  const [customerContext, setCustomerContext] =
-    React.useContext(CustomerContext);
+  const [customerContext, setCustomerContext] = React.useContext(
+    CustomerContext
+  );
   const [overlayContext, setOverlayContext] = React.useContext(OverlayContext);
-  const { open } = overlayContext;
 
   const customer = customerContext;
 
   return (
-    <DialogContent>
+    <DialogContent style={{ background: "#282c34f0" }}>
       <IconButton
         onClick={() => {
           setOverlayContext({ ...overlayContext, open: false });
@@ -42,9 +53,12 @@ export default function Address(props: props) {
       >
         <CloseIcon />
       </IconButton>
-      <Divider>Lieferadresse</Divider>
+      <Divider style={{ color: "#fff", fontWeight: "bold" }}>
+        Lieferadresse
+      </Divider>
       <div>
         <TextField
+          style={{ color: "#fff" }}
           onChange={(event) => {
             setRegisterStreet(event.target.value);
           }}
@@ -91,8 +105,7 @@ export default function Address(props: props) {
         />
       </div>
       <div style={{ height: 20 }} />
-      <Button
-        variant="contained"
+      <StyledButton
         onClick={() => {
           postAddress(
             registerCity,
@@ -100,7 +113,7 @@ export default function Address(props: props) {
             registerStreet,
             registerZip
           ).then((address) => {
-            if (customer != undefined) {
+            if (customer !== undefined) {
               //set address of customer
               updateUser(
                 customer.id,
@@ -119,15 +132,24 @@ export default function Address(props: props) {
         fullWidth
       >
         Adresse hinzufügen
-      </Button>
+      </StyledButton>
       <div style={{ height: 20 }} />
-      <Button
+      <StyledButton
         variant="outlined"
         onClick={() => setIsAddingAddress(false)}
         fullWidth
       >
         zurück
-      </Button>
+      </StyledButton>
     </DialogContent>
   );
 }
+
+const useStyles = makeStyles({
+  overrides: {
+    "& label.Mui-focused": { color: "#fff" },
+    "& .MuiOutlinedInput-root": {
+      "&.Mui-focused fieldset": { borderColor: "#fff" },
+    },
+  },
+});
