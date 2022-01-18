@@ -9,6 +9,7 @@ import { postAddress, updateUser } from "../../request/userManagement";
 import { CustomerContext } from "../context/customerContext";
 import React from "react";
 import { OverlayContext } from "../context/overlayContext";
+import { makeStyles } from "@material-ui/core/styles";
 
 interface props {
   setIsAddingAddress: (value: boolean) => void;
@@ -16,6 +17,7 @@ interface props {
 }
 
 export default function Address(props: props) {
+  const classes = useStyles();
   const { setIsAddingAddress, handleClose } = props;
 
   //handling input values
@@ -23,17 +25,15 @@ export default function Address(props: props) {
   const [registerHousenumber, setRegisterHousenumber] = useState<string>("");
   const [registerZip, setRegisterZip] = useState<string>("");
   const [registerCity, setRegisterCity] = useState<string>("");
-  const [error, setError] = useState<string>("");
-
+  
   const [customerContext, setCustomerContext] =
     React.useContext(CustomerContext);
-  const [overlayContext, setOverlayContext] = React.useContext(OverlayContext);
-  const { open } = overlayContext;
-
+const [overlayContext, setOverlayContext] = React.useContext(OverlayContext);
+ 
   const customer = customerContext;
 
   return (
-    <DialogContent>
+    <DialogContent style={{ background: "#282c34f0" }}>
       <IconButton
         onClick={() => {
           setOverlayContext({ ...overlayContext, open: false });
@@ -42,9 +42,18 @@ export default function Address(props: props) {
       >
         <CloseIcon />
       </IconButton>
-      <Divider>Lieferadresse</Divider>
+      <Divider style={{ color: "#fff", fontWeight: "bold"}}>
+        Lieferadresse
+      </Divider>
       <div>
         <TextField
+          InputLabelProps={{
+            style: { color: "#fff" },
+          }}
+          InputProps={{
+            style: { color: "#fff" },
+          }}
+          className={classes.overrides}
           onChange={(event) => {
             setRegisterStreet(event.target.value);
           }}
@@ -56,6 +65,13 @@ export default function Address(props: props) {
         />
 
         <TextField
+          InputLabelProps={{
+            style: { color: "#fff" },
+          }}
+          InputProps={{
+            style: { color: "#fff" },
+          }}
+          className={classes.overrides}
           onChange={(event) => {
             setRegisterHousenumber(event.target.value);
           }}
@@ -69,6 +85,13 @@ export default function Address(props: props) {
       </div>
       <div>
         <TextField
+          InputLabelProps={{
+            style: { color: "#fff" },
+          }}
+          InputProps={{
+            style: { color: "#fff" },
+          }}
+          className={classes.overrides}
           onChange={(event) => {
             setRegisterCity(event.target.value);
           }}
@@ -79,6 +102,13 @@ export default function Address(props: props) {
           margin="normal"
         />
         <TextField
+          InputLabelProps={{
+            style: { color: "#fff" },
+          }}
+          InputProps={{
+            style: { color: "#fff" },
+          }}
+          className={classes.overrides}
           onChange={(event) => {
             setRegisterZip(event.target.value);
           }}
@@ -92,21 +122,32 @@ export default function Address(props: props) {
       </div>
       <div style={{ height: 20 }} />
       <Button
-        variant="contained"
+        sx={{
+          color: "white",
+          borderColor: "white",
+          marginTop: "10px",
+          marginBottom: "10px",
+        }}
+        variant="outlined"
         onClick={() => {
           postAddress(
             registerCity,
             registerHousenumber,
             registerStreet,
             registerZip
-          ).then((resultId) => {
-            if (customer != undefined) {
+          ).then((address) => {
+            if (customer !== undefined) {
+              //set address of customer
               updateUser(
                 customer.id,
                 customer.last_name,
                 customer.first_name,
-                resultId
-              );
+                address?.id
+              ).then((user) => {
+                //update success
+                user.address = address;
+                setCustomerContext(user);
+              });
             }
           });
           handleClose();
@@ -115,8 +156,14 @@ export default function Address(props: props) {
       >
         Adresse hinzufügen
       </Button>
-      <div style={{ height: 20 }} />
+      <div style={{ height: 20, color: "#fff" }} />
       <Button
+        sx={{
+          color: "white",
+          borderColor: "white",
+          marginTop: "10px",
+          marginBottom: "10px",
+        }}
         variant="outlined"
         onClick={() => setIsAddingAddress(false)}
         fullWidth
@@ -126,3 +173,13 @@ export default function Address(props: props) {
     </DialogContent>
   );
 }
+
+const useStyles = makeStyles({
+  overrides: {
+    backgroundColor: "#282c34f0",
+    "& label.Mui-focused": { color: "#fff" },
+    "& .MuiOutlinedInput-root": {
+      "&.Mui-focused fieldset": { borderColor: "#fff" },
+    },
+  },
+});

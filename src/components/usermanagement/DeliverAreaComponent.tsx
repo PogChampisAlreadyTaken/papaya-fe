@@ -1,23 +1,7 @@
-import {
-  Button,
-  ButtonGroup,
-  Divider,
-  Fab,
-  Paper,
-  TextField,
-  Typography,
-} from "@mui/material";
-import DatePicker from "@mui/lab/DatePicker";
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import type {} from "@mui/lab/themeAugmentation";
-import TimePicker from "@mui/lab/TimePicker";
-import "react-phone-number-input/style.css";
-
-import { getFreeTable } from "../../request/orderingSystem";
+import { Divider, Paper, TextField, Typography } from "@mui/material";
+import React from "react";
 
 export default function DeliverAreaComponent() {
-  const nav = useNavigate();
   const [deliverTime, setDeliverTime] = React.useState<String>("15");
 
   return (
@@ -25,7 +9,7 @@ export default function DeliverAreaComponent() {
       <Paper style={{ backgroundColor: "#white", opacity: "95%" }}>
         <div style={{ height: "30px" }} />
         <Typography style={{ margin: "10px", fontSize: "30px" }}>
-          Liefergebietverwaltung
+          Liefergebietsverwaltung
         </Typography>
         <div style={{ height: "30px" }} />
         <Divider></Divider>

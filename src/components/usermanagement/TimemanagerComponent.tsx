@@ -1,29 +1,14 @@
-import {
-  Button,
-  ButtonGroup,
-  Divider,
-  Fab,
-  Paper,
-  TextField,
-  Typography,
-} from "@mui/material";
-import DatePicker from "@mui/lab/DatePicker";
-import React, { useState } from "react";
+import { Button, Divider, Paper, TextField, Typography } from "@mui/material";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import type {} from "@mui/lab/themeAugmentation";
-import TimePicker from "@mui/lab/TimePicker";
-import "react-phone-number-input/style.css";
 
-import { getFreeTable } from "../../request/orderingSystem";
 import OpeningHours from "./OpeningHours";
 import {
   getDeliverTime,
   updateDeliverTime,
 } from "../../request/userManagement";
-import ActionYoutubeSearchedFor from "material-ui/svg-icons/action/youtube-searched-for";
 
 export default function TimemanagerComponent() {
-  const nav = useNavigate();
   const [deliverTime, setDeliverTime] = React.useState<string>("");
   const [showButton, setShowButton] = React.useState<boolean>(false);
 

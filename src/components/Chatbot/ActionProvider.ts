@@ -1,4 +1,4 @@
-import { getDeliverTime, getOpeningHours } from "../../request/userManagement";
+import { getDeliverTime } from "../../request/userManagement";
 
 class ActionProvider {
   createChatbotMessage: any;

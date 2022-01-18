@@ -1,27 +1,52 @@
 // @flow
+// @author Alois Roscher
+
 import { Button, Typography } from "@mui/material";
 import * as React from "react";
 import { useLocation } from "react-router";
-import { Link } from "react-router-dom";
 import { MealContext } from "../components/context/mealContext";
 import useQuery from "../config/queryParams";
 import { makeStyles } from "@material-ui/core/styles";
 import { Meal } from "../model";
 import { getAllMeals } from "../request/mealManager";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
-import { bgcolor } from "@mui/system";
+import { OrderContext } from "../components/context/orderContext";
+import { ShoppingItem } from "../model/shoppingItem";
 
 type Props = {};
 export function MealOverview(props: Props) {
   const query = useQuery();
   const classes = useStyles();
   const [meals, setMeals] = React.useContext(MealContext);
+  const [orderContext, setOrderContext] = React.useContext(OrderContext);
   const [updatedMeals, setupdatedMeals] = React.useState<Meal[]>([]);
   const loc = useLocation();
-  const addToCart = () => {};
+
+  const addToCart = (meal: Meal) => {
+    const old = orderContext.shoppingItem.find(
+      (element) => element.meal === meal
+    );
+    const item: ShoppingItem = {
+      meal,
+      amount: 1,
+    };
+
+    if (old !== undefined) {
+      item.amount = old.amount + 1;
+      const index = orderContext.shoppingItem.indexOf(old);
+      if (index > -1) {
+        orderContext.shoppingItem.splice(index, 1);
+      }
+    }
+
+    const updatedOrderContext = {
+      ...orderContext,
+      shoppingItem: [...orderContext.shoppingItem, item],
+    };
+    setOrderContext(updatedOrderContext);
+  };
 
   React.useEffect(() => {
     if (meals.length === 0) {
@@ -70,7 +95,7 @@ export function MealOverview(props: Props) {
                 size="small"
                 variant="outlined"
                 sx={{ color: "white", borderColor: "white" }}
-                onChange={addToCart}
+                onClick={() => addToCart(meal)}
               >
                 Gericht Hinzufügen
               </Button>
