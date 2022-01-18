@@ -1,26 +1,15 @@
 import { useState } from "react";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import DialogContent from "@mui/material/DialogContent";
 import Divider from "@mui/material/Divider";
 import { postAddress, updateUser } from "../../request/userManagement";
 import { CustomerContext } from "../context/customerContext";
-import { withStyles } from "@material-ui/core/styles";
 import React from "react";
 import { OverlayContext } from "../context/overlayContext";
 import { makeStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-
-const StyledButton = withStyles({
-  root: {
-    backgroundColor: "white",
-    color: "black",
-    "&:hover": {
-      backgroundColor: "#ffffff57",
-    },
-  },
-})(Button);
 
 interface props {
   setIsAddingAddress: (value: boolean) => void;
@@ -28,6 +17,7 @@ interface props {
 }
 
 export default function Address(props: props) {
+  const classes = useStyles();
   const { setIsAddingAddress, handleClose } = props;
 
   //handling input values
@@ -35,12 +25,11 @@ export default function Address(props: props) {
   const [registerHousenumber, setRegisterHousenumber] = useState<string>("");
   const [registerZip, setRegisterZip] = useState<string>("");
   const [registerCity, setRegisterCity] = useState<string>("");
-
-  const [customerContext, setCustomerContext] = React.useContext(
-    CustomerContext
-  );
-  const [overlayContext, setOverlayContext] = React.useContext(OverlayContext);
-
+  
+  const [customerContext, setCustomerContext] =
+    React.useContext(CustomerContext);
+const [overlayContext, setOverlayContext] = React.useContext(OverlayContext);
+ 
   const customer = customerContext;
 
   return (
@@ -53,12 +42,18 @@ export default function Address(props: props) {
       >
         <CloseIcon />
       </IconButton>
-      <Divider style={{ color: "#fff", fontWeight: "bold" }}>
+      <Divider style={{ color: "#fff", fontWeight: "bold"}}>
         Lieferadresse
       </Divider>
       <div>
         <TextField
-          style={{ color: "#fff" }}
+          InputLabelProps={{
+            style: { color: "#fff" },
+          }}
+          InputProps={{
+            style: { color: "#fff" },
+          }}
+          className={classes.overrides}
           onChange={(event) => {
             setRegisterStreet(event.target.value);
           }}
@@ -70,6 +65,13 @@ export default function Address(props: props) {
         />
 
         <TextField
+          InputLabelProps={{
+            style: { color: "#fff" },
+          }}
+          InputProps={{
+            style: { color: "#fff" },
+          }}
+          className={classes.overrides}
           onChange={(event) => {
             setRegisterHousenumber(event.target.value);
           }}
@@ -83,6 +85,13 @@ export default function Address(props: props) {
       </div>
       <div>
         <TextField
+          InputLabelProps={{
+            style: { color: "#fff" },
+          }}
+          InputProps={{
+            style: { color: "#fff" },
+          }}
+          className={classes.overrides}
           onChange={(event) => {
             setRegisterCity(event.target.value);
           }}
@@ -93,6 +102,13 @@ export default function Address(props: props) {
           margin="normal"
         />
         <TextField
+          InputLabelProps={{
+            style: { color: "#fff" },
+          }}
+          InputProps={{
+            style: { color: "#fff" },
+          }}
+          className={classes.overrides}
           onChange={(event) => {
             setRegisterZip(event.target.value);
           }}
@@ -105,7 +121,14 @@ export default function Address(props: props) {
         />
       </div>
       <div style={{ height: 20 }} />
-      <StyledButton
+      <Button
+        sx={{
+          color: "white",
+          borderColor: "white",
+          marginTop: "10px",
+          marginBottom: "10px",
+        }}
+        variant="outlined"
         onClick={() => {
           postAddress(
             registerCity,
@@ -132,21 +155,28 @@ export default function Address(props: props) {
         fullWidth
       >
         Adresse hinzufügen
-      </StyledButton>
-      <div style={{ height: 20 }} />
-      <StyledButton
+      </Button>
+      <div style={{ height: 20, color: "#fff" }} />
+      <Button
+        sx={{
+          color: "white",
+          borderColor: "white",
+          marginTop: "10px",
+          marginBottom: "10px",
+        }}
         variant="outlined"
         onClick={() => setIsAddingAddress(false)}
         fullWidth
       >
         zurück
-      </StyledButton>
+      </Button>
     </DialogContent>
   );
 }
 
 const useStyles = makeStyles({
   overrides: {
+    backgroundColor: "#282c34f0",
     "& label.Mui-focused": { color: "#fff" },
     "& .MuiOutlinedInput-root": {
       "&.Mui-focused fieldset": { borderColor: "#fff" },

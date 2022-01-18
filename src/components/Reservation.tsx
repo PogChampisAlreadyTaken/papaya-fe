@@ -2,6 +2,7 @@ import { Button, Divider, Paper, TextField, Typography } from "@mui/material";
 import DatePicker from "@mui/lab/DatePicker";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import type {} from "@mui/lab/themeAugmentation";
 import TimePicker from "@mui/lab/TimePicker";
 import { getFreeTable, postReservation } from "../request/orderingSystem";
 import { OverlayContext } from "./context/overlayContext";
@@ -20,28 +21,29 @@ export default function Reservation() {
   const [overlayContext, setOverlayContext] = React.useContext(OverlayContext);
 
   return (
-    <div
-      style={{
-        height: "300px",
-        width: "80%",
-        margin: "auto",
-        marginTop: "10px",
-      }}
-    >
-      <Paper style={{ backgroundColor: "#white", opacity: "95%" }}>
+    <div style={{ height: "300px" }}>
+      <Paper style={{ backgroundColor: "#2c2f32", opacity: "95%" }}>
         <div style={{ height: "30px" }} />
-        <Typography style={{ margin: "10px", fontSize: "30px" }}>
+        <Typography style={{ margin: "10px", fontSize: "40px", color: "#fff" }}>
           Tisch reservieren
         </Typography>
         <div style={{ height: "30px" }} />
         <Divider></Divider>
         <div style={{ height: "30px" }} />
-        <Typography style={{ margin: "10px" }}>
+        <Typography
+          style={{ margin: "10px", color: "#fff", fontWeight: "bold" }}
+        >
           Wie viele Personen seid ihr?
         </Typography>
         <div style={{ height: "10px" }} />
         <TextField
-          sx={{ fontStyle: { color: "red" } }}
+          InputLabelProps={{
+            style: { color: "#fff", fontWeight: "bold" },
+          }}
+          InputProps={{
+            style: { color: "#fff", fontWeight: "bold" },
+          }}
+          sx={{ fontStyle: { color: "red" }, fontWeight: "bold" }}
           style={{ margin: "10px", font: "white" }}
           id="people"
           label="Personenanzahl"
@@ -53,29 +55,58 @@ export default function Reservation() {
           }}
         />
         <div style={{ height: "20px" }} />
-        <Typography style={{ margin: "10px" }}>
+        <Typography
+          style={{ margin: "10px", color: "#fff", fontWeight: "bold" }}
+        >
           Wann möchtest du bei uns vorbei schauen?
         </Typography>
         <div style={{ height: "20px" }} />
         <DatePicker
+          InputProps={{
+            style: { color: "#fff", fontWeight: "bold" },
+          }}
           label="Datum"
           value={date}
           onChange={(newValue) => {
             setDate(newValue);
           }}
-          renderInput={(params) => <TextField {...params} />}
+          renderInput={(params) => (
+            <TextField
+              InputLabelProps={{
+                style: { color: "#fff", fontWeight: "bold" },
+              }}
+              {...params}
+            />
+          )}
         />
         <TimePicker
+          InputProps={{
+            style: { color: "#fff", fontWeight: "bold" },
+          }}
           label="Uhrzeit"
           value={time}
           onChange={(time) => {
             setTime(time);
           }}
-          renderInput={(params) => <TextField {...params} />}
+          renderInput={(params) => (
+            <TextField
+              InputLabelProps={{
+                style: { color: "#fff", fontWeight: "bold" },
+              }}
+              {...params}
+            />
+          )}
         />
         <div style={{ height: "20px" }} />
         <div>
           <Button
+            sx={{
+              color: "white",
+              borderColor: "white",
+              marginTop: "10px",
+              marginBottom: "10px",
+            }}
+            variant="outlined"
             onClick={() => {
               if (date != undefined && time != undefined) {
                 const newMergedTime = new Date(
@@ -103,7 +134,7 @@ export default function Reservation() {
             Tisch finden
           </Button>
           {showFeedback ? (
-            <Typography>
+            <Typography style={{ color: "#fff" }}>
               {isFree
                 ? "Wir haben einen Tisch für dich gefunden"
                 : "Wir haben leider zu dieser Uhrzeit keinen Tisch mehr frei. Bitte wähle einen andere Uhrzeit"}
@@ -115,10 +146,16 @@ export default function Reservation() {
         <div style={{ height: "20px" }} />
         {isFree ? (
           <>
-            <Typography style={{ margin: "10px" }}>
+            <Typography style={{ margin: "10px", color: "#fff" }}>
               Möchtest du diesen Tisch reservieren?
             </Typography>
             <TextField
+              InputLabelProps={{
+                style: { color: "#fff" },
+              }}
+              InputProps={{
+                style: { color: "#fff" },
+              }}
               sx={{ fontStyle: { color: "red" } }}
               style={{ margin: "10px", font: "white" }}
               id="name"
@@ -130,6 +167,12 @@ export default function Reservation() {
               }}
             />
             <TextField
+              InputLabelProps={{
+                style: { color: "#fff" },
+              }}
+              InputProps={{
+                style: { color: "#fff" },
+              }}
               sx={{ fontStyle: { color: "red" } }}
               style={{ margin: "10px", font: "white" }}
               id="Telefonnummer"
@@ -142,11 +185,14 @@ export default function Reservation() {
             />
             <div>
               <Button
+                sx={{
+                  color: "white",
+                  borderColor: "white",
+                  marginTop: "10px",
+                  marginBottom: "10px",
+                }}
+                variant="outlined"
                 onClick={() => {
-                  console.log(mergedTime);
-                  console.log("Tag und Uhrzeit: " + date);
-                  console.log("Personenanzahl: " + people);
-
                   postReservation({
                     phonenumber: phoneNumber,
                     tableid: tableId,
