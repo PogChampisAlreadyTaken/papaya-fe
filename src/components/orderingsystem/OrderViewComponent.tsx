@@ -1,5 +1,4 @@
-import { Card, Button } from "@mui/material";
-import { makeStyles } from "@material-ui/core/styles";
+import { Typography, Card, Button } from "@mui/material";
 
 import * as React from "react";
 import { CustomerContext } from "../context/customerContext";
@@ -22,7 +21,6 @@ export default function OrderViewComponent(props: Props) {
   const [overlayContext, setOverlayContext] = React.useContext(OverlayContext);
   const { keycloak } = useKeycloak();
 
-  const classes = useStyles();
   const navigate = useNavigate();
 
   React.useEffect(() => {
@@ -38,8 +36,23 @@ export default function OrderViewComponent(props: Props) {
   return !keycloak.authenticated ? (
     // kein angemeldetete User
     // Button mit, bitte anmelden!
-    <Card className={classes.root}>
+    <Card
+      style={{
+        background: "#282c34f0",
+        width: "20%",
+        marginLeft: "20%",
+        marginTop: "5%",
+        marginBottom: "5%",
+      }}
+    >
       <Button
+        sx={{
+          color: "white",
+          borderColor: "white",
+          marginTop: "10px",
+          marginBottom: "10px",
+        }}
+        variant="outlined"
         onClick={() => {
           keycloak.login();
         }}
@@ -49,8 +62,23 @@ export default function OrderViewComponent(props: Props) {
     </Card>
   ) : customer?.customer_address_id === 0 ? (
     // user muss noch seine Addresse anlegen
-    <Card className={classes.root}>
+    <Card
+      style={{
+        background: "#282c34f0",
+        width: "20%",
+        marginLeft: "20%",
+        marginTop: "5%",
+        marginBottom: "5%",
+      }}
+    >
       <Button
+        sx={{
+          color: "white",
+          borderColor: "white",
+          marginTop: "10px",
+          marginBottom: "10px",
+        }}
+        variant="outlined"
         onClick={() => {
           //overlay aufploppen
           setOverlayContext({ ...overlayContext, open: true });
@@ -60,24 +88,63 @@ export default function OrderViewComponent(props: Props) {
       </Button>
     </Card>
   ) : (
-    <Card className={classes.root}>
+    <Card
+      style={{
+        background: "#282c34f0",
+        width: "20%",
+        marginLeft: "20%",
+        marginTop: "5%",
+        marginBottom: "5%",
+      }}
+    >
       <List>
-        <ListItem>{customer?.first_name}</ListItem>
+        <ListItem
+          style={{ color: "#fff", fontWeight: "bold", marginLeft: "9px" }}
+        >
+          Vorname:
+        </ListItem>
+        <Typography align="left" style={{ color: "#fff", marginLeft: "25px" }}>
+          {customer?.first_name}
+        </Typography>
       </List>
       <List>
-        <ListItem>{customer?.last_name}</ListItem>
+        <ListItem
+          style={{ color: "#fff", fontWeight: "bold", marginLeft: "9px" }}
+        >
+          Nachname:
+        </ListItem>
+        <Typography align="left" style={{ color: "#fff", marginLeft: "25px" }}>
+          {customer?.last_name}
+        </Typography>
       </List>
       <List>
-        <ListItem>
+        <ListItem
+          style={{ color: "#fff", fontWeight: "bold", marginLeft: "9px" }}
+        >
+          Adresse:
+        </ListItem>
+        <Typography align="left" style={{ color: "#fff", marginLeft: "25px" }}>
           {customer?.address?.street + " " + customer?.address?.house_number}
-        </ListItem>
+        </Typography>
       </List>
       <List>
-        <ListItem>
-          {customer?.address?.zip + " " + customer?.address?.city}
+        <ListItem
+          style={{ color: "#fff", fontWeight: "bold", marginLeft: "9px" }}
+        >
+          Stadt
         </ListItem>
+        <Typography align="left" style={{ color: "#fff", marginLeft: "25px" }}>
+          {customer?.address?.zip + " " + customer?.address?.city}
+        </Typography>
       </List>
       <Button
+        sx={{
+          color: "white",
+          borderColor: "white",
+          marginTop: "10px",
+          marginBottom: "10px",
+        }}
+        variant="outlined"
         onClick={() => {
           orderContext.customer = customer?.id;
           postOrder(orderContext)
@@ -102,17 +169,6 @@ export default function OrderViewComponent(props: Props) {
   );
 }
 
-const useStyles = makeStyles({
-  input: {
-    color: "blue",
-  },
-  root: {
-    width: "30%",
-    marginLeft: "10%",
-    marginTop: "5%",
-    marginBottom: "5%",
-  },
-});
 function setOpenAlertError(arg0: boolean) {
   throw new Error("Order could not be sent");
 }
