@@ -74,6 +74,8 @@ export async function postUser(
   first_name?: string,
   customer_address_id?: number
 ) {
+  console.log("POST User");
+
   const response = await fetch(userManagementUrl + "/user", {
     method: "POST",
     headers: {
@@ -121,6 +123,8 @@ export async function updateUser(
 }
 
 export async function getAddress(id?: number): Promise<Address> {
+  console.log("GET Address");
+
   const response = await fetch(userManagementUrl + "/user/address/" + id, {
     method: "GET",
     headers: {
@@ -154,6 +158,7 @@ export async function getDeliverTime(): Promise<number> {
 }
 
 export async function updateDeliverTime(delivertime: number) {
+  console.log("PUT User");
   await fetch(userManagementUrl + "/timemanagement/delivertime", {
     method: "PUT",
     headers: {
