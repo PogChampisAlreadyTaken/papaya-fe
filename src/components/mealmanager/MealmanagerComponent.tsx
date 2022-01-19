@@ -117,7 +117,7 @@ export function MealmanagerComponent(props: Props) {
       helperText = "Bitte vorher Menü auswählen";
     }
 
-    if (meals.filter((meal) => meal.menuid === menuid).length > 0) {
+    if (meals.filter((meal) => meal.menuid == menuid).length > 0) {
       helperText = "MenüID bereits vergeben";
     }
 
@@ -177,7 +177,7 @@ export function MealmanagerComponent(props: Props) {
   function validateMenuIdError() {
     if (
       filteredMeals.length === 0 ||
-      meals.filter((meal) => meal.menuid === menuid).length > 0
+      meals.filter((meal) => meal.menuid == menuid).length > 0
     ) {
       return true;
     }
