@@ -66,6 +66,11 @@ export default function Basket() {
   };
 
   const plusMeal = (shoppingItem: ShoppingItem) => {
+    const item: ShoppingItem = {
+      meal: shoppingItem.meal,
+      amount: shoppingItem.amount++,
+    };
+
     const updatedOrderContext = {
       ...orderContext,
       shoppingItem: [...orderContext.shoppingItem],
